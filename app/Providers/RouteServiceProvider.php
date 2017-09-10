@@ -5,14 +5,8 @@ namespace App\Providers;
 use App\Http\Controllers\Shop\Goods\PageController;
 use App\Models\Shop\ShopBaseModel;
 use App\Models\Shop\Urls;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-use App\Models\Shop\Filters;
-use App\Models\Shop\Goods;
-use App\Models\Shop\HtmlPages;
-use App\Models\Shop\Sections;
-use ReflectionClass;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -85,14 +79,13 @@ class RouteServiceProvider extends ServiceProvider
             }
         }
 
-        return $this->show404();
+        $this->show404();
 
     }
 
     protected function showEntity($entity, $id)
     {
-        $e = Goods::find($id);
-//        $e = $entity::find($id);
+        $e = $entity::find($id);
         if (!$e) {
             return $this->show404();
         }
@@ -112,6 +105,6 @@ class RouteServiceProvider extends ServiceProvider
 
     protected function show404()
     {
-
+        return response()->view('errors.404', [], 404);
     }
 }
