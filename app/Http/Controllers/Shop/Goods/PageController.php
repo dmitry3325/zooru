@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Shop\Goods;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\View;
 
 /**
  * Created by PhpStorm.
@@ -14,6 +15,6 @@ use App\Http\Controllers\Controller;
 class PageController extends Controller
 {
     public function index($good){
-        var_dump($good);exit();
+        return View::make('layouts.main', ['good' => $good]);
     }
 }
