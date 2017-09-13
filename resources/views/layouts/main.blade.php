@@ -8,12 +8,17 @@
     <title>
 
     </title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
 
     <!-- Styles -->
     <link rel="stylesheet" href="/css/app.css">
     @stack('style')
 </head>
 <body>
+    @include('general.header')
+    @include('general.menu')
 
 <div id="content">
     @yield('content')

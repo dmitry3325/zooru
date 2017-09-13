@@ -1,9 +1,54 @@
-
 // Fonts
-@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+//@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,600");
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+
+//bootstrap grid
+@import "~bootstrap-4-grid";
 
 // Variables
 @import "variables";
 
-// Bootstrap
-@import "~bootstrap-sass/assets/stylesheets/bootstrap";
+// grid
+//@import "simple-grid";
+
+//material z-depth
+@import "z-depth";
+
+@import "layouts/header";
+
+
+// fonts
+$font-family: 'Roboto', Helvetica, sans-serif;
+$font-weight-light: 300;
+$font-weight-regular: 400;
+$font-weight-heavy: 700;
+$font-height: 1.5;
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  left: 0;
+  top: 0;
+  font-size: 100%;
+  font-family: $font-family;
+  color: $grey;
+  line-height: $font-height;
+}
+
+// utility
+.left {
+  text-align: left;
+}
+
+.right {
+  text-align: right;
+}
+
+.center {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}

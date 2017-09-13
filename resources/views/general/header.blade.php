@@ -1,0 +1,21 @@
+<header>
+    <div class="container">
+        <div class="row">
+            <div class="col-2">
+                <a id="logo" href="/"></a>
+            </div>
+            <div class="col-2">
+                <div class="city"><i class="material-icons">&#xE0C8;</i>Москва</div>
+                <div class="phone font-heavy">+7 495 322-12-58</div>
+            </div>
+            <div class="sub-menu col-8">
+                <a class="header_up_item"><i class="material-icons">&#xE8FD;</i><span>Сервис и помощь</span></a>
+                <a class="header_up_item"><i class="material-icons">&#xE8A1;</i><span>Доставка и оплата</span></a>
+                <a class="header_up_item"><i class="material-icons">&#xE0CD;</i><span>Контакты</span></a>
+                <a class="header_up_item"><i class="material-icons">&#xE8CC;</i><span>Корзина</span></a>
+                <a class="header_up_item seporator"><i class="material-icons">&#xE5D4;</i></a>
+                <a class="header_up_item"><i class="material-icons">&#xE853;</i><span>Вход</span></a>
+            </div>
+        </div>
+    </div>
+</header>
