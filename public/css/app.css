@@ -2906,7 +2906,7 @@ header {
   height: 30px;
   margin: 6px 0;
   display: block;
-  background: url("/img/zooru_logo.svg") no-repeat 0/contain;
+  background: url("/images/zooru_logo.svg") no-repeat 0/contain;
 }
 
 .sub-menu {
@@ -2950,8 +2950,46 @@ a.header_up_item:hover:not(.seporator) * {
   background: #FFDE46;
 }
 
+.header__menu ul.header-menu {
+  font-size: 0;
+  line-height: 0;
+}
+
+.header__menu ul.header-menu li {
+  font-size: 15px;
+  line-height: 1.5;
+  display: inline-block;
+  list-style: none;
+  padding: 20px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  cursor: pointer;
+}
+
+.header__menu ul.header-menu li a {
+  color: #4A4A4A;
+}
+
+.header__menu ul.header-menu li:hover {
+  background: #F4F4F4;
+}
+
+.header__menu ul.header-menu li:hover a {
+  color: #4A4A4A !important;
+}
+
+.header__menu ul.header-menu .active {
+  background: #4A4A4A;
+}
+
+.header__menu ul.header-menu .active a {
+  color: #fff !important;
+}
+
 .header__menu .header__menu_search {
   min-width: 110px;
+  width: 100%;
+  margin-top: 10px;
   height: 40px;
   padding-left: 39px;
   font-size: 13px;
@@ -2960,6 +2998,11 @@ a.header_up_item:hover:not(.seporator) * {
   border: 1px solid #ccc;
   border-radius: 2px;
   outline: 0;
+  background-color: #fff;
+  background-image: url("/images/search.svg");
+  background-size: 20px;
+  background-repeat: no-repeat;
+  background-position: 10px 10px;
 }
 
 html,
@@ -2974,6 +3017,15 @@ body {
   font-family: "Roboto", Helvetica, sans-serif;
   color: #4A4A4A;
   line-height: 1.5;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
 }
 
 .left {

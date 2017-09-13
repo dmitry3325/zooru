@@ -38,6 +38,15 @@ body {
   line-height: $font-height;
 }
 
+a {
+  text-decoration: none;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
 // utility
 .left {
   text-align: left;
@@ -52,3 +61,4 @@ body {
   margin-left: auto;
   margin-right: auto;
 }
+
