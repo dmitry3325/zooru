@@ -17,8 +17,9 @@
     @stack('style')
 </head>
 <body>
-    @include('general.header')
-    @include('general.menu')
+    @include('partials.header')
+    @include('partials.menu')
+    @include('partials.breadcrumb')
 
 <div id="content">
     @yield('content')

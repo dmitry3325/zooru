@@ -3005,6 +3005,18 @@ a.header_up_item:hover:not(.seporator) * {
   background-position: 10px 10px;
 }
 
+.breadcrumb li {
+  display: inline-block;
+  list-style: none;
+  padding: 0 20px;
+  border-right: 1px solid #4A4A4A;
+}
+
+.breadcrumb li a {
+  font-size: 0.7em;
+  color: #3AB0F2;
+}
+
 html,
 body {
   height: 100%;

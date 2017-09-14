@@ -15,6 +15,6 @@ use Illuminate\Support\Facades\View;
 class PageController extends Controller
 {
     public function index($good){
-        return View::make('layouts.main', ['good' => $good]);
+        return View::make('layouts.product', ['good' => $good]);
     }
 }
