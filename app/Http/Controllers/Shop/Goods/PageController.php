@@ -16,6 +16,6 @@ class PageController extends Controller
 {
     public function index(Goods $good)
     {
-        return View::make('layouts.product', ['good' => $good]);
+        return View::make('goods.page', ['good' => $good]);
     }
 }

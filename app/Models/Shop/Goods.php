@@ -76,4 +76,8 @@ class Goods extends ShopBaseModel
     const PRICE_ROUND_METHOD_MINUS_1 = 'minus_1';
     const PRICE_ROUND_METHOD_INTEGER = 'integer';
 
+    public function getPrice()
+    {
+        return number_format($this->price, 0, ',', ' ') . '&#8381;';
+    }
 }
