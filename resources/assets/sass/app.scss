@@ -16,6 +16,7 @@
 
 @import "layouts/header";
 @import "layouts/breadcrumb";
+@import "layouts/price";
 
 
 // fonts
@@ -48,6 +49,11 @@ ul {
   padding: 0;
 }
 
+h1 {
+  margin: 0;
+  line-height: normal;
+}
+
 // utility
 .left {
   text-align: left;
@@ -63,3 +69,8 @@ ul {
   margin-right: auto;
 }
 
+.border-radius-4{
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}

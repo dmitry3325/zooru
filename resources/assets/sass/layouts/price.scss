@@ -1,0 +1,26 @@
+.articul {
+  text-transform: uppercase;
+  color: $blue;
+  font-size: 0.8em;
+}
+
+.price-block {
+  min-height: 40px;
+  .count{
+    font-size: 0.7em;
+    text-align: center;
+    color: $lGrey2;
+    hr{
+      border: 0;
+      border-bottom: 1px dotted $lGrey2;
+      background: $lGrey2;
+    }
+  }
+  .price{
+    font-size: 1.2em;
+    color: #000;
+  }
+}
+.price-block:hover, .price-block:active{
+  background: $yellow;
+}

@@ -3005,16 +3005,50 @@ a.header_up_item:hover:not(.seporator) * {
   background-position: 10px 10px;
 }
 
+.breadcrumb {
+  margin: 10px 0;
+}
+
 .breadcrumb li {
   display: inline-block;
   list-style: none;
-  padding: 0 20px;
-  border-right: 1px solid #4A4A4A;
 }
 
 .breadcrumb li a {
   font-size: 0.7em;
   color: #3AB0F2;
+}
+
+.articul {
+  text-transform: uppercase;
+  color: #3AB0F2;
+  font-size: 0.8em;
+}
+
+.price-block {
+  min-height: 40px;
+}
+
+.price-block .count {
+  font-size: 0.7em;
+  text-align: center;
+  color: #EBEBEB;
+}
+
+.price-block .count hr {
+  border: 0;
+  border-bottom: 1px dotted #EBEBEB;
+  background: #EBEBEB;
+}
+
+.price-block .price {
+  font-size: 1.2em;
+  color: #000;
+}
+
+.price-block:hover,
+.price-block:active {
+  background: #FFDE46;
 }
 
 html,
@@ -3040,6 +3074,11 @@ ul {
   padding: 0;
 }
 
+h1 {
+  margin: 0;
+  line-height: normal;
+}
+
 .left {
   text-align: left;
 }
@@ -3052,5 +3091,9 @@ ul {
   text-align: center;
   margin-left: auto;
   margin-right: auto;
+}
+
+.border-radius-4 {
+  border-radius: 4px;
 }
 

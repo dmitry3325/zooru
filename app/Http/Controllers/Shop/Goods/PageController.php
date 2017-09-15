@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Shop\Goods;
 
 use App\Http\Controllers\Controller;
+use App\Models\Shop\Goods;
 use Illuminate\Support\Facades\View;
 
 /**
@@ -11,10 +12,10 @@ use Illuminate\Support\Facades\View;
  * Date: 09.09.17
  * Time: 15:11
  */
-
 class PageController extends Controller
 {
-    public function index($good){
+    public function index(Goods $good)
+    {
         return View::make('layouts.product', ['good' => $good]);
     }
 }

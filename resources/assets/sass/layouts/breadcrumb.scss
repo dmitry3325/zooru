@@ -1,9 +1,10 @@
 .breadcrumb{
+  margin: 10px 0;
   li {
     display: inline-block;
     list-style: none;
-    padding: 0 20px;
-    border-right: 1px solid $grey;
+    //padding: 0 20px;
+    //border-right: 1px solid $grey;
     a {
       font-size: 0.7em;
       color: $blue;
