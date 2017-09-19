@@ -8,6 +8,7 @@
     overflow: hidden;
     border: 2px solid $lGrey2;
     margin-bottom: 6px;
+    cursor: pointer;
     .photo-thumbnail {
       max-width: 64px;
       max-height: 64px;
@@ -23,4 +24,35 @@
 .main-photo {
   width: 100%;
   display: block;
+}
+
+.sale-cover {
+  position: absolute;
+  height: 160px;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+  width: 64px;
+  overflow: hidden;
+  top: -56px;
+  left: 30px;
+  .sale {
+    position: absolute;
+    width: 160px;
+    height: 160px;
+    left: 32px;
+    background: $red;
+    border-radius: 5px;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+  .sale-text{
+    -webkit-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+    position: absolute;
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+    top: 64px;
+    left: 20px;
+  }
 }

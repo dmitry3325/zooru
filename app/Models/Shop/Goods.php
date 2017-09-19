@@ -80,4 +80,9 @@ class Goods extends ShopBaseModel
     {
         return number_format($this->price, 0, ',', ' ') . '&#8381;';
     }
+
+    public function sections(){
+        return $this->belongsTo(Sections::class, 'parent_id');
+    }
+
 }

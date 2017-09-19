@@ -6,5 +6,16 @@
             <li><img class="photo-thumbnail" src="/images/food.png"></li>
         </ul>
     </div>
-    <div class="col-10"><img class="photo-main" src="/images/food.png"></div>
+    <div class="col-10">
+        {{--<div class="sale">10%</div>--}}
+
+        @if($good->discount)
+        <div class="sale-cover">
+            <div class="sale"></div>
+            <div class="sale-text">{{ $good->discount }}%</div>
+        </div>
+        @endif
+
+        <img class="photo-main" src="/images/food.png">
+    </div>
 </div>

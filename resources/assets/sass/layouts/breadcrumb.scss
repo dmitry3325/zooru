@@ -3,10 +3,9 @@
   li {
     display: inline-block;
     list-style: none;
-    //padding: 0 20px;
-    //border-right: 1px solid $grey;
+    font-size: 0.7em;
+    padding: 0 8px;
     a {
-      font-size: 0.7em;
       color: $blue;
     }
   }

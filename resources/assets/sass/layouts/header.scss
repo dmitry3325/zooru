@@ -32,7 +32,8 @@ a.header_up_item:hover:not(.seporator) * {
   color: $red;
 }
 
-.phone {
+.phone a{
+  color: $grey;
   font-size: 14px;
 }
 

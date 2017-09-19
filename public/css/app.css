@@ -2931,7 +2931,8 @@ a.header_up_item:hover:not(.seporator) * {
   color: #FF7158;
 }
 
-.phone {
+.phone a {
+  color: #4A4A4A;
   font-size: 14px;
 }
 
@@ -3012,10 +3013,11 @@ a.header_up_item:hover:not(.seporator) * {
 .breadcrumb li {
   display: inline-block;
   list-style: none;
+  font-size: 0.7em;
+  padding: 0 8px;
 }
 
 .breadcrumb li a {
-  font-size: 0.7em;
   color: #3AB0F2;
 }
 
@@ -3114,6 +3116,7 @@ a.header_up_item:hover:not(.seporator) * {
   overflow: hidden;
   border: 2px solid #EBEBEB;
   margin-bottom: 6px;
+  cursor: pointer;
 }
 
 .thumb-block ul li .photo-thumbnail {
@@ -3132,6 +3135,39 @@ a.header_up_item:hover:not(.seporator) * {
 .main-photo {
   width: 100%;
   display: block;
+}
+
+.sale-cover {
+  position: absolute;
+  height: 160px;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+  width: 64px;
+  overflow: hidden;
+  top: -56px;
+  left: 30px;
+}
+
+.sale-cover .sale {
+  position: absolute;
+  width: 160px;
+  height: 160px;
+  left: 32px;
+  background: #FF7158;
+  border-radius: 5px;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.sale-cover .sale-text {
+  -webkit-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+  position: absolute;
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  top: 64px;
+  left: 20px;
 }
 
 html,

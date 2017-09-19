@@ -21,6 +21,9 @@ class ShopBaseModel extends Model
     protected static $fields;
     protected $fillable = [];
 
+    //запилить хлебные крошки
+    protected static $_breadcrumbs = [];
+
     public static function checkEntity($entity)
     {
         return in_array($entity, ['Sections', 'Filters', 'Goods', 'HtmlPages']);
@@ -116,5 +119,10 @@ class ShopBaseModel extends Model
         else {
             return Photos::PIC_PATH . '/' . $size . '/' . self::getTableName(true) . '/' . $this->id . (($num !== 1) ? '_' . $num : '') . '.' . $ext;
         }
+    }
+
+    public function getBreadcrumb(){
+        //раздел и не раздел
+
     }
 }

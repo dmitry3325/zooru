@@ -6,7 +6,7 @@
             </div>
             <div class="col-2">
                 <div class="city"><i class="material-icons">&#xE0C8;</i>Москва</div>
-                <div class="phone font-heavy">+7 495 322-12-58</div>
+                <div class="phone font-heavy"><a href="tel:{{ Config::get('info.clear_phone') }}">{{ Config::get('info.phone') }}</a></div>
             </div>
             <div class="sub-menu col-8">
                 <a class="header_up_item"><i class="material-icons">&#xE8FD;</i><span>Сервис и помощь</span></a>
