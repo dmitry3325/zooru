@@ -2,6 +2,7 @@
 
 @section('content')
     <div class="container">
+        @include('partials.breadcrumb')
         <div class="row">
             <div class="col-4">
                 @include('goods.components.photo')

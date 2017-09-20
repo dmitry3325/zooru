@@ -21,7 +21,6 @@ class ShopBaseModel extends Model
     protected static $fields;
     protected $fillable = [];
 
-    //запилить хлебные крошки
     protected static $_breadcrumbs = [];
 
     public static function checkEntity($entity)
@@ -121,8 +120,36 @@ class ShopBaseModel extends Model
         }
     }
 
-    public function getBreadcrumb(){
-        //раздел и не раздел
+    public function getBreadcrumbs(){
+        if(!empty(self::$_breadcrumbs)){
+            return self::$_breadcrumbs;
+        }
 
+        $breadcrumbs = [];
+
+        $breadcrumbs['Главная'] = '/';
+
+        if($this->parents && $this->parents->url){
+            $name = $this->parents->getH1Title();
+            $breadcrumbs[$name] = '/' . $this->parents->url;
+        }
+        if($this->parents->parents && $this->parents->parents->url){
+            $name = $this->parents->parents->getH1Title();
+            $breadcrumbs[$name] = '/' . $this->parents->parents->url;
+        }
+
+        $name = $this->getH1Title();
+        $breadcrumbs[$name] = null;
+        self::$_breadcrumbs = $breadcrumbs;
+        return self::$_breadcrumbs;
+    }
+
+    public function parents()
+    {
+        return $this->hasOne(Sections::class, 'id', 'parent_id');
+    }
+
+    public function getH1Title(){
+        return $this->h1_title ? $this->h1_title : null;
     }
 }

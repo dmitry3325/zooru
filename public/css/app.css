@@ -3007,6 +3007,8 @@ a.header_up_item:hover:not(.seporator) * {
 }
 
 .breadcrumb {
+  position: relative;
+  z-index: 2;
   margin: 10px 0;
 }
 

@@ -1,13 +1,12 @@
-<div class="container">
-    <div class="col-12">
-        <ul class="breadcrumb">
-            <li><a href="#">Главная</a></li>
-            <li>|</li>
-            <li><a href="#">Собаки</a></li>
-            <li>|</li>
-            <li><a href="#">Сухой корм</a></li>
-            <li>|</li>
-            <li>Royal Canin</li>
-        </ul>
-    </div>
+<div class="col-12">
+    <ul class="breadcrumb">
+        @foreach($good->getBreadcrumbs() as $name => $link)
+            @if($link)
+                <li><a href="{{ $link }}">{{ $name }}</a></li>
+                <li>|</li>
+            @else
+                <li>{{ $name }}</li>
+            @endif
+        @endforeach
+    </ul>
 </div>

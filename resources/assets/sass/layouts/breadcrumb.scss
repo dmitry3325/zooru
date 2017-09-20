@@ -1,4 +1,6 @@
 .breadcrumb{
+  position: relative;
+  z-index: 2;
   margin: 10px 0;
   li {
     display: inline-block;
