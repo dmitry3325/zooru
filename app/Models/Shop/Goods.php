@@ -90,7 +90,7 @@ class Goods extends ShopBaseModel
     }
 
     public function getPriceBlock(){
-        if($this->type === Goods::GOOD_TYPE_LINE) {
+        if(!$this->parent_id) {
             return Goods::where('parent_id', $this->id)
                 ->orWhere('id', $this->id)
                 ->get();

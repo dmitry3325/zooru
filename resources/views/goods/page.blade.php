@@ -10,7 +10,7 @@
             </div>
             <div class="col-3">
                 <h1>{{ $good->h1_title }}</h1>
-                <div class="articul">{{ $good->articul }}</div>
+                <div class="articul">Артикул: {{ $good->articul }}</div>
                 @include('goods.components.price')
                 @include('goods.components.buyButton')
             </div>
