@@ -6,7 +6,7 @@ class Sections extends ShopBaseModel
 {
     protected $table = 'shop.sections';
 
-    public function parents(){
+    public function parentSection(){
         return $this->belongsTo(Sections::class, 'parent_id', 'id');
     }
 

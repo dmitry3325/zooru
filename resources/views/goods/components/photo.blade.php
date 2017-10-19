@@ -7,7 +7,6 @@
         </ul>
     </div>
     <div class="col-10">
-        {{--<div class="sale">10%</div>--}}
 
         @if($good->discount)
         <div class="sale-cover">

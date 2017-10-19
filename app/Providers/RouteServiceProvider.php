@@ -50,9 +50,10 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapSiteRoutes()
     {
+        //TODO роуты с числами не работают
         $url = \request()->path();
 
-        if (preg_match('#([a-z]+)\/([0-9]+)\.html#', $url, $matches)) {
+        if (preg_match('#([a-z]+)\/([0-9]+)#', $url, $matches)) {
             $entity    = ucfirst($matches[1]);
             $entity_id = intval($matches[2]);
 

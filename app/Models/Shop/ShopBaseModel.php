@@ -129,14 +129,16 @@ class ShopBaseModel extends Model
 
         $breadcrumbs['Главная'] = '/';
 
-        if($this->parents && $this->parents->url){
-            $name = $this->parents->getH1Title();
-            $breadcrumbs[$name] = '/' . $this->parents->url;
+        if($this->parentSection && $this->parentSection->url){
+            $name = $this->parentSection->getH1Title();
+            $breadcrumbs[$name] = '/' . $this->parentSection->url;
+
+            if($this->parentSection->parentSection && $this->parentSection->parentSection->url){
+                $name = $this->parentSection->parentSection->getH1Title();
+                $breadcrumbs[$name] = '/' . $this->parentSection->parentSection->url;
+            }
         }
-        if($this->parents->parents && $this->parents->parents->url){
-            $name = $this->parents->parents->getH1Title();
-            $breadcrumbs[$name] = '/' . $this->parents->parents->url;
-        }
+
 
         $name = $this->getH1Title();
         $breadcrumbs[$name] = null;
@@ -144,7 +146,7 @@ class ShopBaseModel extends Model
         return self::$_breadcrumbs;
     }
 
-    public function parents()
+    public function parentSection()
     {
         return $this->hasOne(Sections::class, 'id', 'parent_id');
     }

@@ -9,7 +9,7 @@
                 </ul>
             </div>
             <div class="col-3 right">
-                <input class="header__menu_search z-depth-1-half" type="text" name="search" placeholder="Я ищу...">
+                <input class="header__menu_search z-depth-1-half" type="text" name="search" placeholder="Найдется все для питомца!">
             </div>
         </div>
     </div>

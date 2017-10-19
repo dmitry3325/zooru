@@ -1,7 +1,7 @@
 .articul {
   text-transform: uppercase;
-  color: $blue;
-  font-size: 0.8rem;
+  color: $mGrey2;
+  font-size: 0.7rem;
 }
 
 .price-block {
@@ -9,24 +9,33 @@
   padding: 10px 0;
   cursor: pointer;
   box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
   margin-top: 1rem;
+  color: #000!important;
   .count{
+    padding: 0;
     font-size: 0.7rem;
     text-align: center;
     color: $lGrey2;
-    hr{
+    hr {
       border: 0;
-      border-bottom: 1px dotted $lGrey2;
-      background: $lGrey2;
+      border-bottom: 1px dotted $grey;
     }
   }
-  .price{
+  .price {
+    text-align: right;
     font-size: 1.2rem;
+    padding: 0 24px 0 0;
+    white-space: nowrap;
+  }
+  a {
     color: #000;
   }
 }
-.price-block:hover, .price-block:active{
+.price-block:hover, .price-block.active{
   background: $yellow;
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
 }
 
 .quantity-block {
@@ -66,7 +75,7 @@
   width: 30px;
 }
 
-.btn-buy{
+.btn-buy {
   cursor: pointer;
   display: block;
   background: $green;
@@ -77,4 +86,8 @@
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
   border-radius: 2px;
+}
+.btn-buy:hover {
+  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
+
 }

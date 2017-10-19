@@ -1,0 +1,23 @@
+.utp {
+  text-align: center;
+}
+
+.utp-block{
+  margin: 80px auto 0 auto;
+  width: 80%;
+  background-color: $yellow;
+  text-align: center;
+  padding: 1.3rem;
+}
+
+.utp-block-img {
+  display: block;
+  height: 110px;
+  width: 100%;
+  margin-top: -80px;
+}
+
+.utp-block-img-gift{
+  background: url('/images/gift.png') no-repeat top center;
+  background-size: contain;
+}

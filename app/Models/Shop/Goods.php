@@ -85,4 +85,22 @@ class Goods extends ShopBaseModel
         return $this->belongsTo(Sections::class, 'parent_id');
     }
 
+    public function readyToSell(){
+        return !$this->stop_sale;
+    }
+
+    public function getPriceBlock(){
+        if($this->type === Goods::GOOD_TYPE_LINE) {
+            return Goods::where('parent_id', $this->id)
+                ->orWhere('id', $this->id)
+                ->get();
+        }
+
+        return Goods::where('parent_id', $this->parent_id)
+            ->orWhere('id', $this->parent_id)
+            ->get();
+
+        //TODO выбрать ток нужные столбцы селектом
+    }
+
 }
