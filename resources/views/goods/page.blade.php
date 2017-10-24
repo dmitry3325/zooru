@@ -33,3 +33,7 @@
 
     </div>
 @endsection
+
+@push('scripts')
+    <script src="/js/simplezoom.js"></script>
+@endpush

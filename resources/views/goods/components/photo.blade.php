@@ -1,9 +1,9 @@
 <div class="photo-block row">
     <div class="thumb-block col-2">
         <ul>
-            <li><img class="photo-thumbnail" src="/images/food.png"></li>
-            <li><img class="photo-thumbnail" src="/images/food.png"></li>
-            <li><img class="photo-thumbnail" src="/images/food.png"></li>
+            <li class="active"><img class="photo-thumbnail" src="/images/food.png"></li>
+            <li><img class="photo-thumbnail" src="/images/food2.png"></li>
+            <li><img class="photo-thumbnail" src="/images/food3.png"></li>
         </ul>
     </div>
     <div class="col-10">
@@ -15,6 +15,6 @@
         </div>
         @endif
 
-        <img class="photo-main" src="/images/food.png">
+        <img class="photo-main" id="photo-main" src="/images/food.png">
     </div>
 </div>

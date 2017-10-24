@@ -24,7 +24,7 @@
 </div>
 
 <footer>
-    <script type="text/javascript" src="/js/core.js"></script>
+    {{--<script type="text/javascript" src="/js/app.js"></script>--}}
     @stack('scripts')
 </footer>
 </body>
