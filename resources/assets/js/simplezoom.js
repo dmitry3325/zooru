@@ -8,25 +8,19 @@
         let mainImg = document.getElementById('photo-main');
 
         function changeImage() {
-            if(this.src !== null) {
-                let self = this;
-                changeActive(self)
-            }
-        }
+            if (this.src !== null) {
+                for (let i = 0; i < img.length; i++) {
+                    img[i].parentElement.classList.remove("active");
+                }
+                this.parentElement.className += " active";
 
-        function changeActive(element) {
-            for (let i = 0; i < img.length; i++) {
-                img[i].parentElement.classList.remove("active");
+                mainImg.src = this.src;
             }
-            element.parentElement.className += " active";
-
-            mainImg.src = element.src;
         }
 
         for (let i = 0; i < img.length; i++) {
             img[i].addEventListener('click', changeImage, false);
         }
-
     }
 
     init();

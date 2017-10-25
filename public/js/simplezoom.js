@@ -87,18 +87,13 @@ module.exports = __webpack_require__(42);
 
         function changeImage() {
             if (this.src !== null) {
-                var self = this;
-                changeActive(self);
-            }
-        }
+                for (var i = 0; i < img.length; i++) {
+                    img[i].parentElement.classList.remove("active");
+                }
+                this.parentElement.className += " active";
 
-        function changeActive(element) {
-            for (var i = 0; i < img.length; i++) {
-                img[i].parentElement.classList.remove("active");
+                mainImg.src = this.src;
             }
-            element.parentElement.className += " active";
-
-            mainImg.src = element.src;
         }
 
         for (var i = 0; i < img.length; i++) {

@@ -1,5 +1,5 @@
 <div class="photo-block row">
-    <div class="thumb-block col-2">
+    <div class="thumb-block col-2" id="thumb-block">
         <ul>
             <li class="active"><img class="photo-thumbnail" src="/images/food.png"></li>
             <li><img class="photo-thumbnail" src="/images/food2.png"></li>
