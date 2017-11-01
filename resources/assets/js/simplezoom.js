@@ -14,7 +14,9 @@
                 }
                 this.parentElement.className += " active";
 
-                mainImg.src = this.src;
+                let src = this.src.replace("/thumb/", "/medium/");
+
+                mainImg.src = src;
             }
         }
 

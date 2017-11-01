@@ -3149,9 +3149,10 @@ a.header_up_item:hover:not(.seporator) * {
   border-color: #3AB0F2;
 }
 
-.main-photo {
-  width: 100%;
+.photo-main {
   display: block;
+  max-height: 350px;
+  margin: 0 auto;
 }
 
 .sale-cover {
@@ -3211,8 +3212,11 @@ a.header_up_item:hover:not(.seporator) * {
   background-size: contain;
 }
 
-.order-description ul {
+.order-description {
   width: 100%;
+}
+
+.order-description ul {
   list-style: none;
   margin-bottom: 10px;
   display: -webkit-box;

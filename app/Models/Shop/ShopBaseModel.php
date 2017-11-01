@@ -8,7 +8,6 @@
 
 namespace App\Models\Shop;
 
-use App\Classes\Traits\Shop\QueryFilterTrait;
 use App\Models\Photos\Photos;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\Paginator;
@@ -57,7 +56,7 @@ class ShopBaseModel extends Model
      */
     public function url()
     {
-        return $this->hasOne(Urls::class, 'entity_id')->where('entity', '=', self::getClassName());
+        return $this->hasOne(Urls::class, 'entity_id')->where('entity', self::getClassName());
     }
 
     public function getUrlAttribute()
@@ -82,7 +81,7 @@ class ShopBaseModel extends Model
      */
     public function metadata()
     {
-        return $this->hasMany(ShopMetadata::class, 'entity_id')->where('entity', '=', self::getClassName());
+        return $this->hasMany(ShopMetadata::class, 'entity_id')->where('entity', self::getClassName());
     }
 
     public function getMetaData($fields = [])
@@ -98,13 +97,23 @@ class ShopBaseModel extends Model
         return $this;
     }
 
+    public function photos()
+    {
+        return $this->hasMany(Photos::class, 'entity_id')->where('entity', '=', self::getClassName());
+    }
+
+    public function getPhotosAttribute()
+    {
+        return $this->getPhotos('jpeg');
+    }
+
     public function getPhotos($ext = 'jpeg')
     {
         $ph     = ($this->attributes['photos']) ? json_decode($this->attributes['photos'], true) : [];
         $photos = [];
         foreach (Photos::$sizes as $size => $photo) {
             foreach ($ph as $num) {
-                $this->getPhotoUrl($size, $num, $ext);
+                $photos[$size][] = env('PHOTO_SERVER') . $this->getPhotoUrl($size, $num, $ext);
             }
         }
         return $photos;
@@ -154,4 +163,15 @@ class ShopBaseModel extends Model
     public function getH1Title(){
         return $this->h1_title ? $this->h1_title : null;
     }
+
+    public function getSizedPhotos($size){
+        $photos = array_get($this->photos, $size);
+        unset($photos[0]);
+        return $photos;
+    }
+
+    public function getFirstPhoto($size){
+        return array_get($this->photos, $size.'.0');
+    }
+
 }

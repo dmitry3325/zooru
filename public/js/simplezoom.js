@@ -92,7 +92,9 @@ module.exports = __webpack_require__(42);
                 }
                 this.parentElement.className += " active";
 
-                mainImg.src = this.src;
+                var src = this.src.replace("/thumb/", "/medium/");
+
+                mainImg.src = src;
             }
         }
 

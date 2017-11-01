@@ -2,6 +2,8 @@
 
 namespace App\Models\Shop;
 
+use App\Models\Photos\Photos;
+
 /**
  * Class Goods
  * @package App\Models\Shop
