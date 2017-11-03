@@ -27,7 +27,13 @@
                     <li><a href="#">Состав / характеристики</a></li>
                     <li><a href="#">Отзывы</a></li>
                 </ul>
-                <div class="order-description-text">{{ $good->short_description }}</div>
+                <div class="order-description-text">
+                    @if($good->getMetaData(['big_description']))
+                        {{ $good->getMetaData(['big_description']) }}
+                    @else
+                        {{ $good->short_description }}
+                    @endif
+                </div>
             </div>
         </div>
 

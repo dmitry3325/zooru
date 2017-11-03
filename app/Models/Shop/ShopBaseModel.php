@@ -10,7 +10,6 @@ namespace App\Models\Shop;
 
 use App\Models\Photos\Photos;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Pagination\Paginator;
 
 class ShopBaseModel extends Model
 {
@@ -59,6 +58,10 @@ class ShopBaseModel extends Model
         return $this->hasOne(Urls::class, 'entity_id')->where('entity', self::getClassName());
     }
 
+    public function sectionUrl(){
+        return $this->hasManyThrough(Urls::class, Sections::class, 'entity_id', 'id','entity_id', 'id');
+    }
+
     public function getUrlAttribute()
     {
         if (isset($this->attributes['url'])) {
@@ -84,17 +87,26 @@ class ShopBaseModel extends Model
         return $this->hasMany(ShopMetadata::class, 'entity_id')->where('entity', self::getClassName());
     }
 
-    public function getMetaData($fields = [])
+    public function getMetaData(array $fields = [])
     {
         $q = $this->metadata();
         if (count($fields)) {
             $q->whereIn('key', $fields);
         }
+
         $meta = $q->get();
+
+        $result = [];
+
         foreach ($meta as $m) {
-            $this->{$m->key} = $m->value;
+            $result[$m->key] = $m->value;
         }
-        return $this;
+
+        if(count($result) === 1){
+            return array_shift($result);
+        }
+
+        return $result;
     }
 
     public function photos()
@@ -148,10 +160,16 @@ class ShopBaseModel extends Model
             $breadcrumbs[$name] = '/' . $this->parentSection->url;
         }
 
-
         $name = $this->getH1Title();
         $breadcrumbs[$name] = null;
+
+
+
         self::$_breadcrumbs = $breadcrumbs;
+
+        //костыль для класснейма
+        self::$class_name = 'Goods';
+
         return self::$_breadcrumbs;
     }
 
