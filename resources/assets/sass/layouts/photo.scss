@@ -9,6 +9,9 @@
     border: 2px solid $lGrey2;
     margin-bottom: 6px;
     cursor: pointer;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
     .photo-thumbnail {
       max-width: 64px;
       max-height: 64px;
@@ -25,6 +28,9 @@
   display: block;
   max-height: 350px;
   margin: 0 auto;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
 }
 
 .sale-cover {
@@ -32,10 +38,13 @@
   height: 160px;
   -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
-  width: 64px;
+  width: 54px;
   overflow: hidden;
   top: -56px;
   left: 30px;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  user-select: none;
   .sale {
     position: absolute;
     width: 160px;

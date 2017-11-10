@@ -12,7 +12,7 @@
                 <a class="header_up_item"><i class="material-icons">&#xE8FD;</i><span>Сервис и помощь</span></a>
                 <a class="header_up_item"><i class="material-icons">&#xE8A1;</i><span>Доставка и оплата</span></a>
                 <a class="header_up_item"><i class="material-icons">&#xE0CD;</i><span>Контакты</span></a>
-                <a class="header_up_item"><i class="material-icons">&#xE8CC;</i><span>Корзина</span></a>
+                <cart></cart>
                 <a class="header_up_item seporator"><i class="material-icons">&#xE5D4;</i></a>
                 <a class="header_up_item"><i class="material-icons">&#xE853;</i><span>Вход</span></a>
             </div>

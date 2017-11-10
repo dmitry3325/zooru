@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>
-            zoo.ru
+        zoo.ru
     </title>
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
@@ -17,15 +17,18 @@
     @stack('style')
 </head>
 <body>
+<div id="app">
     @include('partials.header')
     @include('partials.menu')
-<div id="content">
-    @yield('content')
-</div>
+    <div id="content">
+        @yield('content')
+        @include('partials.subscription')
+    </div>
 
-<footer>
-    {{--<script type="text/javascript" src="/js/app.js"></script>--}}
-    @stack('scripts')
-</footer>
+    <footer>
+    </footer>
+</div>
+<script type="text/javascript" src="/js/app.js"></script>
+@stack('scripts')
 </body>
 </html>

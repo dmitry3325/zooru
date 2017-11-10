@@ -1,0 +1,107 @@
+.cart-window {
+  display: inline-block;
+  text-align: left;
+
+  a {
+    display: inline-block;
+  }
+
+  .cart-window__count {
+    background: $yellow;
+    border-radius: 50%;
+    color: $grey!important;
+    position: absolute;
+    font-size: 0.85em;
+    padding: 0.2em 0.66em;
+    top: -12px;
+    left: 28px;
+    font-weight: bold;
+  }
+
+  .cart-popup:before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-bottom: 13px solid $blue;
+    opacity: 0.5;
+    right: 39px;
+    top: -13px;
+    z-index: 100;
+  }
+  .cart-popup:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-bottom: 13px solid #fff;
+    opacity: 1;
+    right: 39px;
+    top: -7px;
+    z-index: 100;
+  }
+
+  .cart-popup {
+    position: absolute;
+    background: rgba(58, 176, 242, .5);
+    display: block;
+    z-index: 100;
+    top: 35px;
+    right: 130px;
+    padding: 5px;
+
+    hr {
+      border: none;
+      height: 2px;
+      color: $lGrey2;
+      background-color: $lGrey2;
+    }
+
+    .cart-popup__inside {
+      background: #fff;
+      position: relative;
+      z-index: 101;
+      padding: 15px 25px;
+
+      .cart-window__total_price {
+        margin: 1em 0;
+        font-size: 0.9em;
+        .cart-window__total_price_num {
+          font-size: 1.3em;
+          font-weight: 500;
+        }
+      }
+
+      .cart-window__title {
+        display: block;
+        font-size: 0.8em;
+      }
+
+      .cart-window__item {
+        border-bottom: 1px dashed #f2f2f2;
+        padding: 8px 0;
+
+        .cart-window__item-img {
+          vertical-align: middle;
+        }
+        .cart-window__item-text {
+          font-size: 0.8em;
+          vertical-align: middle;
+        }
+        .cart-window__remove_btn {
+          float: right;
+          cursor: pointer;
+          .material-icons {
+            font-size: 1em !important;
+          }
+        }
+
+      }
+    }
+
+  }
+}

@@ -12,7 +12,7 @@
                 <h1>{{ $good->h1_title }}</h1>
                 <div class="articul">Артикул: {{ $good->articul }}</div>
                 @include('goods.components.price')
-                @include('goods.components.buyButton')
+                <cartbutton product-id="{{ $good->id }}" max-items="5" price="{{ $good->getPrice() }}" product="{{ $good->getCartArray() }}"></cartbutton>
             </div>
             <div class="col-4">
                 @include('goods.components.utp')
@@ -36,7 +36,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 @endsection
 

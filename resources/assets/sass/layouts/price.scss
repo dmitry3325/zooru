@@ -1,21 +1,22 @@
 .articul {
   text-transform: uppercase;
   color: $mGrey2;
-  font-size: 0.7rem;
+  font-size: 0.7em;
 }
 
 .price-block {
   min-height: 40px;
-  padding: 10px 0;
+  padding: 0.6em 0;
   cursor: pointer;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
-  margin-top: 1rem;
+  margin-top: 1em;
+  transition: 0.3s;
   color: #000!important;
   .count{
     padding: 0;
-    font-size: 0.7rem;
+    font-size: 0.7em;
     text-align: center;
     color: $lGrey2;
     hr {
@@ -25,8 +26,8 @@
   }
   .price {
     text-align: right;
-    font-size: 1.2rem;
-    padding: 0 24px 0 0;
+    font-size: 1.2em;
+    padding: 0 1em 0 0;
     white-space: nowrap;
   }
   a {
@@ -35,14 +36,17 @@
 }
 .price-block:hover, .price-block.active{
   background: $yellow;
-  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 7px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2);
 }
 
 .quantity-block {
-  margin-top: 1rem;
+  margin-top: 1em;
 }
 
 .quantity{
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  user-select: none!important;
   cursor: pointer;
   width: 25px;
   height: 25px;
@@ -51,13 +55,14 @@
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   border-radius: 50%;
-  font-size: 1rem;
+  font-size: 1em;
   font-weight: 300;
   background: $lGrey;
 }
 
 .quantity:hover {
   background: $yellow;
+  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 7px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2);
 }
 
 .quantity-minus{
@@ -73,21 +78,4 @@
   background: none;
   text-align: center;
   width: 30px;
-}
-
-.btn-buy {
-  cursor: pointer;
-  display: block;
-  background: $green;
-  box-sizing: border-box;
-  padding: 4px 10px;
-  text-align: center;
-  color: #fff;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
-}
-.btn-buy:hover {
-  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
-
 }

@@ -20,6 +20,7 @@ a.header_up_item {
   display: inline-block;
   font-size: 11px;
   cursor: pointer;
+  position: relative;
 
   .material-icons {
     font-size: 22px;
@@ -60,6 +61,7 @@ a.header_up_item:hover:not(.seporator) * {
       padding: 20px;
       box-sizing: border-box;
       cursor: pointer;
+      transition: 0.3s;
       a {
         color: $grey;
       }
@@ -77,6 +79,13 @@ a.header_up_item:hover:not(.seporator) * {
       a {
         color: #fff !important;
       }
+    }
+
+    .header-menu-submenu {
+      display: none;
+      position: absolute;
+      background: $lGrey;
+      z-index: 4;
     }
   }
   .header__menu_search {

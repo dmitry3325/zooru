@@ -1,3 +1,4 @@
+@import "reset";
 // Fonts
 //@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,600");
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
@@ -15,6 +16,8 @@
 @import "layouts/photo";
 @import "layouts/utp";
 @import "layouts/order-description";
+@import "layouts/subscription";
+@import "layouts/cart";
 
 // fonts
 $font-family: 'Roboto', Helvetica, sans-serif;
@@ -27,10 +30,6 @@ html,
 body {
   height: 100%;
   width: 100%;
-  margin: 0;
-  padding: 0;
-  left: 0;
-  top: 0;
   font-size: 100%;
   font-family: $font-family;
   color: $grey;
@@ -74,4 +73,71 @@ h1 {
 
 input, input:focus {
   outline: 0;
+}
+
+img {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  user-select: none!important;
+}
+
+.fl_r {
+  float: right;
+}
+
+.fl_l {
+  float: left;
+}
+
+.btn {
+  display: block;
+  text-decoration: none;
+  cursor: pointer;
+  box-sizing: border-box;
+  padding: 0.5em 2em;
+  text-align: center;
+  font-size: 0.8em;
+  text-transform: capitalize;
+}
+
+.btn-round {
+  border-radius: 25px;
+}
+
+.btn-sqaure {
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+}
+
+.btn-green {
+  background: $green;
+  color: #fff;
+  :hover {
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.btn-trans {
+  background: transparent;
+  color: $mGrey2;
+  border: 1px solid $mGrey;
+  :hover {
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.btn-dark {
+  background: $darkBlue;
+  color: #fff;
+}
+
+.back-wrap {
+  z-index: 30;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: transparent;
 }

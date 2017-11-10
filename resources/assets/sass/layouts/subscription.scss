@@ -1,0 +1,38 @@
+.subscribe-block {
+  text-align: center;
+  width: 100%;
+  position: relative;
+  font-size: 1.2em;
+  padding: 10px 0;
+  background: url("/images/dog-pattern-small.jpg") repeat;
+
+  div {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .subscribe-block__text{
+    text-align: left;
+    margin-right: 18px;
+    b {
+      font-weight: bold;
+    }
+  }
+
+  .subscribe-block__input {
+    min-width: 330px;
+    height: 36px;
+    border-radius: 25px;
+    border: 1px solid $darkYellow;
+    padding: 10px 10px 10px 20px;
+  }
+
+  .btn-subscription {
+    background: $darkBlue;
+    display: block;
+    height: 36px;
+    font-size: 0.7em;
+    color: #fff;
+    padding: 8px 20px;
+  }
+}

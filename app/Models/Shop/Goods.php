@@ -79,7 +79,12 @@ class Goods extends ShopBaseModel
 
     public function getPrice()
     {
-        return number_format($this->price, 0, ',', ' ') . '&#8381;';
+        return $this->price;
+    }
+
+    public function getFormatedPrice()
+    {
+        return number_format($this->getPrice(), 0, ',', ' ') . '&#8381;';
     }
 
     public function sections(){
@@ -102,6 +107,15 @@ class Goods extends ShopBaseModel
             ->get();
 
         //TODO выбрать ток нужные столбцы селектом
+    }
+    public function getCartArray(){
+        return json_encode([
+            'id' => $this->id,
+            'title' => $this->getH1Title(),
+            'price' => $this->getPrice(),
+            'maxItems' => 5,
+            'photo' =>  $this->getFirstPhoto('thumb'),
+        ]);
     }
 
 }
