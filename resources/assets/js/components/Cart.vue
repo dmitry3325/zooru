@@ -5,12 +5,13 @@
             <i class="material-icons">&#xE8CC;</i>
             <span class="cart-window__count">{{totalCount}}</span>
             <span v-if="!totalPrice">Корзина</span>
-            <span v-else>{{totalPrice}}&#8381;</span>
+            <span v-else>{{totalPrice.toLocaleString('ru')}}&#8381;</span>
         </a>
         <div v-show="showPopUp" id="cart-popup" class="cart-popup z-depth-1-half">
             <div class="cart-popup__inside">
                 <div v-if="totalCount > 0">
                     <span class="cart-window__title">Ваша корзина</span>
+                    <span class="cart-window__title fl_r">Уйдет на благотворительность животным: {{helpAmount.toLocaleString('ru')}}&#8381;</span>
                     <hr/>
                     <ul>
                         <li v-for="product in cart" class="cart-window__item">
@@ -22,7 +23,7 @@
                                 </div>
                                 <div class="col-3">
                                     <span class="cart-window__item-text">{{ product.quantity
-                                        }}шт. <br/>{{ product.price * product.quantity }}&#8381;</span>
+                                        }}шт. <br/>{{ (product.price * product.quantity).toLocaleString('ru') }}&#8381;</span>
                                 </div>
 
                                 <div class="col-1"><span @click="removeFromCart(product.id)"
@@ -31,7 +32,7 @@
                             </div>
                         </li>
                     </ul>
-                    <div class="cart-window__total_price right">Итого, без стоимости доставки: <span class="cart-window__total_price_num">{{ totalPrice }}&#8381;</span></div>
+                    <div class="cart-window__total_price right">Итого, без стоимости доставки: <span class="cart-window__total_price_num">{{ totalPrice.toLocaleString('ru') }}&#8381;</span></div>
                     <a href="#" class="btn btn-sqaure btn-trans"
                        @click.prevent="showPopUp = false;">ПРОДОЛЖИТЬ ПОКУПКИ</a>
                     <a href="/cart" class="btn btn-sqaure btn-green fl_r">ОФОРМИТЬ ЗАКАЗ</a>
@@ -51,7 +52,16 @@
                 showPopUp: true
             }
         },
+        props: {
+            donationPercent: {
+                type: String,
+                required: true
+            },
+        },
         computed: {
+            helpAmount: function () {
+                return this.totalPrice * this.donationPercent;
+            },
             ...mapState([
                 'cart',
             ]),

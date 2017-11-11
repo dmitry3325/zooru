@@ -3528,7 +3528,8 @@ a.header_up_item:hover:not(.seporator) * {
 }
 
 .cart-window .cart-popup .cart-popup__inside .cart-window__title {
-  display: block;
+  display: inline-block;
+  vertical-align: top;
   font-size: 0.8em;
 }
 

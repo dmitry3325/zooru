@@ -34,7 +34,7 @@ export const getters = {
     totalPrice: state => {
         return state.cart.reduce(function(sum, current) {
             return sum + (current.price * current.quantity);
-        }, 0).toLocaleString('ru');
+        }, 0);
     },
     totalCount: state => {
         return Object.keys(state.cart).length;

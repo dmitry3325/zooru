@@ -11255,7 +11255,7 @@ var getters = {
     totalPrice: function totalPrice(state) {
         return state.cart.reduce(function (sum, current) {
             return sum + current.price * current.quantity;
-        }, 0).toLocaleString('ru');
+        }, 0);
     },
     totalCount: function totalCount(state) {
         return Object.keys(state.cart).length;
@@ -11409,6 +11409,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
 
 
 
@@ -11418,7 +11419,17 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             showPopUp: true
         };
     },
-    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapState */])(['cart']), Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['totalPrice', 'totalCount'])),
+    props: {
+        donationPercent: {
+            type: String,
+            required: true
+        }
+    },
+    computed: _extends({
+        helpAmount: function helpAmount() {
+            return this.totalPrice * this.donationPercent;
+        }
+    }, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapState */])(['cart']), Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(['totalPrice', 'totalCount'])),
     methods: {
         removeFromCart: function removeFromCart(id) {
             this.$store.dispatch('removeFromCart', {
@@ -11453,7 +11464,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "material-icons"
   }, [_vm._v("")]), _vm._v(" "), _c('span', {
     staticClass: "cart-window__count"
-  }, [_vm._v(_vm._s(_vm.totalCount))]), _vm._v(" "), (!_vm.totalPrice) ? _c('span', [_vm._v("Корзина")]) : _c('span', [_vm._v(_vm._s(_vm.totalPrice) + "₽")])]), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.totalCount))]), _vm._v(" "), (!_vm.totalPrice) ? _c('span', [_vm._v("Корзина")]) : _c('span', [_vm._v(_vm._s(_vm.totalPrice.toLocaleString('ru')) + "₽")])]), _vm._v(" "), _c('div', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -11468,7 +11479,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "cart-popup__inside"
   }, [(_vm.totalCount > 0) ? _c('div', [_c('span', {
     staticClass: "cart-window__title"
-  }, [_vm._v("Ваша корзина")]), _vm._v(" "), _c('hr'), _vm._v(" "), _c('ul', _vm._l((_vm.cart), function(product) {
+  }, [_vm._v("Ваша корзина")]), _vm._v(" "), _c('span', {
+    staticClass: "cart-window__title fl_r"
+  }, [_vm._v("Уйдет на благотворительность животным: " + _vm._s(_vm.helpAmount.toLocaleString('ru')) + "₽")]), _vm._v(" "), _c('hr'), _vm._v(" "), _c('ul', _vm._l((_vm.cart), function(product) {
     return _c('li', {
       staticClass: "cart-window__item"
     }, [_c('div', {
@@ -11488,7 +11501,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "col-3"
     }, [_c('span', {
       staticClass: "cart-window__item-text"
-    }, [_vm._v(_vm._s(product.quantity) + "шт. "), _c('br'), _vm._v(_vm._s(product.price * product.quantity) + "₽")])]), _vm._v(" "), _c('div', {
+    }, [_vm._v(_vm._s(product.quantity) + "шт. "), _c('br'), _vm._v(_vm._s((product.price * product.quantity).toLocaleString('ru')) + "₽")])]), _vm._v(" "), _c('div', {
       staticClass: "col-1"
     }, [_c('span', {
       staticClass: "cart-window__remove_btn",
@@ -11504,7 +11517,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "cart-window__total_price right"
   }, [_vm._v("Итого, без стоимости доставки: "), _c('span', {
     staticClass: "cart-window__total_price_num"
-  }, [_vm._v(_vm._s(_vm.totalPrice) + "₽")])]), _vm._v(" "), _c('a', {
+  }, [_vm._v(_vm._s(_vm.totalPrice.toLocaleString('ru')) + "₽")])]), _vm._v(" "), _c('a', {
     staticClass: "btn btn-sqaure btn-trans",
     attrs: {
       "href": "#"
