@@ -106,6 +106,14 @@ module.exports = __webpack_require__(17);
     init();
 })();
 
+// var newEvent = new Event('buttonid.update');
+
+// let g = document.getElementsByClassName('price-block')[0];
+
+// g.onclick = function () {
+//     this.getAttribute('data-id');
+// };
+
 /***/ })
 
 /******/ });

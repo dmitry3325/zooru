@@ -1,27 +1,27 @@
 export const STORAGE_KEY = 'cart-list';
 
-export const state = {
-    cart: JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
+const state = {
+    added: JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
 };
 
 
-export const mutations = {
+const mutations = {
     addToCart(state, data) {
-        let product = state.cart.find(product => product.id === data.product.id);
+        let product = state.added.find(product => product.id === data.product.id);
 
         if (product) {
             product.quantity += data.product.quantity;
             product.quantity = product.quantity >= data.product.maxItems ? data.product.maxItems : product.quantity;
         } else {
-            state.cart = [data.product, ...state.cart]
+            state.added = [data.product, ...state.added]
         }
     },
     removeFromCart(state, id) {
-        state.cart = state.cart.filter(product => product.id !== id);
+        state.added = state.added.filter(product => product.id !== id);
     }
 };
 
-export const actions = {
+const actions = {
     addToCart({commit}, payload) {
         commit('addToCart', payload)
     },
@@ -30,14 +30,22 @@ export const actions = {
     }
 };
 
-export const getters = {
+const getters = {
     totalPrice: state => {
-        return state.cart.reduce(function(sum, current) {
+        return state.added.reduce(function(sum, current) {
             return sum + (current.price * current.quantity);
         }, 0);
     },
     totalCount: state => {
-        return Object.keys(state.cart).length;
+        return Object.keys(state.added).length;
     }
 };
 
+
+
+export default {
+    state,
+    getters,
+    actions,
+    mutations
+}

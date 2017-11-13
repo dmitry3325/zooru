@@ -11201,68 +11201,7 @@ module.exports = function normalizeComponent (
 
 
 /***/ }),
-/* 3 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return STORAGE_KEY; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return state; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return mutations; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return actions; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getters; });
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-var STORAGE_KEY = 'cart-list';
-
-var state = {
-    cart: JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
-};
-
-var mutations = {
-    addToCart: function addToCart(state, data) {
-        var product = state.cart.find(function (product) {
-            return product.id === data.product.id;
-        });
-
-        if (product) {
-            product.quantity += data.product.quantity;
-            product.quantity = product.quantity >= data.product.maxItems ? data.product.maxItems : product.quantity;
-        } else {
-            state.cart = [data.product].concat(_toConsumableArray(state.cart));
-        }
-    },
-    removeFromCart: function removeFromCart(state, id) {
-        state.cart = state.cart.filter(function (product) {
-            return product.id !== id;
-        });
-    }
-};
-
-var actions = {
-    addToCart: function addToCart(_ref, payload) {
-        var commit = _ref.commit;
-
-        commit('addToCart', payload);
-    },
-    removeFromCart: function removeFromCart(_ref2, payload) {
-        var commit = _ref2.commit;
-
-        commit('removeFromCart', payload.id);
-    }
-};
-
-var getters = {
-    totalPrice: function totalPrice(state) {
-        return state.cart.reduce(function (sum, current) {
-            return sum + current.price * current.quantity;
-        }, 0);
-    },
-    totalCount: function totalCount(state) {
-        return Object.keys(state.cart).length;
-    }
-};
-
-/***/ }),
+/* 3 */,
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -11481,7 +11420,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "cart-window__title"
   }, [_vm._v("Ваша корзина")]), _vm._v(" "), _c('span', {
     staticClass: "cart-window__title fl_r"
-  }, [_vm._v("Уйдет на благотворительность животным: " + _vm._s(_vm.helpAmount.toLocaleString('ru')) + "₽")]), _vm._v(" "), _c('hr'), _vm._v(" "), _c('ul', _vm._l((_vm.cart), function(product) {
+  }, [_vm._v("Уйдет на благотворительность животным: " + _vm._s(_vm.helpAmount.toLocaleString('ru')) + "₽")]), _vm._v(" "), _c('hr'), _vm._v(" "), _c('ul', _vm._l((_vm.cart.added), function(product) {
     return _c('li', {
       staticClass: "cart-window__item"
     }, [_c('div', {
@@ -11626,7 +11565,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         parsedProduct: function parsedProduct() {
             return JSON.parse(this.product);
         }
-    }, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapState */])(['cart'])),
+    }, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapState */])(['added'])),
     methods: {
         incrementQuantity: function incrementQuantity() {
             this.quantityInput = this.quantityInput >= this.parsedProduct.maxItems ? this.parsedProduct.maxItems : this.quantityInput += 1;
@@ -11719,7 +11658,7 @@ if (false) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__plugins__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mutations__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_cart__ = __webpack_require__(22);
 
 
 
@@ -11728,10 +11667,9 @@ if (false) {
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */]);
 
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
-    state: __WEBPACK_IMPORTED_MODULE_3__mutations__["e" /* state */],
-    actions: __WEBPACK_IMPORTED_MODULE_3__mutations__["b" /* actions */],
-    getters: __WEBPACK_IMPORTED_MODULE_3__mutations__["c" /* getters */],
-    mutations: __WEBPACK_IMPORTED_MODULE_3__mutations__["d" /* mutations */],
+    modules: {
+        cart: __WEBPACK_IMPORTED_MODULE_3__modules_cart__["b" /* default */]
+    },
     plugins: __WEBPACK_IMPORTED_MODULE_2__plugins__["a" /* default */]
 }));
 
@@ -11740,14 +11678,14 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vuex
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mutations__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__modules_cart__ = __webpack_require__(22);
 
 
 var localStoragePlugin = function localStoragePlugin(store) {
     store.subscribe(function (mutation, _ref) {
         var cart = _ref.cart;
 
-        localStorage.setItem(__WEBPACK_IMPORTED_MODULE_0__mutations__["a" /* STORAGE_KEY */], JSON.stringify(cart));
+        localStorage.setItem(__WEBPACK_IMPORTED_MODULE_0__modules_cart__["a" /* STORAGE_KEY */], JSON.stringify(cart.added));
     });
 };
 
@@ -11758,6 +11696,77 @@ var localStoragePlugin = function localStoragePlugin(store) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 16 */,
+/* 17 */,
+/* 18 */,
+/* 19 */,
+/* 20 */,
+/* 21 */,
+/* 22 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return STORAGE_KEY; });
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+var STORAGE_KEY = 'cart-list';
+
+var state = {
+    added: JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
+};
+
+var mutations = {
+    addToCart: function addToCart(state, data) {
+        var product = state.added.find(function (product) {
+            return product.id === data.product.id;
+        });
+
+        if (product) {
+            product.quantity += data.product.quantity;
+            product.quantity = product.quantity >= data.product.maxItems ? data.product.maxItems : product.quantity;
+        } else {
+            state.added = [data.product].concat(_toConsumableArray(state.added));
+        }
+    },
+    removeFromCart: function removeFromCart(state, id) {
+        state.added = state.added.filter(function (product) {
+            return product.id !== id;
+        });
+    }
+};
+
+var actions = {
+    addToCart: function addToCart(_ref, payload) {
+        var commit = _ref.commit;
+
+        commit('addToCart', payload);
+    },
+    removeFromCart: function removeFromCart(_ref2, payload) {
+        var commit = _ref2.commit;
+
+        commit('removeFromCart', payload.id);
+    }
+};
+
+var getters = {
+    totalPrice: function totalPrice(state) {
+        return state.added.reduce(function (sum, current) {
+            return sum + current.price * current.quantity;
+        }, 0);
+    },
+    totalCount: function totalCount(state) {
+        return Object.keys(state.added).length;
+    }
+};
+
+/* harmony default export */ __webpack_exports__["b"] = ({
+    state: state,
+    getters: getters,
+    actions: actions,
+    mutations: mutations
+});
 
 /***/ })
 /******/ ]);

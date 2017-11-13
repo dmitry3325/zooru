@@ -28,3 +28,11 @@
     init();
 
 })();
+
+// var newEvent = new Event('buttonid.update');
+
+// let g = document.getElementsByClassName('price-block')[0];
+
+// g.onclick = function () {
+//     this.getAttribute('data-id');
+// };

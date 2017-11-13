@@ -30,7 +30,7 @@
                 return JSON.parse(this.product);
             },
             ...mapState([
-                'cart',
+                'added',
             ])
         },
         methods: {

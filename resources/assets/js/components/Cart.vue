@@ -14,7 +14,7 @@
                     <span class="cart-window__title fl_r">Уйдет на благотворительность животным: {{helpAmount.toLocaleString('ru')}}&#8381;</span>
                     <hr/>
                     <ul>
-                        <li v-for="product in cart" class="cart-window__item">
+                        <li v-for="product in cart.added" class="cart-window__item">
                             <div class="row">
                                 <div class="col-2"><img :src="product.photo" class="cart-window__item-img"></div>
 
