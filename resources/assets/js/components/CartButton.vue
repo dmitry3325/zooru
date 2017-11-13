@@ -49,6 +49,11 @@
                 this.$store.dispatch('addToCart', {
                     product: this.parsedProduct,
                 });
+
+                AppNotifications.add({
+                    'type': 'danger',
+                    'body': 'Куплено',
+                });
             }
         }
     }

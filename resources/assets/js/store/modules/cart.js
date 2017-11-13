@@ -11,10 +11,12 @@ const mutations = {
 
         if (product) {
             product.quantity += data.product.quantity;
-            product.quantity = product.quantity >= data.product.maxItems ? data.product.maxItems : product.quantity;
+            product.quantity = (product.quantity >= data.product.maxItems) ? data.product.maxItems : product.quantity;
         } else {
             state.added = [data.product, ...state.added]
         }
+
+        return state;
     },
     removeFromCart(state, id) {
         state.added = state.added.filter(product => product.id !== id);
