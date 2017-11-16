@@ -5,8 +5,7 @@
             <input type="text" class='quantityInput' v-model="quantityInput" disabled>
             <div class="quantity quantity-plus z-depth-1" @click="incrementQuantity">+</div>
         </div>
-        <div class="col-6"><a href="#" @click.prevent="addToCart"
-                              class="btn btn-sqaure btn-green z-depth-1-half">КУПИТЬ</a></div>
+        <div class="col-6"><a href="#" @click.prevent="addToCart" class="btn btn-sqaure btn-green z-depth-1-half">КУПИТЬ</a></div>
     </div>
 </template>
 
@@ -48,11 +47,6 @@
 
                 this.$store.dispatch('addToCart', {
                     product: this.parsedProduct,
-                });
-
-                AppNotifications.add({
-                    'type': 'danger',
-                    'body': 'Куплено',
                 });
             }
         }

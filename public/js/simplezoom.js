@@ -60,20 +60,20 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 24);
+/******/ 	return __webpack_require__(__webpack_require__.s = 16);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 24:
+/***/ 16:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(25);
+module.exports = __webpack_require__(17);
 
 
 /***/ }),
 
-/***/ 25:
+/***/ 17:
 /***/ (function(module, exports) {
 
 (function () {
@@ -106,10 +106,21 @@ module.exports = __webpack_require__(25);
     init();
 })();
 
+window.onload = function () {
+    var maxHeight = 0;
+    var prices = document.getElementsByClassName('prices');
+
+    for (var i = 0, len = prices.length; i < len; i++) {
+        var elHeight = parseFloat(window.getComputedStyle(prices[i]).height.slice(0, -2));
+        maxHeight = elHeight > maxHeight ? elHeight : maxHeight;
+    }
+
+    for (var _i = 0, _len = prices.length; _i < _len; _i++) {
+        prices[_i].style.height = maxHeight + 'px';
+    }
+};
+
 // var newEvent = new Event('buttonid.update');
-
-// let g = document.getElementsByClassName('price-block')[0];
-
 // g.onclick = function () {
 //     this.getAttribute('data-id');
 // };

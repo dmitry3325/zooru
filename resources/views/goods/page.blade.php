@@ -9,16 +9,15 @@
                 @include('goods.components.photo')
             </div>
             <div class="col-3">
-                <h1>{{ $good->h1_title }}</h1>
+                <h1>{{ $good->getH1Title() }}</h1>
                 <div class="articul">Артикул: {{ $good->articul }}</div>
                 @include('goods.components.price')
-                <cartbutton product-id="{{ $good->id }}" max-items="5" price="{{ $good->getPrice() }}" product="{{ $good->getCartArray() }}"></cartbutton>
+                <cartbutton product="{{ $good->getCartArray() }}"></cartbutton>
             </div>
             <div class="col-4">
                 @include('goods.components.utp')
             </div>
         </div>
-
 
         <div class="row">
             <div class="order-description">
@@ -36,6 +35,19 @@
                 </div>
             </div>
         </div>
+
+        <hr>
+        <div class="row associated-products">
+            <div class="col-12">
+                <h4>С этим товаром покупают</h4>
+            </div>
+            @foreach($good->getAssociatedList() as $product)
+                <div class="col-3">
+                    @include('goods.components.product_window', array('good' => $product))
+                </div>
+            @endforeach
+        </div>
+
     </div>
 @endsection
 

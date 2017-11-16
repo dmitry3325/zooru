@@ -29,10 +29,21 @@
 
 })();
 
+window.onload = function() {
+    let maxHeight = 0;
+    let prices = document.getElementsByClassName('prices');
+
+    for (let i = 0, len = prices.length; i < len; i++) {
+        let elHeight = parseFloat(window.getComputedStyle(prices[i]).height.slice(0, -2));
+        maxHeight = elHeight > maxHeight ? elHeight : maxHeight;
+    }
+
+    for (let i = 0, len = prices.length; i < len; i++) {
+        prices[i].style.height = maxHeight + 'px';
+    }
+};
+
 // var newEvent = new Event('buttonid.update');
-
-// let g = document.getElementsByClassName('price-block')[0];
-
 // g.onclick = function () {
 //     this.getAttribute('data-id');
 // };

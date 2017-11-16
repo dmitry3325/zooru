@@ -108,6 +108,7 @@ class Goods extends ShopBaseModel
 
         //TODO выбрать ток нужные столбцы селектом
     }
+
     public function getCartArray(){
         return json_encode([
             'id' => $this->id,
@@ -116,6 +117,10 @@ class Goods extends ShopBaseModel
             'maxItems' => 5,
             'photo' =>  $this->getFirstPhoto('thumb'),
         ]);
+    }
+
+    public function getAssociatedList(){
+        return Goods::whereIn('id', [1,2,4,5])->get();
     }
 
 }

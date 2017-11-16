@@ -1,0 +1,28 @@
+.associated-products {
+  text-align: center;
+}
+
+.product-window {
+  border: 1px solid $mGrey;
+  text-align: center;
+  padding: 0.5em;
+  transition: box-shadow 0.3s ease-in-out;
+
+  .sale-cover{
+    top: -60px;
+    left: 8px;
+  }
+
+  .thumb-block {
+    display: none!important;
+  }
+
+  h4 {
+    min-height: 3em;
+  }
+
+}
+
+.product-window:hover {
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+}

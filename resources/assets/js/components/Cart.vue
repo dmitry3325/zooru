@@ -49,7 +49,7 @@
     export default {
         data: function () {
             return {
-                showPopUp: true
+                showPopUp: false
             }
         },
         props: {
