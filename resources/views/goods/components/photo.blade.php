@@ -1,5 +1,5 @@
 <div class="photo-block row">
-    @if(isset($noThumb))
+    @if(isset($minimize))
         @if($good->discount)
             <div class="sale-cover">
                 <div class="sale"></div>
@@ -7,7 +7,8 @@
             </div>
         @endif
 
-        <img class="photo-main" id="photo-main" src="{{ $good->getFirstPhoto('medium') }}">
+        <img class="photo-main" src="{{ isset($minimize) ? $good->getFirstPhoto('small') : $good->getFirstPhoto('medium') }}">
+        <a class="product-link" href="{{ URL::to('/goods/' . $good->id) }}">ПОДРОБНЕЕ</a>
     @else
         <div class="thumb-block col-2" id="thumb-block">
             <ul>

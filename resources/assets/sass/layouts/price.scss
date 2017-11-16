@@ -15,6 +15,8 @@
   margin: 1em auto 0 auto;
   transition: 0.3s;
   color: #000!important;
+  transition: box-shadow 0.3s ease-in-out;
+
   .count{
     padding: 0;
     font-size: 0.7em;
@@ -45,7 +47,7 @@
   white-space: nowrap;
 }
 
-.quantity{
+.quantity {
   -moz-user-select: none;
   -khtml-user-select: none;
   user-select: none!important;
@@ -60,11 +62,12 @@
   font-size: 1em;
   font-weight: 300;
   background: $lGrey;
+  transition: box-shadow 0.3s ease-in-out;
 }
 
 .quantity:hover {
   background: $yellow;
-  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 7px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
 }
 
 .quantity-minus{

@@ -3183,6 +3183,10 @@ a.header_up_item:hover:not(.seporator) * {
   -webkit-transition: 0.3s;
   transition: 0.3s;
   color: #000 !important;
+  -webkit-transition: -webkit-box-shadow 0.3s ease-in-out;
+  transition: -webkit-box-shadow 0.3s ease-in-out;
+  transition: box-shadow 0.3s ease-in-out;
+  transition: box-shadow 0.3s ease-in-out, -webkit-box-shadow 0.3s ease-in-out;
 }
 
 .price-block .count {
@@ -3235,12 +3239,16 @@ a.header_up_item:hover:not(.seporator) * {
   font-size: 1em;
   font-weight: 300;
   background: #F4F4F4;
+  -webkit-transition: -webkit-box-shadow 0.3s ease-in-out;
+  transition: -webkit-box-shadow 0.3s ease-in-out;
+  transition: box-shadow 0.3s ease-in-out;
+  transition: box-shadow 0.3s ease-in-out, -webkit-box-shadow 0.3s ease-in-out;
 }
 
 .quantity:hover {
   background: #FFDE46;
-  -webkit-box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 7px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2);
-          box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 7px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
 }
 
 .quantity-minus {
@@ -3503,6 +3511,7 @@ a.header_up_item:hover:not(.seporator) * {
   top: 35px;
   right: 130px;
   padding: 5px;
+  min-width: 480px;
 }
 
 .cart-window .cart-popup hr {
@@ -3588,6 +3597,28 @@ a.header_up_item:hover:not(.seporator) * {
 .product-window:hover {
   -webkit-box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
           box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+}
+
+.product-link {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 25%;
+  background: #fff;
+  opacity: 0.8;
+  -webkit-box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  display: none;
+  color: #4A4A4A;
+  max-width: 60%;
+  margin: 0 auto;
+  padding: 0.5em;
+  cursor: pointer;
+}
+
+.photo-main:hover + .product-link,
+.product-link:hover {
+  display: block;
 }
 
 html,
