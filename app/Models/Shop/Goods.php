@@ -91,8 +91,8 @@ class Goods extends ShopBaseModel
         return $this->belongsTo(Sections::class, 'parent_id');
     }
 
-    public function readyToSell(){
-        return !$this->stop_sale;
+    public function notForSale(){
+        return $this->stop_sale;
     }
 
     public function getPriceBlock(){

@@ -5,7 +5,7 @@
                  data-id="{{$good->id}}">
                 <div class="col-3 weight">{{ $g->weight }}кг</div>
                 <div class="col-4 count">
-                    @if(!$g->readyToSell())
+                    @if($g->notForSale())
                         нет на складе
                         <hr/>
                     @else
