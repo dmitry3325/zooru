@@ -108,7 +108,7 @@ module.exports = __webpack_require__(17);
 
 window.onload = function () {
     var maxHeight = 0;
-    var prices = document.getElementsByClassName('prices');
+    var prices = document.querySelectorAll('.product-window .prices');
 
     for (var i = 0, len = prices.length; i < len; i++) {
         var elHeight = parseFloat(window.getComputedStyle(prices[i]).height.slice(0, -2));

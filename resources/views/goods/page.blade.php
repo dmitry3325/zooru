@@ -36,10 +36,9 @@
             </div>
         </div>
 
-        <hr>
         <div class="row associated-products">
             <div class="col-12">
-                <h4>С этим товаром покупают</h4>
+                <h3>С этим товаром покупают</h3>
             </div>
             @foreach($good->getAssociatedList() as $product)
                 <div class="col-3">

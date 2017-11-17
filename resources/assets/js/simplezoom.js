@@ -31,7 +31,7 @@
 
 window.onload = function() {
     let maxHeight = 0;
-    let prices = document.getElementsByClassName('prices');
+    let prices = document.querySelectorAll('.product-window .prices');
 
     for (let i = 0, len = prices.length; i < len; i++) {
         let elHeight = parseFloat(window.getComputedStyle(prices[i]).height.slice(0, -2));

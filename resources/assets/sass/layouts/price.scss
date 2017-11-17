@@ -7,7 +7,9 @@
 .price-block {
   min-height: 40px;
   max-width: 100%;
-  padding: 0.6em 0;
+  //padding: 0.6em 0;
+  line-height: 3em;
+
   cursor: pointer;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -18,8 +20,9 @@
   transition: box-shadow 0.3s ease-in-out;
 
   .count{
-    padding: 0;
+    line-height: 2.2em;
     font-size: 0.7em;
+    padding: 0;
     text-align: center;
     color: $lGrey2;
     hr {

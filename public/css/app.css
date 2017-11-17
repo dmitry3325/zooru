@@ -3174,7 +3174,7 @@ a.header_up_item:hover:not(.seporator) * {
 .price-block {
   min-height: 40px;
   max-width: 100%;
-  padding: 0.6em 0;
+  line-height: 3em;
   cursor: pointer;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -3190,8 +3190,9 @@ a.header_up_item:hover:not(.seporator) * {
 }
 
 .price-block .count {
-  padding: 0;
+  line-height: 2.2em;
   font-size: 0.7em;
+  padding: 0;
   text-align: center;
   color: #EBEBEB;
 }
@@ -3464,9 +3465,9 @@ a.header_up_item:hover:not(.seporator) * {
 }
 
 .cart-window .cart-window__count {
-  background: #FFDE46;
+  background: #898989;
   border-radius: 50%;
-  color: #4A4A4A !important;
+  color: #fff !important;
   position: absolute;
   font-size: 0.85em;
   padding: 0.2em 0.66em;
@@ -3592,6 +3593,10 @@ a.header_up_item:hover:not(.seporator) * {
 
 .product-window h4 {
   min-height: 3em;
+}
+
+.product-window .price-block {
+  font-size: 0.9em;
 }
 
 .product-window:hover {
@@ -3737,6 +3742,37 @@ img {
   left: 0;
   bottom: 0;
   background: transparent;
+}
+
+h1 {
+  font-size: 2.2em;
+  color: #4A4A4A;
+}
+
+h2 {
+  font-size: 1.7em;
+  color: #4A4A4A;
+}
+
+h3 {
+  font-size: 1.5em;
+  color: #4A4A4A;
+  text-transform: uppercase;
+  margin: 1.4em 0;
+}
+
+h4 {
+  font-size: 1.1em;
+  color: #4A4A4A;
+}
+
+h5 {
+  font-size: 1.2em;
+  color: #4A4A4A;
+}
+
+h6 {
+  font-size: 1.1em;
 }
 
 @-webkit-keyframes animation {
