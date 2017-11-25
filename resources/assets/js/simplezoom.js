@@ -31,9 +31,8 @@
 })();
 
 //кликалка по ценам
-let prices = document.getElementsByClassName('price-block');
-for (let i = 0; i < prices.length; i++) {
-    prices[i].addEventListener('click', function () {
+(function(){
+    function onTabClick(event){
         event.preventDefault();
 
         if(this.classList.contains('disabled')) {
@@ -41,7 +40,6 @@ for (let i = 0; i < prices.length; i++) {
         }
 
         let old = this.parentElement.getElementsByClassName('price-block');
-
 
         for (let i = 0; i < old.length; i++) {
             old[i].classList.remove("active");
@@ -51,9 +49,14 @@ for (let i = 0; i < prices.length; i++) {
         buyBtn.value = this.getAttribute('data-product');
 
         this.className += " active";
-    });
-}
+    }
 
+    let prices = document.getElementsByClassName('price-block');
+    for (let i = 0; i < prices.length; i++) {
+        prices[i].addEventListener('click', onTabClick, false);
+    }
+
+})();
 
 //подгонялка высоты для окошек товаров
 window.onload = function() {
