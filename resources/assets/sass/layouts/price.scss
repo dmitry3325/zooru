@@ -14,9 +14,9 @@
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
-  margin: 1em auto 0 auto;
+  margin: 0.8em auto 0 auto;
   transition: 0.3s;
-  color: #000!important;
+  color: #000;
   transition: box-shadow 0.3s ease-in-out;
 
   .count{
@@ -43,6 +43,13 @@
 .price-block:hover:not(.disabled), .price-block.active{
   background: $yellow;
   box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 7px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2);
+}
+.price-block.disabled {
+  cursor: default;
+  color: $mGrey;
+  hr {
+    border-color: $mGrey;
+  }
 }
 
 .quantity-block {
