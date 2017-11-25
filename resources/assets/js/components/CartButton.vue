@@ -5,6 +5,9 @@
             <input type="text" class='quantityInput' v-model="quantityInput" disabled>
             <div class="quantity quantity-plus z-depth-1" @click="incrementQuantity">+</div>
         </div>
+
+        <input type="hidden" class="quantity-block__hiddent_product">
+
         <div class="col-6"><a href="#" @click.prevent="addToCart" class="btn btn-sqaure btn-green z-depth-1-half">КУПИТЬ</a></div>
     </div>
 </template>
@@ -13,28 +16,28 @@
     import {mapState} from 'vuex'
 
     export default {
-        props: {
-            product: {
-                type: String,
-                required: true
-            },
-        },
+//        props: {
+//            product: {
+//                type: String,
+//                required: true
+//            },
+//        },
         data() {
             return {
                 quantityInput: 1,
             }
         },
         computed: {
-            parsedProduct: function () {
-                return JSON.parse(this.product);
-            },
+//            parsedProduct: function () {
+//                return JSON.parse(this.product);
+//            },
             ...mapState([
                 'added',
             ])
         },
         methods: {
             incrementQuantity: function () {
-                this.quantityInput = this.quantityInput >= this.parsedProduct.maxItems ? this.parsedProduct.maxItems : this.quantityInput += 1;
+                this.quantityInput = this.quantityInput >= this.getProduct().maxItems ? this.getProduct().maxItems : this.quantityInput += 1;
             },
             decrementQuantity: function () {
                 if (this.quantityInput === 1) {
@@ -43,11 +46,14 @@
                 this.quantityInput -= 1;
             },
             addToCart: function () {
-                this.parsedProduct.quantity = this.quantityInput;
-
                 this.$store.dispatch('addToCart', {
-                    product: this.parsedProduct,
+                    product: this.getProduct(),
                 });
+            },
+            getProduct: function () {
+                let product = JSON.parse(this.$el.parentElement.querySelector('.price-block.active').getAttribute('data-product'));
+                product.quantity = this.quantityInput;
+                return product;
             }
         }
     }

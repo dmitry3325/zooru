@@ -76,6 +76,7 @@ module.exports = __webpack_require__(17);
 /***/ 17:
 /***/ (function(module, exports) {
 
+//листалка фоток
 (function () {
 
     function init() {
@@ -106,24 +107,43 @@ module.exports = __webpack_require__(17);
     init();
 })();
 
+//кликалка по ценам
+var prices = document.getElementsByClassName('price-block');
+for (var i = 0; i < prices.length; i++) {
+    prices[i].addEventListener('click', function () {
+        event.preventDefault();
+
+        if (this.classList.contains('disabled')) {
+            return;
+        }
+
+        var old = this.parentElement.getElementsByClassName('price-block');
+
+        for (var _i = 0; _i < old.length; _i++) {
+            old[_i].classList.remove("active");
+        }
+
+        var buyBtn = this.parentElement.parentElement.getElementsByClassName('quantity-block__hiddent_product')[0];
+        buyBtn.value = this.getAttribute('data-product');
+
+        this.className += " active";
+    });
+}
+
+//подгонялка высоты для окошек товаров
 window.onload = function () {
     var maxHeight = 0;
     var prices = document.querySelectorAll('.product-window .prices');
 
-    for (var i = 0, len = prices.length; i < len; i++) {
-        var elHeight = parseFloat(window.getComputedStyle(prices[i]).height.slice(0, -2));
+    for (var _i2 = 0, len = prices.length; _i2 < len; _i2++) {
+        var elHeight = parseFloat(window.getComputedStyle(prices[_i2]).height.slice(0, -2));
         maxHeight = elHeight > maxHeight ? elHeight : maxHeight;
     }
 
-    for (var _i = 0, _len = prices.length; _i < _len; _i++) {
-        prices[_i].style.height = maxHeight + 'px';
+    for (var _i3 = 0, _len = prices.length; _i3 < _len; _i3++) {
+        prices[_i3].style.height = maxHeight + 'px';
     }
 };
-
-// var newEvent = new Event('buttonid.update');
-// g.onclick = function () {
-//     this.getAttribute('data-id');
-// };
 
 /***/ })
 

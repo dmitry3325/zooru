@@ -11610,30 +11610,29 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: {
-        product: {
-            type: String,
-            required: true
-        }
-    },
+    //        props: {
+    //            product: {
+    //                type: String,
+    //                required: true
+    //            },
+    //        },
     data: function data() {
         return {
             quantityInput: 1
         };
     },
 
-    computed: _extends({
-        parsedProduct: function parsedProduct() {
-            return JSON.parse(this.product);
-        }
-    }, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapState */])(['added'])),
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapState */])(['added'])),
     methods: {
         incrementQuantity: function incrementQuantity() {
-            this.quantityInput = this.quantityInput >= this.parsedProduct.maxItems ? this.parsedProduct.maxItems : this.quantityInput += 1;
+            this.quantityInput = this.quantityInput >= this.getProduct().maxItems ? this.getProduct().maxItems : this.quantityInput += 1;
         },
         decrementQuantity: function decrementQuantity() {
             if (this.quantityInput === 1) {
@@ -11642,11 +11641,14 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             this.quantityInput -= 1;
         },
         addToCart: function addToCart() {
-            this.parsedProduct.quantity = this.quantityInput;
-
             this.$store.dispatch('addToCart', {
-                product: this.parsedProduct
+                product: this.getProduct()
             });
+        },
+        getProduct: function getProduct() {
+            var product = JSON.parse(this.$el.parentElement.querySelector('.price-block.active').getAttribute('data-product'));
+            product.quantity = this.quantityInput;
+            return product;
         }
     }
 });
@@ -11691,7 +11693,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "click": _vm.incrementQuantity
     }
-  }, [_vm._v("+")])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("+")])]), _vm._v(" "), _c('input', {
+    staticClass: "quantity-block__hiddent_product",
+    attrs: {
+      "type": "hidden"
+    }
+  }), _vm._v(" "), _c('div', {
     staticClass: "col-6"
   }, [_c('a', {
     staticClass: "btn btn-sqaure btn-green z-depth-1-half",

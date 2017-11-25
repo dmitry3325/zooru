@@ -3,6 +3,6 @@
     <div clxass="col-12">
         <h4>{{ $good->getH1Title() }}</h4>
         @include('goods.components.price')
-        <cartbutton product="{{ $good->getCartArray() }}"></cartbutton>
+        <cartbutton></cartbutton>
     </div>
 </div>
