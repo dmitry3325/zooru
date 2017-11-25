@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ShopBaseModel extends Model
 {
+    //TODO ALL FIELDS GUARDED
     const DB = 'shop';
     protected static $class_name;
     protected static $class_full_name;
@@ -192,4 +193,19 @@ class ShopBaseModel extends Model
         return array_get($this->photos, $size.'.0');
     }
 
+    public function section(){
+        return $this->belongsTo(Sections::class, 'section_id');
+    }
+
+    public function filters(){
+        return $this->hasMany(EntityFilters::class, 'entity_id')->where('entity', '=', self::getClassName());
+    }
+
+    public function getFiltersAttribute(){
+        if(!isset($this->attributes['filters'])) {
+
+            $this->attributes['filters'] = $this->filters()->get();
+        }
+        return $this->attributes['filters'];
+    }
 }

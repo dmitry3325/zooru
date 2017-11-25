@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Http\Controllers\Shop\Goods\PageController;
+use App\Http\Controllers\Shop\Goods\SectionController;
 use App\Models\Shop\ShopBaseModel;
 use App\Models\Shop\Urls;
 use Illuminate\Support\Facades\Route;
@@ -91,15 +92,24 @@ class RouteServiceProvider extends ServiceProvider
             return $this->show404();
         }
 
-        if($entity === 'Goods'){
+        $params = [$e];
+
+        if ($entity === 'Goods') {
             $app = PageController::class;
+        }
+        else if ($entity === 'Filters') {
+            $app = SectionController::class;
+            array_unshift($params, $e->section);
+        }
+        else if ($entity === 'Sections') {
+            $app = SectionController::class;
         }
 
         $url = \request()->path();
 
-        Route::any($url, function () use ($app, $e) {
+        Route::any($url, function () use ($app, $params) {
             $controller = app($app);
-            return call_user_func_array([$controller, 'index'], [$e]);
+            return call_user_func_array([$controller, 'index'], $params);
         });
 
     }

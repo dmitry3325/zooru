@@ -226,6 +226,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Goods' => App\Models\Shop\Goods::class,
+        'Filters' => App\Models\Shop\Filters::class,
+        'Secitons' => App\Models\Shop\Sections::class,
 
     ],
 
