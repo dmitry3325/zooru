@@ -69,3 +69,25 @@ window.onload = function() {
         prices[i].style.height = maxHeight + 'px';
     }
 };
+
+
+//tabs
+(function(){
+    function onTabClick(event){
+        event.preventDefault();
+        var actives = document.querySelectorAll('.order-description .active');
+
+        // deactivate existing active tab and panel
+        for (var i = 0; i < actives.length; i++){
+            actives[i].className = actives[i].className.replace('active', '');
+        }
+
+        // activate new tab and panel
+        event.target.className += ' active';
+        document.getElementById(event.target.getAttribute('data-href').split('#')[1]).className += ' active';
+    }
+
+    var el = document.getElementById('nav-tab');
+
+    el.addEventListener('click', onTabClick, false);
+})();

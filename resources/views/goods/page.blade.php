@@ -20,20 +20,26 @@
         </div>
 
         <div class="row">
-            <div class="order-description">
-                <ul>
-                    <li class="active"><a href="#">Описание</a></li>
-                    <li><a href="#">Состав / характеристики</a></li>
-                    <li><a href="#">Отзывы</a></li>
+            <section class="order-description">
+
+                <ul id="nav-tab" class="nav">
+                    <li class="active" data-href="#tab1">Описание</li>
+                    <li data-href="#tab2">Состав / характеристики</li>
+                    <li data-href="#tab3">Отзывы</li>
                 </ul>
-                <div class="order-description-text">
-                    @if($good->getMetaData(['big_description']))
-                        {{ $good->getMetaData(['big_description']) }}
-                    @else
-                        {{ $good->short_description }}
-                    @endif
+
+                <div class="tab-content order-description-text">
+                    <div class="tab-panel active" id="tab1">
+                        @if($good->getMetaData(['big_description']))
+                            {{ $good->getMetaData(['big_description']) }}
+                        @else
+                            {{ $good->short_description }}
+                        @endif
+                    </div>
+                    <div class="tab-panel" id="tab2">Состав / характеристики</div>
+                    <div class="tab-panel" id="tab3">Отзывы</div>
                 </div>
-            </div>
+            </section>
         </div>
 
         <div class="row associated-products">

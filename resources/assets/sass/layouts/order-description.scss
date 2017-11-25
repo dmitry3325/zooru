@@ -1,5 +1,13 @@
 .order-description {
   width: 100%;
+
+  .tab-panel {
+    display: none;
+  }
+  .tab-panel.active {
+    display: block;
+  }
+
   ul {
     list-style: none;
     margin-bottom: 10px;
@@ -15,18 +23,14 @@
       flex-grow: 1;
       justify-content: center;
       display: flex;
-      a {
-        font-size: 14px;
-        color: $mGrey2;
-      }
+      font-size: 14px;
+      cursor: pointer;
+      color: $mGrey2;
     }
 
     li.active {
       color: $blue;
       border-bottom: 2px solid $blue;
-      a {
-        color: $blue;
-      }
     }
   }
 }

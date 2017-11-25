@@ -3381,6 +3381,14 @@ a.header_up_item:hover:not(.seporator) * {
   width: 100%;
 }
 
+.order-description .tab-panel {
+  display: none;
+}
+
+.order-description .tab-panel.active {
+  display: block;
+}
+
 .order-description ul {
   list-style: none;
   margin-bottom: 10px;
@@ -3408,20 +3416,14 @@ a.header_up_item:hover:not(.seporator) * {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-}
-
-.order-description ul li a {
   font-size: 14px;
+  cursor: pointer;
   color: #898989;
 }
 
 .order-description ul li.active {
   color: #3AB0F2;
   border-bottom: 2px solid #3AB0F2;
-}
-
-.order-description ul li.active a {
-  color: #3AB0F2;
 }
 
 .subscribe-block {
