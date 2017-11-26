@@ -33,11 +33,12 @@ class Sections extends ShopBaseModel
         if(count($this->filterValues)) return $this->filterValues;
 
         $filters = $this->sectionFilters()->with('filters')->get();
-        
+
         foreach($filters as $filter){
            foreach($filter->filters as $eF){
                $this->filterValues[$eF->num]['list'][$eF->code] = [
-                   'value' => $eF->value
+                   'value' => $eF->value,
+                   'href' => '' //TODO сделать перелинковку
                ];
            }
         }
