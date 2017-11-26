@@ -121,7 +121,7 @@ class Goods extends ShopBaseModel
     }
 
     public function getAssociatedList(){
-        return Goods::whereIn('id', [4,5])->get();
+        return Goods::whereIn('id', [8,9])->get();
     }
 
 }

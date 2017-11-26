@@ -16,6 +16,7 @@
             </div>
             <div class="col-4">
                 @include('goods.components.utp')
+                @include('goods.components.utp')
             </div>
         </div>
 

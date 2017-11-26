@@ -10,7 +10,7 @@
         <img class="photo-main" src="{{ isset($minimize) ? $good->getFirstPhoto('small') : $good->getFirstPhoto('medium') }}">
         <a class="product-link" href="{{ URL::to('/goods/' . $good->id) }}">ПОДРОБНЕЕ</a>
     @else
-        @if(count($good->getSizedPhotos('thumb')) > 1)
+        @if(count($good->getSizedPhotos('thumb')) > 0)
         <div class="thumb-block col-2" id="thumb-block">
             <ul>
                 <li class="active"><img class="photo-thumbnail" src="{{ $good->getFirstPhoto('thumb') }}"></li>
