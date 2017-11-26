@@ -38,13 +38,6 @@ class ShopBaseModel extends Model
 
     public static function getClassName($full = false)
     {
-        if (self::$class_name && !$full) {
-            return self::$class_name;
-        }
-        if (self::$class_full_name && $full) {
-            return self::$class_full_name;
-        }
-
         self::$class_full_name = get_called_class();
         $arr                   = explode('\\', self::$class_full_name);
         self::$class_name      = end($arr);
@@ -110,6 +103,9 @@ class ShopBaseModel extends Model
         return $result;
     }
 
+    /**
+     * Photos functions
+     */
     public function photos()
     {
         return $this->hasMany(Photos::class, 'entity_id')->where('entity', '=', self::getClassName());
@@ -142,6 +138,13 @@ class ShopBaseModel extends Model
         }
     }
 
+    public function getSizedPhotos($size){
+        $photos = array_get($this->photos, $size);
+        unset($photos[0]);
+        return $photos;
+    }
+
+    //TODO - это не правильно сделано, сделай так чтобы крошки были не статическим, а обычным свойством
     public function getBreadcrumbs(){
         if(!empty(self::$_breadcrumbs)){
             return self::$_breadcrumbs;
@@ -183,11 +186,6 @@ class ShopBaseModel extends Model
         return $this->h1_title ? $this->h1_title : null;
     }
 
-    public function getSizedPhotos($size){
-        $photos = array_get($this->photos, $size);
-        unset($photos[0]);
-        return $photos;
-    }
 
     public function getFirstPhoto($size){
         return array_get($this->photos, $size.'.0');

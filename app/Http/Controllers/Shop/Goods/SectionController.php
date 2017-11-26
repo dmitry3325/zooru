@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Shop\Goods;
 
 use App\Http\Controllers\Controller;
+use App\Models\Shop\Filters;
 use App\Models\Shop\Goods;
+use App\Models\Shop\Sections;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\View;
 
 /**
@@ -14,19 +17,32 @@ use Illuminate\Support\Facades\View;
  */
 class SectionController extends Controller
 {
-    public function index($Section, $Filter = null)
+    public function index(Sections $Section, Filters $Filter = null)
     {
-        dd($Filter->getGoods());exit();
-        //берем мету и h1 из фильтра если есть. если нет из section
+        $contentData = [];
         if ($Filter) {
-
+            $goods = $Filter->getGoods();
+            $contentData = $this->getBaseData($Filter);
+        } else {
+            $goods = $Section->getGoods();
+            $contentData = $this->getBaseData($Section);
         }
-        //        return View::make('section.index', ['good' => $good]);
+        $filters = $Section->getAllFiltersValues();
+
+        dump($goods);
+        dump($contentData);
+        dump($filters);
+
+        // return View::make('section.index', ['good' => null]);
     }
 
     private function getBaseData($entity)
     {
-
+        return [
+            'html_title' => 'bla',
+            'title' => 'bla',
+            'shot_description' => 'bla',
+        ];
     }
 
 }
