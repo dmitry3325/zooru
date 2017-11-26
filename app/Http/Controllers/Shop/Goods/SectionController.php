@@ -19,19 +19,24 @@ class SectionController extends Controller
 {
     public function index(Sections $Section, Filters $Filter = null)
     {
-        $contentData = [];
+        $filters = $Section->getAllFiltersValues();
         if ($Filter) {
             $goods = $Filter->getGoods();
             $contentData = $this->getBaseData($Filter);
+            $activeFilters = $Filter->getFiltersAttribute();
+            foreach($activeFilters as $f){
+                if(isset($filters[$f->num]['list'][$f->code])){
+                    $filters[$f->num]['list'][$f->code]['active'] = true;
+                }
+            }
         } else {
             $goods = $Section->getGoods();
             $contentData = $this->getBaseData($Section);
         }
-        $filters = $Section->getAllFiltersValues();
 
+        dump($filters);
         dump($goods);
         dump($contentData);
-        dump($filters);
 
         // return View::make('section.index', ['good' => null]);
     }
