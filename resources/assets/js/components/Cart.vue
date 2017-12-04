@@ -1,5 +1,5 @@
 <template>
-    <div class="cart-window">
+    <div class="cart-window header_up_item">
         <div class="back-wrap" v-if="showPopUp" @click="showPopUp = false"></div>
         <a class="header_up_item" @click="showPopUp = true">
             <i class="material-icons">&#xE8CC;</i>

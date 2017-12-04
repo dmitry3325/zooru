@@ -1,0 +1,100 @@
+.login-window {
+  display: inline-block;
+
+  .login-popup {
+    position: fixed;
+    font-weight: 300;
+    background: #fff;
+    top: auto;
+    left: 0;
+    right: 0;
+    height: auto;
+    padding: 0;
+    text-align: center;
+    z-index: 100;
+    margin: 5% auto;
+    //max-width: 660px;
+
+    .left-panel {
+      background: url('/images/login-cat.jpg') left bottom no-repeat;
+      background-size: cover;
+      color: #fff;
+      .reasons {
+        text-align: left;
+        position: absolute;
+        bottom: 0.8em;
+        font-size: 0.8em;
+        h4 {
+          color: #fff;
+          font-size: 1.5em;
+          border-bottom: 0;
+          padding-left: 0;
+        }
+        h4:after {
+          content: '';
+          display: block;
+          position: relative;
+          top: 0.8em;
+          width: 30px;
+          height: 1px;
+          background: #fff;
+        }
+        .checklist {
+          margin-top: 2em;
+          line-height: 2.5em;
+          font-size: 1.1em;
+          .material-icons {
+            color: $green;
+            font-size: 1.4em;
+            position: relative;
+            padding-right: 0.6em;
+            top: 2px;
+          }
+        }
+
+      }
+    }
+
+    .right-panel {
+      text-align: left;
+      padding: 2em;
+
+      .rules-text {
+        font-size: 0.7em;
+        text-align: left;
+      }
+
+      h4 {
+        margin: 1em 0 2em 0;
+      }
+
+      .or {
+        border-bottom: 1px solid $mGrey;
+        margin-bottom: 1em;
+
+        span {
+          background: #fff;
+          position: relative;
+          bottom: -10px;
+          padding: 0.5em;
+        }
+      }
+
+      .reg-form {
+        text-align: center;
+      }
+    }
+
+  }
+
+  .close {
+    position: absolute;
+    top: 1.3em;
+    cursor: pointer;
+    right: 1.3em;
+    .material-icons {
+      font-size: 1.5em;
+      color: $grey;
+    }
+  }
+}

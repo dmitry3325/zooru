@@ -6,7 +6,7 @@ const state = {
 
 
 const mutations = {
-    addToCart(state, data) {
+    ADDTOCART(state, data) {
         let product = state.added.find(product => product.id === data.product.id);
 
         if (product) {
@@ -18,17 +18,17 @@ const mutations = {
 
         return state;
     },
-    removeFromCart(state, id) {
+    REMOVEFROMCART(state, id) {
         state.added = state.added.filter(product => product.id !== id);
     }
 };
 
 const actions = {
     addToCart({commit}, payload) {
-        commit('addToCart', payload)
+        commit('ADDTOCART', payload)
     },
     removeFromCart({commit}, payload) {
-        commit('removeFromCart', payload.id)
+        commit('REMOVEFROMCART', payload.id)
     }
 };
 

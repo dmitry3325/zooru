@@ -1,0 +1,41 @@
+input {
+  padding: 0.8em 0.8em;
+  font-size: 0.8em;
+  vertical-align: middle;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  border: 1px solid $mGrey;
+  margin-bottom: 1.2em;
+  outline: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.half-width{
+  width: calc(50% - 0.6em);
+}
+
+input:focus {
+  border-color: $mGrey2;
+}
+
+::-webkit-input-placeholder {
+  color: $mGrey;
+}
+::-moz-placeholder {
+  color: $mGrey;
+}
+:-ms-input-placeholder {
+  color: $mGrey;
+}
+:-moz-placeholder {
+  color: $mGrey;
+}
+
+.w96 {
+  width: 96%;
+}
+
+.w48 {
+  width: 48%;
+}

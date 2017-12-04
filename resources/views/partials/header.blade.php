@@ -14,7 +14,8 @@
                 <a class="header_up_item"><i class="material-icons">&#xE0CD;</i><span>Контакты</span></a>
                 <cart donation-percent="{{ Config::get('info.donation_percent')  }}"></cart>
                 <a class="header_up_item seporator"><i class="material-icons">&#xE5D4;</i></a>
-                <a class="header_up_item"><i class="material-icons">&#xE853;</i><span>Вход / Регистрация</span></a>
+                <login></login>
+                {{--<a class="header_up_item"><i class="material-icons">&#xE853;</i><span>Вход / Регистрация</span></a>--}}
             </div>
         </div>
     </div>
