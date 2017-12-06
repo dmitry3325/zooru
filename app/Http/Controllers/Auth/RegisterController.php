@@ -73,23 +73,22 @@ class RegisterController extends Controller
         return $user;
     }
 
-
     public function resetPassword(Request $request)
     {
         $password = $this->generatePassword();
 
         $email = $request->input('email');
-        if(!$email){
+        if (!$email) {
             return 'error';
         }
 
-        $user = User::where('email', $email)->first();
+        $user           = User::where('email', $email)->first();
         $user->password = $this->cryptPassword($password);
         $user->save();
 
         $text = 'Ваш новый пароль ' . $password;
 
-        Mail::send('mailtest', ['text' => $text], function ($message) use($email) {
+        Mail::send('mailtest', ['text' => $text], function ($message) use ($email) {
             $message->to($email);
             $message->subject('pass recovery');
         });
@@ -97,7 +96,8 @@ class RegisterController extends Controller
 
     private static function generatePassword()
     {
-        $alphabet    = 'abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ123456789';
+        $alphabet    = 'abcdefghjkmnpqrstuvwxyz123456789';
+//        $alphabet    = 'abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ123456789';
         $pass        = [];
         $alphaLength = strlen($alphabet) - 1;
         for ($i = 0; $i < 6; $i++) {
@@ -107,7 +107,8 @@ class RegisterController extends Controller
         return implode($pass);
     }
 
-    private static function cryptPassword($password) {
+    private static function cryptPassword($password)
+    {
         return bcrypt($password);
     }
 
