@@ -9,6 +9,7 @@
                 <div class="phone font-heavy"><a href="tel:{{ Config::get('info.clear_phone') }}">{{ Config::get('info.phone') }}</a></div>
             </div>
             <div class="sub-menu col-8">
+                id: {{ Illuminate\Support\Facades\Auth::id() }}
                 <a class="header_up_item"><i class="material-icons">&#xE8FD;</i><span>Сервис и помощь</span></a>
                 <a class="header_up_item"><i class="material-icons">&#xE8A1;</i><span>Доставка и оплата</span></a>
                 <a class="header_up_item"><i class="material-icons">&#xE0CD;</i><span>Контакты</span></a>

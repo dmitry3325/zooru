@@ -58,9 +58,6 @@
 }
 
 .quantity {
-  -moz-user-select: none;
-  -khtml-user-select: none;
-  user-select: none!important;
   cursor: pointer;
   width: 25px;
   height: 25px;
@@ -90,6 +87,7 @@
 
 .quantityInput{
   border: 0;
+  margin: 0;
   background: none;
   text-align: center;
   width: 30px;

@@ -39,6 +39,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
+        $this->mapCustomRoutes();
+
         $this->mapSiteRoutes();
     }
 
@@ -85,6 +87,22 @@ class RouteServiceProvider extends ServiceProvider
 
     }
 
+    /**
+     * Define the "custom" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapCustomRoutes(){
+        Route::group([
+            'middleware' => ['web'],
+            'namespace'  => $this->namespace,
+        ], function ($router) {
+            require base_path('routes/auth.php');
+        });
+    }
+
     protected function showEntity($entity, $id)
     {
         $e = $entity::find($id);
@@ -107,7 +125,7 @@ class RouteServiceProvider extends ServiceProvider
 
         $url = \request()->path();
 
-        Route::any($url, function () use ($app, $params) {
+        Route::middleware(['web'])->any($url, function () use ($app, $params) {
             $controller = app($app);
             return call_user_func_array([$controller, 'index'], $params);
         });

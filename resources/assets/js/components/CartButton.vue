@@ -1,5 +1,5 @@
 <template>
-    <div class="quantity-block row">
+    <div class="quantity-block row noselect">
         <div class="col-6">
             <div class="quantity quantity-minus z-depth-1" @click="decrementQuantity">-</div>
             <input type="text" class='quantityInput' v-model="quantityInput" disabled>

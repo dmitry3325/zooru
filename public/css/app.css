@@ -3235,10 +3235,6 @@ a.header_up_item:hover:not(.seporator) * {
 }
 
 .quantity {
-  -moz-user-select: none;
-  -webkit-user-select: none !important;
-      -ms-user-select: none !important;
-          user-select: none !important;
   cursor: pointer;
   width: 25px;
   height: 25px;
@@ -3271,6 +3267,7 @@ a.header_up_item:hover:not(.seporator) * {
 
 .quantityInput {
   border: 0;
+  margin: 0;
   background: none;
   text-align: center;
   width: 30px;
@@ -3654,6 +3651,7 @@ a.header_up_item:hover:not(.seporator) * {
   text-align: center;
   z-index: 100;
   margin: 5% auto;
+  max-width: 660px;
 }
 
 .login-window .login-popup .left-panel {
@@ -3723,11 +3721,18 @@ a.header_up_item:hover:not(.seporator) * {
   background: #fff;
   position: relative;
   bottom: -10px;
-  padding: 0.5em;
+  padding: 0 0.5em;
 }
 
 .login-window .login-popup .right-panel .reg-form {
   text-align: center;
+}
+
+.login-window .login-popup .right-panel .reg-form .error {
+  display: block;
+  color: #FF7158;
+  font-size: 0.8em;
+  text-align: left;
 }
 
 .login-window .close {
@@ -3754,6 +3759,10 @@ input {
   width: 100%;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+}
+
+input.error {
+  border: 1px solid #FF7158;
 }
 
 .half-width {
@@ -3800,6 +3809,7 @@ body {
 
 a {
   text-decoration: none;
+  cursor: pointer;
 }
 
 hr {
@@ -3866,6 +3876,26 @@ img {
   text-align: center;
   font-size: 0.8em;
   text-transform: capitalize;
+  -webkit-transition: -webkit-box-shadow 0.3s ease-in-out;
+  transition: -webkit-box-shadow 0.3s ease-in-out;
+  transition: box-shadow 0.3s ease-in-out;
+  transition: box-shadow 0.3s ease-in-out, -webkit-box-shadow 0.3s ease-in-out;
+}
+
+.btn:hover {
+  -webkit-box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
+}
+
+.btn-disabled:hover {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+.btn-disabled {
+  background: #CBCBD0;
+  color: #fff;
+  cursor: default !important;
 }
 
 .btn-round {
@@ -3881,20 +3911,10 @@ img {
   color: #fff;
 }
 
-.btn-green :hover {
-  -webkit-box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
-          box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
-}
-
 .btn-trans {
   background: transparent;
   color: #898989;
   border: 1px solid #CBCBD0;
-}
-
-.btn-trans :hover {
-  -webkit-box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
-          box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
 }
 
 .btn-dark {
@@ -3946,5 +3966,23 @@ h5 {
 
 h6 {
   font-size: 1.1em;
+}
+
+.noselect {
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently        supported by Chrome and Opera */
+}
+
+.blue {
+  color: #3AB0F2;
 }
 
