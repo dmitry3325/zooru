@@ -29,6 +29,8 @@
                                :class="[regErrors && regErrors.hasOwnProperty('lastname') ? 'error' : '']">
                         <input type="text" placeholder="email" v-model="regEmail"
                                :class="[regErrors && regErrors.hasOwnProperty('email') ? 'error' : '']">
+                        <input type="password" placeholder="пароль" v-model="regPassword" :class="[regErrors && regErrors.hasOwnProperty('password') ? 'error' : '']">
+
                         <div class="error" v-for="error in regErrors">{{ error[0] }}</div>
                         <a @click.prevent="registartion" class="btn btn-sqaure"
                            :class="[this.regBtnDisabled ? 'btn-disabled' : 'btn-green']">Регистрация</a>
@@ -41,12 +43,15 @@
                     </div>
                 </div>
 
+                <!--LOGIN-->
                 <div v-else>
                     <h4>Вход</h4>
                     <div class="reg-form">
                         <input type="text" placeholder="email" v-model="email" :class="[loginErrors && loginErrors.hasOwnProperty('email') ? 'error' : '']">
                         <input type="password" placeholder="пароль" v-model="password" :class="[loginErrors && loginErrors.hasOwnProperty('password') ? 'error' : '']">
                         <div class="error" v-for="error in loginErrors">{{ error[0] }}</div>
+                        <input type="checkbox" />Запомнить меня
+                        <span>Забыли пароль?</span>
                         <a @click.prevent="login" class="btn btn-sqaure btn-dark" href="/login">Вход</a>
                         <p class="or"><span>или</span></p>
                         <div v-if="!registrationMode">Впервые здесь? <a class="blue" @click="registrationMode = true">Зарегистрируйтесь</a>
@@ -69,6 +74,7 @@
         data: function () {
             return {
                 regEmail: null,
+                regPassword: null,
                 regFirstName: null,
                 regLastName: null,
                 regErrors: {},
@@ -99,6 +105,7 @@
                     firstname: self.regFirstName,
                     lastname: self.regLastName,
                     email: self.regEmail,
+                    password: self.regPassword,
                 })
                     .then(function (response) {
                         console.log(response.data);

@@ -13596,6 +13596,11 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -13603,6 +13608,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     data: function data() {
         return {
             regEmail: null,
+            regPassword: null,
             regFirstName: null,
             regLastName: null,
             regErrors: {},
@@ -13629,7 +13635,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             Vue.axios.post('/registration', {
                 firstname: self.regFirstName,
                 lastname: self.regLastName,
-                email: self.regEmail
+                email: self.regEmail,
+                password: self.regPassword
             }).then(function (response) {
                 console.log(response.data);
             }).catch(function (error) {
@@ -13768,6 +13775,27 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.regEmail = $event.target.value
       }
     }
+  }), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.regPassword),
+      expression: "regPassword"
+    }],
+    class: [_vm.regErrors && _vm.regErrors.hasOwnProperty('password') ? 'error' : ''],
+    attrs: {
+      "type": "password",
+      "placeholder": "пароль"
+    },
+    domProps: {
+      "value": (_vm.regPassword)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.regPassword = $event.target.value
+      }
+    }
   }), _vm._v(" "), _vm._l((_vm.regErrors), function(error) {
     return _c('div', {
       staticClass: "error"
@@ -13843,7 +13871,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     return _c('div', {
       staticClass: "error"
     }, [_vm._v(_vm._s(error[0]))])
-  }), _vm._v(" "), _c('a', {
+  }), _vm._v(" "), _c('input', {
+    attrs: {
+      "type": "checkbox"
+    }
+  }), _vm._v("Запомнить меня\n                    "), _c('span', [_vm._v("Забыли пароль?")]), _vm._v(" "), _c('a', {
     staticClass: "btn btn-sqaure btn-dark",
     attrs: {
       "href": "/login"

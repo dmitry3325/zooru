@@ -38,6 +38,7 @@ class RegisterController extends Controller
             'firstname' => 'required|string|max:255',
             'lastname'  => 'required|string|max:255',
             'email'     => 'required|string|email|max:255|unique:mysql.auth.users,email',
+            'password'  => 'required|string|min:6',
         ];
     }
 
@@ -51,30 +52,23 @@ class RegisterController extends Controller
     {
         $data = $this->validate($request, $this->rules());
 
+        $password = $data['password'];
+
         $user = User::create([
             'firstname' => $data['firstname'],
             'lastname'  => $data['lastname'],
             'email'     => $data['email'],
-            //            'password'  => bcrypt($this->generatePassword()),
-            'password'  => bcrypt(123),
+            'password'  => bcrypt($password),
         ]);
+
+        Mail::send('mailtest', ['text' => 'Ваш пароль ' . $password], function($message) use ($data){
+            $message->to($data['email']);
+            $message->subject('Testing');
+        });
 
         Auth::login($user, true);
 
-        return  $user;
-
-        //TODO send email password
+        return $user;
     }
 
-    static public function generatePassword()
-    {
-        $alphabet    = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
-        $pass        = [];
-        $alphaLength = strlen($alphabet) - 1;
-        for ($i = 0; $i < 8; $i++) {
-            $n      = rand(0, $alphaLength);
-            $pass[] = $alphabet[$n];
-        }
-        return implode($pass);
-    }
 }
