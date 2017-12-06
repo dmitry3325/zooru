@@ -3,7 +3,7 @@
         <div class="back-wrap" v-if="showPopUp" @click="showPopUp = false"></div>
         <a class="header_up_item" @click="showPopUp = true">
             <i class="material-icons">&#xE8CC;</i>
-            <span class="cart-window__count">{{totalCount}}</span>
+            <span v-if="totalCount > 0" class="cart-window__count">{{totalCount}}</span>
             <span v-if="!totalPrice">Корзина</span>
             <span v-else>{{totalPrice.toLocaleString('ru')}}&#8381;</span>
         </a>

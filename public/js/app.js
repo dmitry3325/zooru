@@ -13229,9 +13229,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "material-icons"
-  }, [_vm._v("")]), _vm._v(" "), _c('span', {
+  }, [_vm._v("")]), _vm._v(" "), (_vm.totalCount > 0) ? _c('span', {
     staticClass: "cart-window__count"
-  }, [_vm._v(_vm._s(_vm.totalCount))]), _vm._v(" "), (!_vm.totalPrice) ? _c('span', [_vm._v("Корзина")]) : _c('span', [_vm._v(_vm._s(_vm.totalPrice.toLocaleString('ru')) + "₽")])]), _vm._v(" "), _c('div', {
+  }, [_vm._v(_vm._s(_vm.totalCount))]) : _vm._e(), _vm._v(" "), (!_vm.totalPrice) ? _c('span', [_vm._v("Корзина")]) : _c('span', [_vm._v(_vm._s(_vm.totalPrice.toLocaleString('ru')) + "₽")])]), _vm._v(" "), _c('div', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -13610,6 +13610,19 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -13626,14 +13639,16 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             password: null,
             loginErrors: {},
 
+            forgottenEmail: null,
+
             showPopUp: true,
-            registrationMode: false,
+            windowMode: 'login',
             loading: false
         };
     },
     computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapState */])(['auth']), {
         regBtnDisabled: function regBtnDisabled() {
-            return !this.regEmail || !this.regLastName || !this.regFirstName;
+            return !this.regEmail || !this.regLastName || !this.regFirstName || !this.regPassword;
         }
     }),
     methods: {
@@ -13675,6 +13690,24 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 self.loginErrors = error.response.data.errors;
                 self.loading = false;
             });
+        },
+        rememberPassrord: function rememberPassrord() {
+            var self = this;
+
+            self.loading = true;
+
+            Vue.axios.get('/recovery', {
+                params: {
+                    email: self.email
+                }
+            }).then(function (response) {
+                if (response.status === 200) {
+                    self.loading = false;
+                    setTimeout(5000, function () {
+                        self.windowMode = 'login';
+                    });
+                }
+            });
         }
     }
 });
@@ -13698,7 +13731,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('span', {
     on: {
       "click": function($event) {
-        _vm.registrationMode = false;
+        _vm.windowMode = 'login';
         _vm.showPopUp = true;
       }
     }
@@ -13707,7 +13740,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('span', {
     on: {
       "click": function($event) {
-        _vm.registrationMode = true;
+        _vm.windowMode = 'reg';
         _vm.showPopUp = true;
       }
     }
@@ -13719,12 +13752,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       expression: "showPopUp"
     }],
     staticClass: "login-popup row justify-content-center",
-    class: [_vm.registrationMode ? 'col-6' : 'col-4']
-  }, [(_vm.registrationMode) ? _c('div', {
+    class: [_vm.windowMode === 'reg' ? 'col-6' : 'col-4']
+  }, [(_vm.windowMode === 'reg') ? _c('div', {
     staticClass: "col-6 left-panel"
   }, [_vm._m(1)]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "right-panel",
-    class: [_vm.registrationMode ? 'col-6' : 'col-12']
+    class: [_vm.windowMode === 'reg' ? 'col-6' : 'col-12']
   }, [_c('a', {
     staticClass: "close",
     on: {
@@ -13734,7 +13767,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "material-icons"
-  }, [_vm._v("")])]), _vm._v(" "), (_vm.registrationMode) ? _c('div', [_c('h4', [_vm._v("Регистрация")]), _vm._v(" "), _c('div', {
+  }, [_vm._v("")])]), _vm._v(" "), (_vm.windowMode === 'reg') ? _c('div', [_c('h4', [_vm._v("Регистрация")]), _vm._v(" "), _c('div', {
     staticClass: "reg-form"
   }, [_c('input', {
     directives: [{
@@ -13849,21 +13882,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("Регистрация")]), _vm._v(" "), _vm._m(2), _vm._v(" "), (_vm.loading) ? _c('span', {
     staticClass: "loading"
-  }) : _vm._e(), _vm._v(" "), _vm._m(3), _vm._v(" "), (!_vm.registrationMode) ? _c('div', [_vm._v("Впервые здесь? "), _c('a', {
-    staticClass: "blue",
-    on: {
-      "click": function($event) {
-        _vm.registrationMode = true
-      }
-    }
-  }, [_vm._v("Зарегистрируйтесь")])]) : _vm._e(), _vm._v(" "), (_vm.registrationMode) ? _c('div', [_vm._v("Уже зарегистрировались? "), _c('a', {
-    staticClass: "blue",
-    on: {
-      "click": function($event) {
-        _vm.registrationMode = false
-      }
-    }
-  }, [_vm._v("Войдите")])]) : _vm._e()], 2)]) : _c('div', [_c('h4', [_vm._v("Вход")]), _vm._v(" "), _c('div', {
+  }) : _vm._e()], 2)]) : (_vm.windowMode === 'login') ? _c('div', [_c('h4', [_vm._v("Вход")]), _vm._v(" "), _c('div', {
     staticClass: "reg-form"
   }, [_c('input', {
     directives: [{
@@ -13926,7 +13945,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "type": "checkbox"
     }
-  }), _vm._v("Запомнить меня\n                    "), _c('span', [_vm._v("Забыли пароль?")]), _vm._v(" "), _c('a', {
+  }), _vm._v("Запомнить меня\n                    "), _c('span', {
+    on: {
+      "click": function($event) {
+        _vm.windowMode = 'remember'
+      }
+    }
+  }, [_vm._v("Забыли пароль?")]), _vm._v(" "), _c('a', {
     staticClass: "btn btn-sqaure btn-dark",
     attrs: {
       "href": "/login"
@@ -13937,21 +13962,53 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.login($event)
       }
     }
-  }, [_vm._v("Вход")]), _vm._v(" "), _vm._m(4), _vm._v(" "), (!_vm.registrationMode) ? _c('div', [_vm._v("Впервые здесь? "), _c('a', {
+  }, [_vm._v("Вход")])], 2)]) : (_vm.windowMode === 'remember') ? _c('div', [_c('h4', [_vm._v("Напомнить пароль")]), _vm._v(" "), _c('div', {
+    staticClass: "reg-form"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.email),
+      expression: "email"
+    }],
+    attrs: {
+      "type": "text",
+      "placeholder": "email"
+    },
+    domProps: {
+      "value": (_vm.email)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.email = $event.target.value
+      }
+    }
+  }), _vm._v(" "), (_vm.loading) ? _c('span', {
+    staticClass: "loading"
+  }) : _vm._e(), _vm._v(" "), _c('a', {
+    staticClass: "btn btn-sqaure btn-green",
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.rememberPassrord($event)
+      }
+    }
+  }, [_vm._v("Получить новый пароль")])])]) : _vm._e(), _vm._v(" "), _vm._m(3), _vm._v(" "), (_vm.windowMode !== 'reg') ? _c('div', [_vm._v("Впервые здесь? "), _c('a', {
     staticClass: "blue",
     on: {
       "click": function($event) {
-        _vm.registrationMode = true
+        _vm.windowMode = 'reg'
       }
     }
-  }, [_vm._v("Зарегистрируйтесь")])]) : _vm._e(), _vm._v(" "), (_vm.registrationMode) ? _c('div', [_vm._v("Уже зарегистрировались? "), _c('a', {
+  }, [_vm._v("Зарегистрируйтесь")])]) : _vm._e(), _vm._v(" "), (_vm.windowMode !== 'login') ? _c('div', [_vm._v("Уже зарегистрировались? "), _c('a', {
     staticClass: "blue",
     on: {
       "click": function($event) {
-        _vm.registrationMode = false
+        _vm.windowMode = 'login'
       }
     }
-  }, [_vm._v("Войдите")])]) : _vm._e()], 2)])])])])
+  }, [_vm._v("Войдите")])]) : _vm._e()])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('a', {
     staticClass: "header_up_item seporator"
@@ -13976,10 +14033,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "target": "_blank"
     }
   }, [_vm._v("условия использования")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('p', {
-    staticClass: "or"
-  }, [_c('span', [_vm._v("или")])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('p', {
     staticClass: "or"

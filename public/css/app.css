@@ -3699,7 +3699,6 @@ a.header_up_item:hover:not(.seporator) * {
 }
 
 .login-window .login-popup .right-panel {
-  text-align: left;
   padding: 2em;
 }
 
@@ -3709,6 +3708,7 @@ a.header_up_item:hover:not(.seporator) * {
 }
 
 .login-window .login-popup .right-panel h4 {
+  text-align: left;
   margin: 1em 0 2em 0;
 }
 

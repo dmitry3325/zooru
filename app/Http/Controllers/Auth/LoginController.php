@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Auth\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 
@@ -51,6 +52,20 @@ class LoginController extends Controller
         $this->incrementLoginAttempts($request);
 
         return $this->sendFailedLoginResponse($request);
+    }
+
+    public function confirmEmail($userId, $hash)
+    {
+        $user = User::find($userId);
+        if ($user->is_verified) {
+            return 'already verified';
+        }
+        if ($hash === md5($user->email . getenv('APP_KEY'))) {
+            $user->is_verified = true;
+            $user->save();
+            return 'email verified!';
+        }
+
     }
 
 }
