@@ -13627,7 +13627,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             loginErrors: {},
 
             showPopUp: true,
-            registrationMode: false
+            registrationMode: false,
+            loading: false
         };
     },
     computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["c" /* mapState */])(['auth']), {
@@ -13638,6 +13639,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     methods: {
         registartion: function registartion() {
             var self = this;
+            self.loading = true;
 
             self.regErrors = {};
 
@@ -13647,14 +13649,16 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 email: self.regEmail,
                 password: self.regPassword
             }).then(function (response) {
-                console.log(response.data);
+                self.loading = false;
             }).catch(function (error) {
                 self.regErrors = error.response.data.errors;
+                self.loading = false;
             });
         },
         login: function login() {
             var self = this;
 
+            self.loading = true;
             self.loginErrors = {};
 
             Vue.axios.get('/login', {
@@ -13666,8 +13670,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 if (response.status === 200 && response.data.result) {
                     window.location.reload();
                 }
+                self.loading = false;
             }).catch(function (error) {
                 self.loginErrors = error.response.data.errors;
+                self.loading = false;
             });
         }
     }
@@ -13688,29 +13694,24 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   }) : _vm._e(), _vm._v(" "), _c('a', {
-    staticClass: "header_up_item",
-    on: {
-      "click": function($event) {
-        _vm.showPopUp = true
-      }
-    }
-  }, [_c('a', {
     staticClass: "header_up_item"
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("")]), _vm._v(" "), _c('span', {
+  }, [_c('span', {
     on: {
       "click": function($event) {
-        _vm.registrationMode = false
+        _vm.registrationMode = false;
+        _vm.showPopUp = true;
       }
     }
-  }, [_vm._v("Вход")]), _vm._v(" / "), _c('span', {
+  }, [_vm._v("Вход")])]), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('a', {
+    staticClass: "header_up_item"
+  }, [_c('span', {
     on: {
       "click": function($event) {
-        _vm.registrationMode = true
+        _vm.registrationMode = true;
+        _vm.showPopUp = true;
       }
     }
-  }, [_vm._v("Регистрация")])])]), _vm._v(" "), _c('div', {
+  }, [_vm._v("Регистрация")])]), _vm._v(" "), _c('div', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -13721,7 +13722,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     class: [_vm.registrationMode ? 'col-6' : 'col-4']
   }, [(_vm.registrationMode) ? _c('div', {
     staticClass: "col-6 left-panel"
-  }, [_vm._m(0)]) : _vm._e(), _vm._v(" "), _c('div', {
+  }, [_vm._m(1)]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "right-panel",
     class: [_vm.registrationMode ? 'col-6' : 'col-12']
   }, [_c('a', {
@@ -13842,12 +13843,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     class: [this.regBtnDisabled ? 'btn-disabled' : 'btn-green'],
     on: {
       "click": function($event) {
-        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
         $event.preventDefault();
         _vm.registartion($event)
       }
     }
-  }, [_vm._v("Регистрация")]), _vm._v(" "), _vm._m(1), _vm._v(" "), _vm._m(2), _vm._v(" "), (!_vm.registrationMode) ? _c('div', [_vm._v("Впервые здесь? "), _c('a', {
+  }, [_vm._v("Регистрация")]), _vm._v(" "), _vm._m(2), _vm._v(" "), (_vm.loading) ? _c('span', {
+    staticClass: "loading"
+  }) : _vm._e(), _vm._v(" "), _vm._m(3), _vm._v(" "), (!_vm.registrationMode) ? _c('div', [_vm._v("Впервые здесь? "), _c('a', {
     staticClass: "blue",
     on: {
       "click": function($event) {
@@ -13903,9 +13905,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": (_vm.password)
     },
     on: {
-      "keydown": function($event) {
+      "keydown": [function($event) {
         delete _vm.loginErrors.password
-      },
+      }, function($event) {
+        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
+        _vm.login($event)
+      }],
       "input": function($event) {
         if ($event.target.composing) { return; }
         _vm.password = $event.target.value
@@ -13915,7 +13920,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     return _c('div', {
       staticClass: "error"
     }, [_vm._v(_vm._s(error[0]))])
-  }), _vm._v(" "), _c('input', {
+  }), _vm._v(" "), (_vm.loading) ? _c('span', {
+    staticClass: "loading"
+  }) : _vm._e(), _vm._v(" "), _c('input', {
     attrs: {
       "type": "checkbox"
     }
@@ -13926,12 +13933,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     on: {
       "click": function($event) {
-        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
         $event.preventDefault();
         _vm.login($event)
       }
     }
-  }, [_vm._v("Вход")]), _vm._v(" "), _vm._m(3), _vm._v(" "), (!_vm.registrationMode) ? _c('div', [_vm._v("Впервые здесь? "), _c('a', {
+  }, [_vm._v("Вход")]), _vm._v(" "), _vm._m(4), _vm._v(" "), (!_vm.registrationMode) ? _c('div', [_vm._v("Впервые здесь? "), _c('a', {
     staticClass: "blue",
     on: {
       "click": function($event) {
@@ -13947,6 +13953,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("Войдите")])]) : _vm._e()], 2)])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('a', {
+    staticClass: "header_up_item seporator"
+  }, [_c('span', [_vm._v(" / ")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "reasons noselect"
   }, [_c('h4', [_vm._v("Присоединяйтесь"), _c('br'), _vm._v("к нам!")]), _vm._v(" "), _c('ul', {

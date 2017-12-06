@@ -1,12 +1,10 @@
 <template>
     <div class="login-window">
         <div class="back-wrap darken" v-if="showPopUp" @click="showPopUp = false"></div>
-        <a class="header_up_item" @click="showPopUp = true">
-            <a class="header_up_item"><i class="material-icons">&#xE853;</i>
-                <span @click="registrationMode = false">Вход</span> / <span
-                        @click="registrationMode = true">Регистрация</span>
-            </a>
-        </a>
+        <a class="header_up_item"><span @click="registrationMode = false; showPopUp = true;">Вход</span></a>
+        <a class="header_up_item seporator"><span> / </span></a>
+        <a class="header_up_item"><span @click="registrationMode = true; showPopUp = true;">Регистрация</span></a>
+
         <div v-show="showPopUp" class="login-popup row justify-content-center"
              :class="[registrationMode ? 'col-6' : 'col-4']">
             <div v-if="registrationMode" class="col-6 left-panel">
@@ -35,11 +33,12 @@
                                :class="[regErrors && regErrors.hasOwnProperty('password') ? 'error' : '']">
 
                         <div class="error" v-for="error in regErrors">{{ error[0] }}</div>
-                        <a @click.enter.prevent="registartion" class="btn btn-sqaure"
+                        <a @click.prevent="registartion" class="btn btn-sqaure"
                            :class="[this.regBtnDisabled ? 'btn-disabled' : 'btn-green']">Регистрация</a>
                         <div class="rules-text">Нажимая кнопку «Регистрация», Вы принимаете <a href="#" class="blue"
                                                                                                target="_blank">условия использования</a>
                         </div>
+                        <span v-if="loading" class="loading"></span>
                         <p class="or"><span>или</span></p>
                         <div v-if="!registrationMode">Впервые здесь? <a class="blue" @click="registrationMode = true">Зарегистрируйтесь</a>
                         </div>
@@ -56,11 +55,12 @@
                         <input type="text" placeholder="email" v-model="email" @keydown="delete loginErrors.email"
                                :class="[loginErrors && loginErrors.hasOwnProperty('email') ? 'error' : '']">
                         <input type="password" placeholder="пароль" v-model="password" @keydown="delete loginErrors.password"
-                               :class="[loginErrors && loginErrors.hasOwnProperty('password') ? 'error' : '']">
+                               @keydown.enter="login" :class="[loginErrors && loginErrors.hasOwnProperty('password') ? 'error' : '']">
                         <div class="error" v-for="error in loginErrors">{{ error[0] }}</div>
+                        <span v-if="loading" class="loading"></span>
                         <input type="checkbox"/>Запомнить меня
                         <span>Забыли пароль?</span>
-                        <a @click.enter.prevent="login" class="btn btn-sqaure btn-dark" href="/login">Вход</a>
+                        <a @click.prevent="login" class="btn btn-sqaure btn-dark" href="/login">Вход</a>
                         <p class="or"><span>или</span></p>
                         <div v-if="!registrationMode">Впервые здесь? <a class="blue" @click="registrationMode = true">Зарегистрируйтесь</a>
                         </div>
@@ -94,6 +94,7 @@
 
                 showPopUp: true,
                 registrationMode: false,
+                loading: false,
             }
         },
         computed: {
@@ -107,6 +108,7 @@
         methods: {
             registartion: function () {
                 let self = this;
+                self.loading = true;
 
                 self.regErrors = {};
 
@@ -117,15 +119,17 @@
                     password: self.regPassword,
                 })
                     .then(function (response) {
-                        console.log(response.data);
+                        self.loading = false;
                     })
                     .catch(function (error) {
                         self.regErrors = error.response.data.errors;
+                        self.loading = false;
                     });
             },
             login: function () {
                 let self = this;
 
+                self.loading = true;
                 self.loginErrors = {};
 
                 Vue.axios.get('/login', {
@@ -138,9 +142,11 @@
                         if (response.status === 200 && response.data.result) {
                             window.location.reload();
                         }
+                        self.loading = false;
                     })
                     .catch(function (error) {
                         self.loginErrors = error.response.data.errors;
+                        self.loading = false;
                     });
             },
         }

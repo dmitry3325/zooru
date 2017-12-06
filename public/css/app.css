@@ -3052,6 +3052,7 @@ a.header_up_item {
   font-size: 11px;
   cursor: pointer;
   position: relative;
+  color: #4A4A4A;
 }
 
 a.header_up_item .material-icons {
@@ -3651,7 +3652,6 @@ a.header_up_item:hover:not(.seporator) * {
   text-align: center;
   z-index: 100;
   margin: 5% auto;
-  max-width: 660px;
 }
 
 .login-window .login-popup .left-panel {
@@ -3984,5 +3984,14 @@ h6 {
 
 .blue {
   color: #3AB0F2;
+}
+
+span.loading {
+  background: url("/images/loading.gif") no-repeat;
+  width: 50px;
+  height: 50px;
+  display: block;
+  margin: 0 auto;
+  background-size: contain;
 }
 
