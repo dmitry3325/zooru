@@ -13601,6 +13601,15 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -13685,7 +13694,23 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.showPopUp = true
       }
     }
-  }, [_vm._m(0)]), _vm._v(" "), _c('div', {
+  }, [_c('a', {
+    staticClass: "header_up_item"
+  }, [_c('i', {
+    staticClass: "material-icons"
+  }, [_vm._v("")]), _vm._v(" "), _c('span', {
+    on: {
+      "click": function($event) {
+        _vm.registrationMode = false
+      }
+    }
+  }, [_vm._v("Вход")]), _vm._v(" / "), _c('span', {
+    on: {
+      "click": function($event) {
+        _vm.registrationMode = true
+      }
+    }
+  }, [_vm._v("Регистрация")])])]), _vm._v(" "), _c('div', {
     directives: [{
       name: "show",
       rawName: "v-show",
@@ -13696,7 +13721,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     class: [_vm.registrationMode ? 'col-6' : 'col-4']
   }, [(_vm.registrationMode) ? _c('div', {
     staticClass: "col-6 left-panel"
-  }, [_vm._m(1)]) : _vm._e(), _vm._v(" "), _c('div', {
+  }, [_vm._m(0)]) : _vm._e(), _vm._v(" "), _c('div', {
     staticClass: "right-panel",
     class: [_vm.registrationMode ? 'col-6' : 'col-12']
   }, [_c('a', {
@@ -13727,6 +13752,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": (_vm.regFirstName)
     },
     on: {
+      "keydown": function($event) {
+        delete _vm.regErrors.firstname
+      },
       "input": function($event) {
         if ($event.target.composing) { return; }
         _vm.regFirstName = $event.target.value
@@ -13749,6 +13777,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": (_vm.regLastName)
     },
     on: {
+      "keydown": function($event) {
+        delete _vm.regErrors.lastname
+      },
       "input": function($event) {
         if ($event.target.composing) { return; }
         _vm.regLastName = $event.target.value
@@ -13770,6 +13801,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": (_vm.regEmail)
     },
     on: {
+      "keydown": function($event) {
+        delete _vm.regErrors.email
+      },
       "input": function($event) {
         if ($event.target.composing) { return; }
         _vm.regEmail = $event.target.value
@@ -13791,6 +13825,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": (_vm.regPassword)
     },
     on: {
+      "keydown": function($event) {
+        delete _vm.regErrors.password
+      },
       "input": function($event) {
         if ($event.target.composing) { return; }
         _vm.regPassword = $event.target.value
@@ -13805,11 +13842,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     class: [this.regBtnDisabled ? 'btn-disabled' : 'btn-green'],
     on: {
       "click": function($event) {
+        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
         $event.preventDefault();
         _vm.registartion($event)
       }
     }
-  }, [_vm._v("Регистрация")]), _vm._v(" "), _vm._m(2), _vm._v(" "), _vm._m(3), _vm._v(" "), (!_vm.registrationMode) ? _c('div', [_vm._v("Впервые здесь? "), _c('a', {
+  }, [_vm._v("Регистрация")]), _vm._v(" "), _vm._m(1), _vm._v(" "), _vm._m(2), _vm._v(" "), (!_vm.registrationMode) ? _c('div', [_vm._v("Впервые здесь? "), _c('a', {
     staticClass: "blue",
     on: {
       "click": function($event) {
@@ -13841,6 +13879,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": (_vm.email)
     },
     on: {
+      "keydown": function($event) {
+        delete _vm.loginErrors.email
+      },
       "input": function($event) {
         if ($event.target.composing) { return; }
         _vm.email = $event.target.value
@@ -13862,6 +13903,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": (_vm.password)
     },
     on: {
+      "keydown": function($event) {
+        delete _vm.loginErrors.password
+      },
       "input": function($event) {
         if ($event.target.composing) { return; }
         _vm.password = $event.target.value
@@ -13882,11 +13926,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     on: {
       "click": function($event) {
+        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
         $event.preventDefault();
         _vm.login($event)
       }
     }
-  }, [_vm._v("Вход")]), _vm._v(" "), _vm._m(4), _vm._v(" "), (!_vm.registrationMode) ? _c('div', [_vm._v("Впервые здесь? "), _c('a', {
+  }, [_vm._v("Вход")]), _vm._v(" "), _vm._m(3), _vm._v(" "), (!_vm.registrationMode) ? _c('div', [_vm._v("Впервые здесь? "), _c('a', {
     staticClass: "blue",
     on: {
       "click": function($event) {
@@ -13902,12 +13947,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("Войдите")])]) : _vm._e()], 2)])])])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('a', {
-    staticClass: "header_up_item"
-  }, [_c('i', {
-    staticClass: "material-icons"
-  }, [_vm._v("")]), _vm._v(" "), _c('span', [_vm._v("Вход / Регистрация")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "reasons noselect"
   }, [_c('h4', [_vm._v("Присоединяйтесь"), _c('br'), _vm._v("к нам!")]), _vm._v(" "), _c('ul', {

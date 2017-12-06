@@ -3,10 +3,12 @@
         <div class="back-wrap darken" v-if="showPopUp" @click="showPopUp = false"></div>
         <a class="header_up_item" @click="showPopUp = true">
             <a class="header_up_item"><i class="material-icons">&#xE853;</i>
-                <span>Вход / Регистрация</span>
+                <span @click="registrationMode = false">Вход</span> / <span
+                        @click="registrationMode = true">Регистрация</span>
             </a>
         </a>
-        <div v-show="showPopUp" class="login-popup row justify-content-center" :class="[registrationMode ? 'col-6' : 'col-4']">
+        <div v-show="showPopUp" class="login-popup row justify-content-center"
+             :class="[registrationMode ? 'col-6' : 'col-4']">
             <div v-if="registrationMode" class="col-6 left-panel">
                 <div class="reasons noselect">
                     <h4>Присоединяйтесь<br/>к нам!</h4>
@@ -23,22 +25,26 @@
                 <div v-if="registrationMode">
                     <h4>Регистрация</h4>
                     <div class="reg-form">
-                        <input type="text" class="half-width fl_l" placeholder="Имя" v-model="regFirstName"
+                        <input type="text" class="half-width fl_l" placeholder="Имя" v-model="regFirstName" @keydown="delete regErrors.firstname"
                                :class="[regErrors && regErrors.hasOwnProperty('firstname') ? 'error' : '']">
-                        <input type="text" class="half-width fl_r" placeholder="Фамилия" v-model="regLastName"
+                        <input type="text" class="half-width fl_r" placeholder="Фамилия" v-model="regLastName" @keydown="delete regErrors.lastname"
                                :class="[regErrors && regErrors.hasOwnProperty('lastname') ? 'error' : '']">
-                        <input type="text" placeholder="email" v-model="regEmail"
+                        <input type="text" placeholder="email" v-model="regEmail" @keydown="delete regErrors.email"
                                :class="[regErrors && regErrors.hasOwnProperty('email') ? 'error' : '']">
-                        <input type="password" placeholder="пароль" v-model="regPassword" :class="[regErrors && regErrors.hasOwnProperty('password') ? 'error' : '']">
+                        <input type="password" placeholder="пароль" v-model="regPassword" @keydown="delete regErrors.password"
+                               :class="[regErrors && regErrors.hasOwnProperty('password') ? 'error' : '']">
 
                         <div class="error" v-for="error in regErrors">{{ error[0] }}</div>
-                        <a @click.prevent="registartion" class="btn btn-sqaure"
+                        <a @click.enter.prevent="registartion" class="btn btn-sqaure"
                            :class="[this.regBtnDisabled ? 'btn-disabled' : 'btn-green']">Регистрация</a>
-                        <div class="rules-text">Нажимая кнопку «Регистрация», Вы принимаете <a href="#" class="blue" target="_blank">условия использования</a></div>
+                        <div class="rules-text">Нажимая кнопку «Регистрация», Вы принимаете <a href="#" class="blue"
+                                                                                               target="_blank">условия использования</a>
+                        </div>
                         <p class="or"><span>или</span></p>
                         <div v-if="!registrationMode">Впервые здесь? <a class="blue" @click="registrationMode = true">Зарегистрируйтесь</a>
                         </div>
-                        <div v-if="registrationMode">Уже зарегистрировались? <a class="blue" @click="registrationMode = false">Войдите</a>
+                        <div v-if="registrationMode">Уже зарегистрировались? <a class="blue"
+                                                                                @click="registrationMode = false">Войдите</a>
                         </div>
                     </div>
                 </div>
@@ -47,16 +53,19 @@
                 <div v-else>
                     <h4>Вход</h4>
                     <div class="reg-form">
-                        <input type="text" placeholder="email" v-model="email" :class="[loginErrors && loginErrors.hasOwnProperty('email') ? 'error' : '']">
-                        <input type="password" placeholder="пароль" v-model="password" :class="[loginErrors && loginErrors.hasOwnProperty('password') ? 'error' : '']">
+                        <input type="text" placeholder="email" v-model="email" @keydown="delete loginErrors.email"
+                               :class="[loginErrors && loginErrors.hasOwnProperty('email') ? 'error' : '']">
+                        <input type="password" placeholder="пароль" v-model="password" @keydown="delete loginErrors.password"
+                               :class="[loginErrors && loginErrors.hasOwnProperty('password') ? 'error' : '']">
                         <div class="error" v-for="error in loginErrors">{{ error[0] }}</div>
-                        <input type="checkbox" />Запомнить меня
+                        <input type="checkbox"/>Запомнить меня
                         <span>Забыли пароль?</span>
-                        <a @click.prevent="login" class="btn btn-sqaure btn-dark" href="/login">Вход</a>
+                        <a @click.enter.prevent="login" class="btn btn-sqaure btn-dark" href="/login">Вход</a>
                         <p class="or"><span>или</span></p>
                         <div v-if="!registrationMode">Впервые здесь? <a class="blue" @click="registrationMode = true">Зарегистрируйтесь</a>
                         </div>
-                        <div v-if="registrationMode">Уже зарегистрировались? <a class="blue" @click="registrationMode = false">Войдите</a>
+                        <div v-if="registrationMode">Уже зарегистрировались? <a class="blue"
+                                                                                @click="registrationMode = false">Войдите</a>
                         </div>
                     </div>
                 </div>

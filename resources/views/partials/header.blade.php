@@ -16,6 +16,7 @@
                 <cart donation-percent="{{ Config::get('info.donation_percent')  }}"></cart>
                 <a class="header_up_item seporator"><i class="material-icons">&#xE5D4;</i></a>
                 <login></login>
+                <a class="header_up_item" href="/logout"><span>Выход</span></a>
                 {{--<a class="header_up_item"><i class="material-icons">&#xE853;</i><span>Вход / Регистрация</span></a>--}}
             </div>
         </div>
