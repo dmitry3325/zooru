@@ -13623,6 +13623,14 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -13637,6 +13645,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
             email: null,
             password: null,
+            rememberCheckbox: true,
             loginErrors: {},
 
             forgottenEmail: null,
@@ -13679,7 +13688,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             Vue.axios.get('/login', {
                 params: {
                     password: self.password,
-                    email: self.email
+                    email: self.email,
+                    remember: self.rememberCheckbox
                 }
             }).then(function (response) {
                 if (response.status === 200 && response.data.result) {
@@ -13941,17 +13951,51 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }, [_vm._v(_vm._s(error[0]))])
   }), _vm._v(" "), (_vm.loading) ? _c('span', {
     staticClass: "loading"
-  }) : _vm._e(), _vm._v(" "), _c('input', {
+  }) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "remember left"
+  }, [_c('label', {
+    staticClass: "cbox"
+  }, [_vm._v("\n                            Запомни меня\n                            "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.rememberCheckbox),
+      expression: "rememberCheckbox"
+    }],
     attrs: {
       "type": "checkbox"
+    },
+    domProps: {
+      "checked": Array.isArray(_vm.rememberCheckbox) ? _vm._i(_vm.rememberCheckbox, null) > -1 : (_vm.rememberCheckbox)
+    },
+    on: {
+      "__c": function($event) {
+        var $$a = _vm.rememberCheckbox,
+          $$el = $event.target,
+          $$c = $$el.checked ? (true) : (false);
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$el.checked) {
+            $$i < 0 && (_vm.rememberCheckbox = $$a.concat($$v))
+          } else {
+            $$i > -1 && (_vm.rememberCheckbox = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+          }
+        } else {
+          _vm.rememberCheckbox = $$c
+        }
+      }
     }
-  }), _vm._v("Запомнить меня\n                    "), _c('span', {
+  }), _vm._v(" "), _c('span', {
+    staticClass: "checkmark"
+  })]), _vm._v(" "), _c('a', {
+    staticClass: "blue fl_r",
     on: {
       "click": function($event) {
         _vm.windowMode = 'remember'
       }
     }
-  }, [_vm._v("Забыли пароль?")]), _vm._v(" "), _c('a', {
+  }, [_vm._v("Забыли пароль?")])]), _vm._v(" "), _c('a', {
     staticClass: "btn btn-sqaure btn-dark",
     attrs: {
       "href": "/login"

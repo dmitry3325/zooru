@@ -19,6 +19,11 @@ input.error {
   width: calc(50% - 0.6em);
 }
 
+input[type="checkbox"] {
+  width:auto;
+  margin: 0 0.3em 0 0;
+}
+
 input:focus {
   border-color: $mGrey2;
 }
@@ -36,10 +41,63 @@ input:focus {
   color: $mGrey;
 }
 
-.w96 {
-  width: 96%;
+//CUSTOM CHECKBOX
+.cbox {
+  display: inline-block;
+  position: relative;
+  padding-left: 28px;
+  cursor: pointer!important;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
 }
 
-.w48 {
-  width: 48%;
+.cbox input {
+  display: none;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: $lGrey2;
+}
+
+/* On mouse-over, add a grey background color */
+.cbox:hover input ~ .checkmark {
+  background-color: $mGrey;
+}
+
+/* When the checkbox is checked, add a blue background */
+.cbox input:checked ~ .checkmark {
+  background-color: $blue;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.cbox input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.cbox .checkmark:after {
+  left: 7px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
 }

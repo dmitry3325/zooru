@@ -59,8 +59,16 @@
                                :class="[loginErrors && loginErrors.hasOwnProperty('password') ? 'error' : '']">
                         <div class="error" v-for="error in loginErrors">{{ error[0] }}</div>
                         <span v-if="loading" class="loading"></span>
-                        <input type="checkbox"/>Запомнить меня
-                        <span @click="windowMode = 'remember'">Забыли пароль?</span>
+
+                        <div class="remember left">
+                            <label class="cbox">
+                                Запомни меня
+                                <input type="checkbox" v-model="rememberCheckbox">
+                                <span class="checkmark"></span>
+                            </label>
+                            <a @click="windowMode = 'remember'" class="blue fl_r">Забыли пароль?</a>
+                        </div>
+
                         <a @click.prevent="login" class="btn btn-sqaure btn-dark" href="/login">Вход</a>
                     </div>
                 </div>
@@ -103,6 +111,7 @@
 
                 email: null,
                 password: null,
+                rememberCheckbox: true,
                 loginErrors: {},
 
                 forgottenEmail: null,
@@ -151,6 +160,7 @@
                     params: {
                         password: self.password,
                         email: self.email,
+                        remember: self.rememberCheckbox,
                     }
                 })
                     .then(function (response) {
