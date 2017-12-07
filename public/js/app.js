@@ -13631,6 +13631,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
 
 
 
@@ -13649,6 +13650,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             loginErrors: {},
 
             forgottenEmail: null,
+            forgottenError: null,
 
             showPopUp: true,
             windowMode: 'login',
@@ -13705,6 +13707,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             var self = this;
 
             self.loading = true;
+            self.forgottenError = null;
 
             Vue.axios.get('/recovery', {
                 params: {
@@ -13712,11 +13715,17 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
                 }
             }).then(function (response) {
                 if (response.status === 200) {
-                    self.loading = false;
-                    setTimeout(5000, function () {
-                        self.windowMode = 'login';
-                    });
+
+                    self.forgottenError = response.data.message;
+
+                    if (response.data.code === 200) {
+                        setTimeout(function () {
+                            self.windowMode = 'login';
+                        }, 5000);
+                    }
                 }
+
+                self.loading = false;
             });
         }
     }
@@ -14030,7 +14039,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }), _vm._v(" "), (_vm.loading) ? _c('span', {
     staticClass: "loading"
-  }) : _vm._e(), _vm._v(" "), _c('a', {
+  }) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "error",
+    domProps: {
+      "textContent": _vm._s(_vm.forgottenError)
+    }
+  }), _vm._v(" "), _c('a', {
     staticClass: "btn btn-sqaure btn-green",
     on: {
       "click": function($event) {

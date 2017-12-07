@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Response\Error;
+use App\Http\Response\Success;
 use App\Models\Auth\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -43,7 +45,7 @@ class LoginController extends Controller
         }
 
         if ($this->attemptLogin($request)) {
-            return ['result' => true];
+            return new Success();
         }
 
         // If the login attempt was unsuccessful we will increment the number of attempts
@@ -54,17 +56,23 @@ class LoginController extends Controller
         return $this->sendFailedLoginResponse($request);
     }
 
-    public function confirmEmail($userId, $hash)
+    public function confirmEmail($userId = null, $hash = null)
     {
         $user = User::find($userId);
+
+        if (!$user) {
+            return new Error('Почта не найдена');
+        }
         if ($user->is_verified) {
-            return 'already verified';
+            return new Error('Почта уже подтверждена');
         }
         if ($hash === md5($user->email . getenv('APP_KEY'))) {
             $user->is_verified = true;
             $user->save();
-            return 'email verified!';
+
+            return new Success('Почта успешно подтверждена');
         }
+
 
     }
 

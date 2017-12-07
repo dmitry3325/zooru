@@ -79,6 +79,7 @@
                     <div class="reg-form">
                         <input type="text" placeholder="email" v-model="email">
                         <span v-if="loading" class="loading"></span>
+                        <div class="error" v-text="forgottenError"></div>
                         <a @click.prevent="rememberPassrord" class="btn btn-sqaure btn-green">Получить новый пароль</a>
                     </div>
                 </div>
@@ -115,6 +116,7 @@
                 loginErrors: {},
 
                 forgottenEmail: null,
+                forgottenError: null,
 
                 showPopUp: true,
                 windowMode: 'login',
@@ -178,6 +180,7 @@
                 let self = this;
 
                 self.loading = true;
+                self.forgottenError = null;
 
                 Vue.axios.get('/recovery', {
                     params: {
@@ -186,11 +189,17 @@
                 })
                     .then(function (response) {
                         if (response.status === 200) {
-                            self.loading = false;
-                            setTimeout(5000, function () {
-                                self.windowMode = 'login';
-                            });
+
+                            self.forgottenError = response.data.message;
+
+                            if(response.data.code === 200){
+                                setTimeout(function () {
+                                    self.windowMode = 'login';
+                                }, 5000);
+                            }
                         }
+
+                        self.loading = false;
                     })
             },
         }

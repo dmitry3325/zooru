@@ -3699,7 +3699,7 @@ a.header_up_item:hover:not(.seporator) * {
 }
 
 .login-window .login-popup .right-panel {
-  padding: 2em;
+  padding: 1.4em 2em;
 }
 
 .login-window .login-popup .right-panel .rules-text {
@@ -3942,7 +3942,6 @@ img {
   padding: 0.5em 2em;
   text-align: center;
   font-size: 0.8em;
-  text-transform: capitalize;
   -webkit-transition: -webkit-box-shadow 0.3s ease-in-out;
   transition: -webkit-box-shadow 0.3s ease-in-out;
   transition: box-shadow 0.3s ease-in-out;

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Response\Error;
+use App\Http\Response\Success;
 use App\Models\Auth\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -70,7 +72,8 @@ class RegisterController extends Controller
 
         Auth::login($user, true);
 
-        return $user;
+        //TODO ALERT MESSAGE
+        return new Success();
     }
 
     public function resetPassword(Request $request)
@@ -79,10 +82,15 @@ class RegisterController extends Controller
 
         $email = $request->input('email');
         if (!$email) {
-            return 'error';
+            return new Error('Введите почту');
         }
 
         $user           = User::where('email', $email)->first();
+
+        if(!$user){
+            return new Error('Почта не найдена');
+        }
+
         $user->password = $this->cryptPassword($password);
         $user->save();
 
@@ -92,6 +100,8 @@ class RegisterController extends Controller
             $message->to($email);
             $message->subject('pass recovery');
         });
+
+        return new Success('Новый пароль отправлен вам на почту');
     }
 
     private static function generatePassword()
