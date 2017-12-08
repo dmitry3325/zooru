@@ -14593,7 +14593,7 @@ module.exports = {
             };
 
             //защита от дублирования
-            if (this.list.length === this.list.filter(function (notification) {
+            if (this.list.length !== 0 && this.list.length === this.list.filter(function (notification) {
                 return notification.body === body;
             }).length) {
                 return true;

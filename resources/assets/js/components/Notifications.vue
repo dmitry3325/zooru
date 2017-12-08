@@ -44,7 +44,7 @@
                 };
 
                 //защита от дублирования
-                if(this.list.length === this.list.filter(notification => notification.body === body).length){
+                if(this.list.length !== 0 && this.list.length === this.list.filter(notification => notification.body === body).length){
                     return true;
                 }
 
