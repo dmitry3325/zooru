@@ -21,8 +21,6 @@
     @include('partials.header')
     @include('partials.menu')
     <div id="content">
-        <notification></notification>
-
         @yield('content')
 {{--        @include('partials.subscription')--}}
     </div>
@@ -32,6 +30,8 @@
             <h1>hallo from footer</h1>
         </div>
     </footer>
+
+    <notification></notification>
 </div>
 <script type="text/javascript" src="/js/app.js"></script>
 @stack('scripts')

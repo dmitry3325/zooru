@@ -3823,6 +3823,7 @@ input:focus {
   height: 20px;
   width: 20px;
   background-color: #EBEBEB;
+  border-radius: 2px;
 }
 
 /* On mouse-over, add a grey background color */

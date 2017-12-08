@@ -14163,13 +14163,13 @@ if (false) {
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(65)
+  __webpack_require__(46)
 }
 var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(51),
   /* template */
-  __webpack_require__(64),
+  __webpack_require__(52),
   /* styles */
   injectStyle,
   /* scopeId */
@@ -14201,8 +14201,46 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 46 */,
-/* 47 */,
+/* 46 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(47);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(49)("4e65532f", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3ffdf2d6\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Notifications.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3ffdf2d6\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Notifications.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 47 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(48)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "\n.notification-container[data-v-3ffdf2d6] {\n  position: fixed;\n  z-index: 100;\n  bottom: -1px;\n  right: 5%;\n  max-width: 20%;\n}\n.notification-container .notification[data-v-3ffdf2d6] {\n    position: relative;\n    background: #fff;\n    padding: 12px;\n    min-width: 150px;\n    border-radius: 2px;\n    border: 1px solid #CBCBD0;\n    margin-bottom: 15px;\n}\n.notification-container .alert-img[data-v-3ffdf2d6] {\n    max-height: 100px;\n    position: absolute;\n    top: -91px;\n}\n.notification-container .notification-header[data-v-3ffdf2d6] {\n    font-size: 1em;\n}\n.notification-container .close[data-v-3ffdf2d6] {\n    position: absolute;\n    right: 1em;\n    top: 1em;\n    color: #CBCBD0;\n}\n.notification-container .close i.material-icons[data-v-3ffdf2d6] {\n      font-size: 1.3em;\n}\n.notification-container span[data-v-3ffdf2d6] {\n    font-size: 0.9em;\n}\n.notification-container .bounce-enter-active[data-v-3ffdf2d6] {\n    animation: bounce-in-data-v-3ffdf2d6 .5s;\n}\n.notification-container .bounce-leave-active[data-v-3ffdf2d6] {\n    animation: bounce-in-data-v-3ffdf2d6 .5s reverse;\n}\n@keyframes bounce-in-data-v-3ffdf2d6 {\n0% {\n    transform: scale(0);\n}\n50% {\n    transform: scale(1.5);\n}\n100% {\n    transform: scale(1);\n}\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
 /* 48 */
 /***/ (function(module, exports) {
 
@@ -14619,7 +14657,48 @@ module.exports = {
 };
 
 /***/ }),
-/* 52 */,
+/* 52 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "notification-container"
+  }, [_c('transition-group', {
+    attrs: {
+      "name": "bounce"
+    }
+  }, _vm._l((_vm.list), function(notification, index) {
+    return _c('div', {
+      key: index,
+      staticClass: "notification z-depth-1-half"
+    }, [(index === 0) ? _c('img', {
+      staticClass: "alert-img",
+      attrs: {
+        "src": _vm.imgUrl
+      }
+    }) : _vm._e(), _vm._v(" "), _c('a', {
+      staticClass: "close",
+      on: {
+        "click": function($event) {
+          _vm.remove(notification.index)
+        }
+      }
+    }, [_c('i', {
+      staticClass: "material-icons"
+    }, [_vm._v("")])]), _vm._v(" "), _c('div', {
+      staticClass: "notification-header"
+    }, [_vm._v(_vm._s(notification.header))]), _vm._v(" "), _c('span', [_vm._v(_vm._s(notification.body))])])
+  }))], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-3ffdf2d6", module.exports)
+  }
+}
+
+/***/ }),
 /* 53 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -14694,95 +14773,6 @@ var getters = {};
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 57 */,
-/* 58 */,
-/* 59 */,
-/* 60 */,
-/* 61 */,
-/* 62 */,
-/* 63 */,
-/* 64 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "notification-container"
-  }, [_c('transition-group', {
-    attrs: {
-      "name": "bounce"
-    }
-  }, _vm._l((_vm.list), function(notification, index) {
-    return _c('div', {
-      key: index,
-      staticClass: "notification z-depth-1-half"
-    }, [(index === 0) ? _c('img', {
-      staticClass: "alert-img",
-      attrs: {
-        "src": _vm.imgUrl
-      }
-    }) : _vm._e(), _vm._v(" "), _c('a', {
-      staticClass: "close",
-      on: {
-        "click": function($event) {
-          _vm.remove(notification.index)
-        }
-      }
-    }, [_c('i', {
-      staticClass: "material-icons"
-    }, [_vm._v("")])]), _vm._v(" "), _c('div', {
-      staticClass: "notification-header"
-    }, [_vm._v(_vm._s(notification.header))]), _vm._v(" "), _c('span', [_vm._v(_vm._s(notification.body))])])
-  }))], 1)
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-3ffdf2d6", module.exports)
-  }
-}
-
-/***/ }),
-/* 65 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(66);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(49)("4e65532f", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3ffdf2d6\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Notifications.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3ffdf2d6\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Notifications.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 66 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(48)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, "\n.notification-container[data-v-3ffdf2d6] {\n  position: fixed;\n  z-index: 100;\n  bottom: -1px;\n  right: 5%;\n  max-width: 20%;\n}\n.notification-container .notification[data-v-3ffdf2d6] {\n    position: relative;\n    background: #fff;\n    padding: 12px;\n    min-width: 150px;\n    border-radius: 2px;\n    border: 1px solid #CBCBD0;\n    margin-bottom: 15px;\n}\n.notification-container .alert-img[data-v-3ffdf2d6] {\n    max-height: 100px;\n    position: absolute;\n    top: -91px;\n}\n.notification-container .notification-header[data-v-3ffdf2d6] {\n    font-size: 1em;\n}\n.notification-container .close[data-v-3ffdf2d6] {\n    position: absolute;\n    right: 1em;\n    top: 1em;\n    color: #CBCBD0;\n}\n.notification-container .close i.material-icons[data-v-3ffdf2d6] {\n      font-size: 1.3em;\n}\n.notification-container span[data-v-3ffdf2d6] {\n    font-size: 0.9em;\n}\n.notification-container .bounce-enter-active[data-v-3ffdf2d6] {\n    animation: bounce-in-data-v-3ffdf2d6 .5s;\n}\n.notification-container .bounce-leave-active[data-v-3ffdf2d6] {\n    animation: bounce-in-data-v-3ffdf2d6 .5s reverse;\n}\n@keyframes bounce-in-data-v-3ffdf2d6 {\n0% {\n    transform: scale(0);\n}\n50% {\n    transform: scale(1.5);\n}\n100% {\n    transform: scale(1);\n}\n}\n", ""]);
-
-// exports
-
 
 /***/ })
 /******/ ]);
