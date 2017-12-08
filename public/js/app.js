@@ -14592,6 +14592,13 @@ module.exports = {
                 index: index
             };
 
+            //защита от дублирования
+            if (this.list.length === this.list.filter(function (notification) {
+                return notification.body === body;
+            }).length) {
+                return true;
+            }
+
             this.list = [notification].concat(_toConsumableArray(this.list));
 
             var self = this;

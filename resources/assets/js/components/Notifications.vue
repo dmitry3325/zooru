@@ -43,6 +43,11 @@
                     index: index,
                 };
 
+                //защита от дублирования
+                if(this.list.length === this.list.filter(notification => notification.body === body).length){
+                    return true;
+                }
+
                 this.list = [notification, ...this.list];
 
                 let self = this;
