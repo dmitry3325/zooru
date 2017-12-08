@@ -21,6 +21,8 @@
     @include('partials.header')
     @include('partials.menu')
     <div id="content">
+        <notification></notification>
+
         @yield('content')
 {{--        @include('partials.subscription')--}}
     </div>

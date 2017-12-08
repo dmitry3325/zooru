@@ -118,7 +118,7 @@
                 forgottenEmail: null,
                 forgottenError: null,
 
-                showPopUp: true,
+                showPopUp: false,
                 windowMode: 'login',
                 loading: false,
             }
@@ -192,7 +192,9 @@
 
                             self.forgottenError = response.data.message;
 
-                            if(response.data.code === 200){
+                            if(response.data.code === 200 && response.data.message){
+                                Vue.Events.emit('alertMessage', [response.data.message, 10, null]);
+
                                 setTimeout(function () {
                                     self.windowMode = 'login';
                                 }, 5000);
