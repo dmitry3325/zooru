@@ -15,9 +15,11 @@ abstract class AbstractResponse
     protected $message;
     protected $data;
 
-    public function __construct(string $message = null)
+    public function __construct($message = null)
     {
-        $this->setMessage($message);
+        if($message){
+            $this->setMessage($message);
+        }
     }
 
     public function setData(array $data): void
