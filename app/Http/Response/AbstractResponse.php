@@ -20,9 +20,9 @@ abstract class AbstractResponse
         $this->setMessage($message);
     }
 
-    public function setBody(array $body): void
+    public function setData(array $data): void
     {
-        $this->body = $body;
+        $this->data = $data;
     }
 
     private function setMessage(string $message):void
@@ -37,7 +37,7 @@ abstract class AbstractResponse
 
     public function setResult(bool $result): void
     {
-        $this->body = $result;
+        $this->result = $result;
     }
 
     public function __toString()
