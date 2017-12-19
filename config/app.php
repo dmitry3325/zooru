@@ -229,7 +229,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Goods' => App\Models\Shop\Goods::class,
         'Filters' => App\Models\Shop\Filters::class,
-        'Secitons' => App\Models\Shop\Sections::class,
+        'Sections' => App\Models\Shop\Sections::class,
 
     ],
 

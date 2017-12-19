@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Shop\Filters;
 use App\Models\Shop\Goods;
 use App\Models\Shop\Sections;
+use App\Services\Shop\FiltersService;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\View;
 
@@ -19,6 +20,10 @@ class SectionController extends Controller
 {
     public function index(Sections $Section, Filters $Filter = null)
     {
+        $filterService = new FiltersService($Section, $Filter);
+
+        $filterService->getFiltersStructure();
+        return;
         $filters = $Section->getAllFiltersValues();
         if ($Filter) {
             $goods = $Filter->getGoods();

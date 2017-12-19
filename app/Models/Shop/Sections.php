@@ -32,8 +32,7 @@ class Sections extends ShopBaseModel
     {
         if(count($this->filterValues)) return $this->filterValues;
 
-        $filters = $this->sectionFilters()->with('filters')->get();
-
+        $filters = $this->sectionFilters()->with('filters')->with('url')->get();
         foreach($filters as $filter){
            foreach($filter->filters as $eF){
                $this->filterValues[$eF->num]['list'][$eF->code] = [

@@ -45,7 +45,7 @@ class RouteServiceProvider extends ServiceProvider
     }
 
     /**
-     * Define the "web" routes for the application.
+     * Define the "goods" routes for the application.
      *
      * These routes all receive session state, CSRF protection, etc.
      *
@@ -74,12 +74,12 @@ class RouteServiceProvider extends ServiceProvider
             }
 
         }
-        elseif (preg_match('#([a-z\-_]+)\.html#', $url, $matches)) {
+        elseif (preg_match('#([a-z0-9\-_]+)\.html#', $url, $matches)) {
             $url = $matches[1];
             $U   = Urls::where('url', $url)->first();
 
             if ($U) {
-                $this->showEntity($U->entity, $U->entity_id);
+                return $this->showEntity($U->entity, $U->entity_id);
             }
         }
 
@@ -122,10 +122,9 @@ class RouteServiceProvider extends ServiceProvider
         else if ($entity === 'Sections') {
             $app = SectionController::class;
         }
-
         $url = \request()->path();
 
-        Route::middleware(['web'])->any($url, function () use ($app, $params) {
+        return Route::middleware(['web'])->any($url, function () use ($app, $params) {
             $controller = app($app);
             return call_user_func_array([$controller, 'index'], $params);
         });

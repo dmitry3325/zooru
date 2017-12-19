@@ -198,12 +198,4 @@ class ShopBaseModel extends Model
     public function filters(){
         return $this->hasMany(EntityFilters::class, 'entity_id')->where('entity', '=', self::getClassName());
     }
-
-    public function getFiltersAttribute(){
-        if(!isset($this->attributes['filters'])) {
-
-            $this->attributes['filters'] = $this->filters()->get();
-        }
-        return $this->attributes['filters'];
-    }
 }
