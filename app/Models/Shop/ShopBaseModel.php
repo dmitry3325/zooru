@@ -45,6 +45,18 @@ class ShopBaseModel extends Model
     }
 
     /**
+     * @param $entity
+     * @param $id
+     * @param $url
+     *
+     * @return string
+     */
+    public static function generateUrl($entity, $id, $url): string
+    {
+        return '/' . (($url) ? $url : mb_strtolower($entity) . '/' . $id) . '.html';
+    }
+
+    /**
      * Url functions
      */
     public function url()

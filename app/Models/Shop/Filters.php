@@ -36,7 +36,7 @@ class Filters extends ShopBaseModel
     public function getGoods()
     {
         $filters = [];
-        foreach ($this->getFiltersAttribute() as $filter) {
+        foreach ($this->filters as $filter) {
             $filters[$filter->num][$filter->code] = $filter;
         }
 

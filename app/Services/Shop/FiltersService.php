@@ -4,6 +4,7 @@ namespace App\Services\Shop;
 
 use App\Models\Shop\Filters;
 use App\Models\Shop\Sections;
+use App\Models\Shop\ShopBaseModel;
 use Illuminate\Support\Facades\Redis;
 
 class FiltersService
@@ -61,24 +62,30 @@ class FiltersService
     /**
      * @return array
      */
-    public function getFiltersStructure()
+    public function getData()
     {
         $data = $this->getFromRedis();
-        if (!$data) {
-            // $data = $this->getFromDB();
+        dump($data);
+        if ($data) {
+            $data = $this->getFromDB();
         }
 
         return $data;
     }
 
+    /**
+     * @return array|null
+     */
     private function getFromRedis()
     {
-        $allFilters = $this->getFilterGoodsFromRedis('all_data');
+        $allFilters = $this->getSectionFiltersFromRedis('all_data');
         if (!$allFilters) return null;
 
+        $goods = [];
         if ($this->filter) {
             $key = $this->filter->getKey();
-            $filterData = $this->getFilterGoodsFromRedis($key);
+            $filterData = $this->getSectionFiltersFromRedis($key);
+            $goods = $this->getFilterGoodsFromRedis($key);
 
             foreach ($allFilters as $num => &$data) {
                 foreach ($data['list'] as $code => &$filter) {
@@ -93,7 +100,40 @@ class FiltersService
 
         return [
             'filters' => $allFilters,
-            'goods'   => [],
+            'goods'   => $goods,
+        ];
+    }
+
+    private function getFromDB()
+    {
+
+        $allFilters = [];
+        $filters = $this->section->sectionFilters()->with('filters')->with('url')->get();
+        foreach ($filters as $filter) {
+            $eFils = $filter->filters;
+
+            foreach ($eFils as $eF) {
+                if(!isset($allFilters[$eF->num]['list'][$eF->code])) {
+                    $allFilters[$eF->num]['list'][$eF->code] = [
+                        'value' => $eF->value,
+                        'code'  => $eF->code,
+                    ];
+                }
+            }
+            if(count($eFils) === 1){
+                $allFilters[$eF->num]['list'][$eF->code]['url'] = ShopBaseModel::generateUrl('Filters',$filter->id, $filter->url);
+            }
+        }
+
+        foreach ($this->section->filters as $f) {
+            if (isset($allFilters[$f->num])) {
+                $allFilters[$f->num]['title'] = $f->value;
+            }
+        }
+
+        dump($allFilters);
+        return [
+
         ];
     }
 

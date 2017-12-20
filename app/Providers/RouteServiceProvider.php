@@ -49,7 +49,6 @@ class RouteServiceProvider extends ServiceProvider
      *
      * These routes all receive session state, CSRF protection, etc.
      *
-     * @return void
      */
     protected function mapSiteRoutes()
     {
@@ -99,7 +98,7 @@ class RouteServiceProvider extends ServiceProvider
             'middleware' => ['web'],
             'namespace'  => $this->namespace,
         ], function ($router) {
-            require base_path('routes/auth.php');
+            require_once base_path('routes/auth.php');
         });
     }
 
