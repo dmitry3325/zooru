@@ -79,9 +79,11 @@ class FiltersService
 
 
         $efList = [];
+        $filterFE = [];
         if($this->filter) {
+            $filterFE = clone $this->filter->filters;
             foreach($this->filter->filters as $f){
-                $efList[] = $f;
+                $efList[$f->num][$f->code] = $f;
             }
         }
 
@@ -89,7 +91,7 @@ class FiltersService
         if($this->filter){
             $lists = [];
             $makeIntersect = true;
-            foreach($efList as $f){
+            foreach($filterFE as $f){
                 if(!isset($filteredGoods[$f->num][$f->code])){
                     $makeIntersect = false;
                     break;
@@ -104,21 +106,39 @@ class FiltersService
                     $goodsInCurrent = $lists[0];
                 }
             }
-            dump($goodsInCurrent);
-            dump(Goods::with('filters')->whereIn('id', $goodsInCurrent)->get());
         }
 
         $sectionClassName = Sections::getClassName();
         foreach($schema as $num => &$byCode){
             foreach($byCode as $code => &$data){
-                $localEfList = $efList;
-                $localEfList[] = (object)['num'=>$num, 'code' => $code];
+                $localEfList = clone $filterFE;
+                $thisFilter = (object)['num'=>$num, 'code' => $code];
 
                 $disabled = false;
                 if($this->filter){
-
+                    if(!isset($efList[$num][$code])){
+                        $localEfList[] = $thisFilter;
+                    }else{
+                        foreach($localEfList as $k=>$f){
+                            if($f->num === $num && $f->code === $code){
+                                unset($localEfList[$k]); break;
+                            }
+                        }
+                    }
+                }else{
+                    $localEfList[] = $thisFilter;
                 }
 
+                $data['goods_count'] = 0;
+                if(isset($filteredGoods[$num][$code])) {
+                    $goodsInThisFilter = array_intersect_key($goodsInCurrent, $filteredGoods[$num][$code]);
+                    $data['goods_count'] = count($goodsInThisFilter);
+                }
+
+                if(!$data['goods_count']){
+                    $disabled = true;
+                }
+                $data['disabled'] = $disabled;
                 if(!$disabled) {
                     $key = Filters::getFilterKey($localEfList);
                     if (isset($filtersUrls[$key])) {
@@ -130,13 +150,16 @@ class FiltersService
             }
         }
 
-        dump($efList, $schema);
-        /*$data = $this->getFromRedis();
-        if ($data) {
-            $data = $this->getFromDB();
+        $q = Goods::with('url');
+        if(count($goodsInCurrent)){
+            $q->whereIn('id', $goodsInCurrent);
         }
+        $goods = $q->get();
 
-        return $data;*/
+        return [
+            'filters_schema' => $schema,
+            'goods' => $goods
+        ];
     }
 
     /**
