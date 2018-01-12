@@ -24,7 +24,7 @@
         .error-actions {margin-top:15px;margin-bottom:15px;}
         .error-actions .btn { margin-right:10px; }
         .little_stars {
-            background: url('images/little_stars.svg') repeat;
+            background: url('/images/little_stars.svg') repeat;
             position: fixed;
             overflow: hidden;
             top: 0;
