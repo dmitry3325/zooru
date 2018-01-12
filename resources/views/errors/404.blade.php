@@ -76,7 +76,7 @@
                 <div class="error-template">
                     <h1>Oops! 404</h1>
                     <div class="error-details">
-                        страница не найдена!
+                        страница не найдена
                     </div>
                     <div class="error-actions">
                         <a href="/" class="btn btn-green btn-sqaure" style="max-width: 300px">На главную</a>
