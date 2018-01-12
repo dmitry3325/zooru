@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\Shop\Goods\PageController;
 use App\Http\Controllers\Shop\Goods\SectionController;
 use App\Models\Shop\ShopBaseModel;
@@ -132,6 +133,8 @@ class RouteServiceProvider extends ServiceProvider
 
     protected function show404()
     {
+        $menu = Controller::getMenu();
+        \View::share ( 'menu', $menu );
         return response()->view('errors.404', [], 404);
     }
 }

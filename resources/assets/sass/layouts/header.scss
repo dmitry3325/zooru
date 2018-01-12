@@ -1,6 +1,7 @@
 header {
   height: 56px;
   padding: 8px 0;
+  background: #fff;
 }
 
 #logo {
@@ -8,6 +9,13 @@ header {
   margin: 6px 0;
   display: block;
   background: url("/images/zooru_logo.svg") no-repeat 0 / contain;
+}
+
+#logo-white {
+  height: 30px;
+  margin: 6px 0;
+  display: block;
+  background: url("/images/zooru_logo-white.svg") no-repeat 0 / contain;
 }
 
 .sub-menu {

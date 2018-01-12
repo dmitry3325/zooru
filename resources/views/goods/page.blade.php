@@ -10,7 +10,7 @@
             </div>
             <div class="col-3">
                 <h1>{{ $good->getH1Title() }}</h1>
-                @if (Illuminate\Support\Facades\Auth::user()->hasRole(App\Models\Auth\UserRole::ROLE_GOD))
+                @if (Illuminate\Support\Facades\Auth::user() && Illuminate\Support\Facades\Auth::user()->hasRole(App\Models\Auth\UserRole::ROLE_GOD))
                     <a href="{{ env('PHOTO_SERVER') }}/shop?entity=Goods&id={{ $good->id }}"><i class="material-icons">settings</i></a>
                 @endif
                 <div class="articul">Артикул: {{ $good->articul }}</div>
