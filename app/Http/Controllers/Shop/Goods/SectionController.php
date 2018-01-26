@@ -22,7 +22,8 @@ class SectionController extends Controller
     {
         $filterService = new FiltersService($Section, $Filter);
 
-        $filterService->getData();
+        $res = $filterService->getData();
+        dd($res);
         return;
         $filters = $Section->getAllFiltersValues();
         if ($Filter) {

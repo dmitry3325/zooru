@@ -2,19 +2,28 @@
 
 namespace App\Services\Shop;
 
+use App\Models\Shop\EntityFilters;
 use App\Models\Shop\Filters;
 use App\Models\Shop\Sections;
+use App\Models\Shop\Goods;
 use App\Models\Shop\ShopBaseModel;
 use Illuminate\Support\Facades\Redis;
 
 class FiltersService
 {
     /**
-     * Товары по фильтру
+     * Структура фильтров для раздела
+     */
+
+    const KEY_FILTERS_SCHEMA = 'filters_schema';
+
+
+    /**
+     * Товары по фильтрам
      *
      * sectionId -> filterKey -> goodsList
      */
-    const FILTERED_GOODS = 'filtered_goods';
+    const KEY_GOODS_FILTER = 'goods_filter';
 
     /**
      * Фильтры разделов
@@ -22,7 +31,7 @@ class FiltersService
      * sectionId => filterKey -> filterData
      *
      */
-    const SECTION_FILTERS = 'section_filters';
+    const KEY_SECTION_FILTERS = 'section_filters';
 
     /**
      * @var \Illuminate\Redis\Connections\Connection
@@ -55,8 +64,8 @@ class FiltersService
         $this->section = $section;
         $this->filter = $filter;
 
-        $this->sectionFiltersStorage = Redis::connection(self::SECTION_FILTERS);
-        $this->filterGoodsStorage = Redis::connection(self::FILTERED_GOODS);
+        /*$this->sectionFiltersStorage = Redis::connection(self::SECTION_FILTERS);
+        $this->filterGoodsStorage = Redis::connection(self::FILTERED_GOODS);*/
     }
 
     /**
@@ -64,13 +73,93 @@ class FiltersService
      */
     public function getData()
     {
-        $data = $this->getFromRedis();
-        dump($data);
-        if ($data) {
-            $data = $this->getFromDB();
+        $schema = $this->getFiltersSchema();
+        $filtersUrls = $this->getExistingFilters();
+        $filteredGoods = $this->getGoods();
+
+
+        $efList = [];
+        $filterFE = [];
+        if($this->filter) {
+            $filterFE = clone $this->filter->filters;
+            foreach($this->filter->filters as $f){
+                $efList[$f->num][$f->code] = $f;
+            }
         }
 
-        return $data;
+        $goodsInCurrent = [];
+        if($this->filter){
+            $lists = [];
+            $makeIntersect = true;
+            foreach($filterFE as $f){
+                if(!isset($filteredGoods[$f->num][$f->code])){
+                    $makeIntersect = false;
+                    break;
+                }else{
+                    $lists[] = $filteredGoods[$f->num][$f->code];
+                }
+            }
+            if($makeIntersect) {
+                if (count($lists) > 1) {
+                    $goodsInCurrent = call_user_func_array('array_intersect_key', $lists);
+                } else {
+                    $goodsInCurrent = $lists[0];
+                }
+            }
+        }
+
+        $sectionClassName = Sections::getClassName();
+        foreach($schema as $num => &$byCode){
+            foreach($byCode as $code => &$data){
+                $localEfList = clone $filterFE;
+                $thisFilter = (object)['num'=>$num, 'code' => $code];
+
+                $disabled = false;
+                if($this->filter){
+                    if(!isset($efList[$num][$code])){
+                        $localEfList[] = $thisFilter;
+                    }else{
+                        foreach($localEfList as $k=>$f){
+                            if($f->num === $num && $f->code === $code){
+                                unset($localEfList[$k]); break;
+                            }
+                        }
+                    }
+                }else{
+                    $localEfList[] = $thisFilter;
+                }
+
+                $data['goods_count'] = 0;
+                if(isset($filteredGoods[$num][$code])) {
+                    $goodsInThisFilter = array_intersect_key($goodsInCurrent, $filteredGoods[$num][$code]);
+                    $data['goods_count'] = count($goodsInThisFilter);
+                }
+
+                if(!$data['goods_count']){
+                    $disabled = true;
+                }
+                $data['disabled'] = $disabled;
+                if(!$disabled) {
+                    $key = Filters::getFilterKey($localEfList);
+                    if (isset($filtersUrls[$key])) {
+                        $data['url'] = $filtersUrls[$key]['url'];
+                    } else {
+                        $data['url'] = ShopBaseModel::getUrl($sectionClassName, $this->section->id, $this->section->url);
+                    }
+                }
+            }
+        }
+
+        $q = Goods::with('url');
+        if(count($goodsInCurrent)){
+            $q->whereIn('id', $goodsInCurrent);
+        }
+        $goods = $q->get();
+
+        return [
+            'filters_schema' => $schema,
+            'goods' => $goods
+        ];
     }
 
     /**
@@ -106,35 +195,117 @@ class FiltersService
 
     private function getFromDB()
     {
+        $schema = $this->getFiltersSchema();
+        $existingFilters = $this->getExistingFilters();
+        $goodsByFilter = $this->getGoods();
 
-        $allFilters = [];
-        $filters = $this->section->sectionFilters()->with('filters')->with('url')->get();
-        foreach ($filters as $filter) {
-            $eFils = $filter->filters;
+        dump($existingFilters, $goodsByFilter);
+        die;
 
-            foreach ($eFils as $eF) {
-                if(!isset($allFilters[$eF->num]['list'][$eF->code])) {
-                    $allFilters[$eF->num]['list'][$eF->code] = [
-                        'value' => $eF->value,
-                        'code'  => $eF->code,
-                    ];
-                }
-            }
-            if(count($eFils) === 1){
-                $allFilters[$eF->num]['list'][$eF->code]['url'] = ShopBaseModel::generateUrl('Filters',$filter->id, $filter->url);
-            }
-        }
 
-        foreach ($this->section->filters as $f) {
-            if (isset($allFilters[$f->num])) {
-                $allFilters[$f->num]['title'] = $f->value;
-            }
-        }
-
-        dump($allFilters);
         return [
 
         ];
+    }
+
+    private function getFiltersSchema()
+    {
+        $key = self::KEY_FILTERS_SCHEMA . ':' . $this->section->id;
+
+        \Cache::forget($key);
+        return \Cache::remember($key, 24 * 60, function () {
+            $filters = EntityFilters::select('shop.entity_filters.num', 'shop.entity_filters.code', 'shop.entity_filters.value')
+                ->join('shop.goods', function ($join) {
+                    $join->on('shop.goods.id', '=', 'shop.entity_filters.entity_id');
+                })
+                ->where('shop.goods.section_id', '=', $this->section->id)
+                ->where('shop.goods.hidden', '=', 0)
+                ->where('shop.entity_filters.entity', '=', Goods::getClassName())
+                ->groupBy('shop.entity_filters.num', 'shop.entity_filters.code')
+                ->orderBy(\DB::raw('null'))
+                ->get();
+
+            $data = [];
+            foreach ($filters as $fil) {
+                $data[$fil->num][$fil->code] = [
+                    'value' => $fil->value,
+                    'code'  => $fil->code,
+                ];
+            }
+
+            return $data;
+        });
+    }
+
+    /**
+     * Загружает существующие фильтры
+     *
+     * @param $section_id
+     */
+    private function getExistingFilters()
+    {
+        $key = self::KEY_SECTION_FILTERS . ':' . $this->section->id;
+        \Cache::forget($key);
+        return \Cache::remember($key, 24 * 60, function () {
+            $existingFilters = EntityFilters::select(['shop.entity_filters.*', 'shop.urls.url'])
+                ->join('shop.filters', function ($join) {
+                    $join->on('shop.filters.id', '=', 'shop.entity_filters.entity_id');
+                })
+                ->join('shop.urls', function ($join) {
+                    $join->on('shop.filters.id', '=', 'shop.urls.entity_id');
+                    $join->where('shop.urls.entity', '=', Filters::getClassName());
+                })
+                ->where('shop.filters.section_id', '=', $this->section->id)
+                ->where('shop.filters.hidden', '=', 0)
+                ->where('shop.entity_filters.entity', '=', Filters::getClassName())
+                ->get();
+
+            $byFilter = [];
+            foreach ($existingFilters as $filter) {
+                $byFilter[$filter->entity_id][] = $filter;
+            }
+
+            $Data = [];
+            foreach ($byFilter as $id => $filters) {
+
+                $key = Filters::getFilterKey($filters);
+
+                if (!isset($Data[$key])) {
+                    $Data[$key] = [
+                        'key'            => $key,
+                        'id'     => $id,
+                        'url'    => array_first($filters)->url,
+                    ];
+                }
+            }
+
+            return $Data;
+        });
+
+    }
+
+    private function getGoods()
+    {
+        $key = self::KEY_GOODS_FILTER . ':' . $this->section->id;
+
+        \Cache::forget($key);
+        return \Cache::remember($key, 60, function () {
+            $goodsFLS = EntityFilters::select('shop.entity_filters.*')
+                ->join('shop.goods', function ($join) {
+                    $join->on('shop.goods.id', '=', 'shop.entity_filters.entity_id');
+                })
+                ->where('shop.goods.section_id', '=', $this->section->id)
+                ->where('shop.goods.hidden', '=', 0)
+                ->where('shop.entity_filters.entity', '=', Goods::getClassName())
+                ->get();
+
+            $byFilter = [];
+            foreach ($goodsFLS as $fl) {
+                $byFilter[$fl->num][$fl->code][$fl->entity_id] = $fl->entity_id;
+            }
+
+            return $byFilter;
+        });
     }
 
     /**
