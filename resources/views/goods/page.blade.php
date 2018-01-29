@@ -5,21 +5,25 @@
         @include('partials.breadcrumb')
 
         <div class="row">
-            <div class="col-5">
+            <div class="col-4">
                 @include('goods.components.photo')
             </div>
-            <div class="col-3">
-                <h1>{{ $good->getH1Title() }}</h1>
-                @if (Illuminate\Support\Facades\Auth::user()->hasRole(App\Models\Auth\UserRole::ROLE_GOD))
-                    <a href="{{ env('PHOTO_SERVER') }}/shop?entity=Goods&id={{ $good->id }}"><i class="material-icons">settings</i></a>
-                @endif
-                <div class="articul">Артикул: {{ $good->articul }}</div>
-                @include('goods.components.price')
-                <cartbutton></cartbutton>
-            </div>
-            <div class="col-4">
-                @include('goods.components.utp')
-                @include('goods.components.utp')
+            <div class="col-8 row">
+                <div class="col-12">
+                    <h1>{{ $good->getH1Title() }}</h1>
+                </div>
+                <div class="col-5">
+                    @if (Illuminate\Support\Facades\Auth::user() && Illuminate\Support\Facades\Auth::user()->hasRole(App\Models\Auth\UserRole::ROLE_GOD))
+                        <a href="{{ env('PHOTO_SERVER') }}/shop?entity=Goods&id={{ $good->id }}"><i
+                                    class="material-icons">settings</i></a>
+                    @endif
+                    <div class="articul">Артикул: {{ $good->articul }}</div>
+                    @include('goods.components.price')
+                    <cartbutton></cartbutton>
+                </div>
+                <div class="col-7">
+                    @include('goods.components.utp')
+                </div>
             </div>
         </div>
 
