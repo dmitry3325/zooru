@@ -6,9 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Shop\Filters;
 use App\Models\Shop\Goods;
 use App\Models\Shop\Sections;
-use App\Services\Shop\FiltersService;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\View;
+use App\Services\Shop\SectionService;
 
 /**
  * Created by PhpStorm.
@@ -20,31 +18,11 @@ class SectionController extends Controller
 {
     public function index(Sections $Section, Filters $Filter = null)
     {
-        $filterService = new FiltersService($Section, $Filter);
+        $SectionService = new SectionService($Section, $Filter);
 
-        $res = $filterService->getData();
-        dd($res);
-        return;
-        $filters = $Section->getAllFiltersValues();
-        if ($Filter) {
-            $goods = $Filter->getGoods();
-            $contentData = $this->getBaseData($Filter);
-            $activeFilters = $Filter->getFiltersAttribute();
-            foreach($activeFilters as $f){
-                if(isset($filters[$f->num]['list'][$f->code])){
-                    $filters[$f->num]['list'][$f->code]['active'] = true;
-                }
-            }
-        } else {
-            $goods = $Section->getGoods();
-            $contentData = $this->getBaseData($Section);
-        }
+        $res = $SectionService->getData();
+        dump($res);
 
-        dump($filters);
-        dump($goods);
-        dump($contentData);
-
-        // return View::make('section.index', ['good' => null]);
     }
 
     private function getBaseData($entity)
