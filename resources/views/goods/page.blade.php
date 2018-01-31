@@ -39,12 +39,14 @@
                 <div class="tab-content order-description-text">
                     <div class="tab-panel active" id="tab1">
                         @if($good->getMetaData(['big_description']))
-                            {{ $good->getMetaData(['big_description']) }}
+                            {!! $good->getMetaData(['big_description']) !!}
                         @else
-                            {{ $good->short_description }}
+                            {!! $good->short_description !!}
                         @endif
                     </div>
-                    <div class="tab-panel" id="tab2">Состав / характеристики</div>
+                    <div class="tab-panel" id="tab2">
+                        <h2>описание</h2>
+                    </div>
                     <div class="tab-panel" id="tab3">Отзывы</div>
                 </div>
             </section>
