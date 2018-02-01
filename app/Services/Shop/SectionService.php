@@ -149,8 +149,9 @@ class SectionService
     {
         $filtersUrls = $this->getExistingFilters();
         $sectionClassName = Sections::getClassName();
+
         foreach ($schema as $num => &$byCode) {
-            foreach ($byCode as $code => &$data) {
+            foreach ($byCode['list'] as $code => &$data) {
                 $localEfList = [];
                 if($filterFE) {
                     $localEfList = clone $filterFE;
@@ -239,7 +240,7 @@ class SectionService
     {
         $key = self::KEY_FILTERS_SCHEMA . ':' . $this->section->id;
 
-        //\Cache::forget($key);
+        \Cache::forget($key);
 
         return \Cache::remember($key, 24 * 60, function () {
             $filters = EntityFilters::select('shop.entity_filters.num', 'shop.entity_filters.code', 'shop.entity_filters.value')
@@ -254,8 +255,18 @@ class SectionService
                 ->get();
 
             $data = [];
+
+            $sectionFilters = [];
+            foreach($this->section->filters as $filter){
+                $sectionFilters[$filter->num] = $filter->value;
+            }
+
             foreach ($filters as $fil) {
-                $data[$fil->num][$fil->code] = [
+                if(!isset($data[$fil->num])){
+                    if(!isset($sectionFilters[$fil->num])) continue;
+                    $data[$fil->num]['title'] = $sectionFilters[$fil->num];
+                }
+                $data[$fil->num]['list'][$fil->code] = [
                     'value' => $fil->value,
                     'code'  => $fil->code,
                 ];
@@ -336,6 +347,8 @@ class SectionService
             foreach ($goodsFLS as $fl) {
                 $byFilter[$fl->num][$fl->code][$fl->entity_id] = $fl->entity_id;
             }
+
+
             return $byFilter;
         });
     }
