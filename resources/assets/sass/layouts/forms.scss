@@ -71,12 +71,14 @@ input:focus {
 
 /* On mouse-over, add a grey background color */
 .cbox:hover input ~ .checkmark {
-  background-color: $lGrey;
+  border: 2px solid $blue;
+  text-decoration: underline;
 }
 
 /* When the checkbox is checked, add a blue background */
 .cbox input:checked ~ .checkmark {
-  background-color: $lGrey;
+  background-color: $blue;
+  border: 2px solid $blue;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
@@ -97,7 +99,7 @@ input:focus {
   top: 1px;
   width: 7px;
   height: 12px;
-  border: solid $blue;
+  border: solid #fff;
   border-width: 0 3px 3px 0;
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);

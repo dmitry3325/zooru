@@ -5,7 +5,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-3" id="filter-menu">
-                    <h5>Фильтры</h5>
+                    <strong>Фильтры</strong>
 
                     @foreach($filters_schema as $filter)
                         <div class="filter-block">
@@ -19,7 +19,7 @@
                                 @foreach($filter['list'] as $f)
                                     <a href="{{ array_get($f, 'url') }}">
                                         <label class="cbox">
-                                            {{ array_get($f, 'value') }} ({{ array_get($f, 'goods_count') }}шт.)
+                                            {{ array_get($f, 'value') }} <span class="count">({{ array_get($f, 'goods_count') }})</span>
                                             <input type="checkbox">
                                             <span class="checkmark"></span>
                                         </label>

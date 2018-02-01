@@ -3838,13 +3838,15 @@ input:focus {
 /* On mouse-over, add a grey background color */
 
 .cbox:hover input ~ .checkmark {
-  background-color: #F4F4F4;
+  border: 2px solid #3AB0F2;
+  text-decoration: underline;
 }
 
 /* When the checkbox is checked, add a blue background */
 
 .cbox input:checked ~ .checkmark {
-  background-color: #F4F4F4;
+  background-color: #3AB0F2;
+  border: 2px solid #3AB0F2;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
@@ -3868,7 +3870,7 @@ input:focus {
   top: 1px;
   width: 7px;
   height: 12px;
-  border: solid #3AB0F2;
+  border: solid #fff;
   border-width: 0 3px 3px 0;
   -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
@@ -3888,10 +3890,15 @@ input:focus {
   cursor: pointer;
 }
 
+.section #filter-menu .filter-block {
+  margin: 0.6em 0;
+  font-size: 0.9em;
+}
+
 .section #filter-menu .filter-block .filter-title {
   background: #EBEBEB;
   cursor: pointer;
-  padding: 0.6em 1em;
+  padding: 0.6em 1.2em;
 }
 
 .section #filter-menu .filter-block .filter-body {
@@ -3899,12 +3906,17 @@ input:focus {
   opacity: 1;
   height: auto;
   overflow: hidden;
-  margin: 0.6em 0;
+  margin: 0.8em 0;
 }
 
 .section #filter-menu .filter-block a {
   color: #4A4A4A !important;
   display: block;
+  margin: 0.2em;
+}
+
+.section #filter-menu .filter-block .count {
+  color: #898989;
 }
 
 html,
