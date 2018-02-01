@@ -6,8 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Shop\Filters;
 use App\Models\Shop\Goods;
 use App\Models\Shop\Sections;
-use App\Services\Shop\FiltersService;
-use Illuminate\Http\Response;
+use App\Services\Shop\SectionService;
 use Illuminate\Support\Facades\View;
 
 /**
@@ -20,32 +19,12 @@ class SectionController extends Controller
 {
     public function index(Sections $Section, Filters $Filter = null)
     {
-        $filterService = new FiltersService($Section, $Filter);
+        $SectionService = new SectionService($Section, $Filter);
 
-        $res = $filterService->getData();
-//        dd($res);
-//        return;
-//        $filters = $Section->getAllFiltersValues();
-//        if ($Filter) {
-//            $goods = $Filter->getGoods();
-//            $contentData = $this->getBaseData($Filter);
-//            $activeFilters = $Filter->getFiltersAttribute();
-//            foreach($activeFilters as $f){
-//                if(isset($filters[$f->num]['list'][$f->code])){
-//                    $filters[$f->num]['list'][$f->code]['active'] = true;
-//                }
-//            }
-//        } else {
-//            $goods = $Section->getGoods();
-//            $contentData = $this->getBaseData($Section);
-//        }
-////
-//        dump($filters);
-//        dump($goods);
-//        dump($contentData);
+        $res = $SectionService->getData();
+        dump($res);
 
-        $goods = Goods::take(10)->get();
-         return View::make('section.index', ['goods' => array_get($res, 'goods'), 'filters_schema' => array_get($res, 'filters_schema')]);
+        return View::make('section.index', ['goods' => array_get($res, 'goods'), 'filters_schema' => array_get($res, 'filters_schema')]);
     }
 
     private function getBaseData($entity)

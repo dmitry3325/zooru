@@ -8,15 +8,14 @@ use App\Models\Shop\Sections;
 use App\Models\Shop\Goods;
 use App\Models\Shop\ShopBaseModel;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Input;
 
-class FiltersService
+class SectionService
 {
     /**
      * Структура фильтров для раздела
      */
-
     const KEY_FILTERS_SCHEMA = 'filters_schema';
-
 
     /**
      * Товары по фильтрам
@@ -53,6 +52,19 @@ class FiltersService
      */
     protected $filter;
 
+
+    public $paginate = true;
+
+    public $pageParamName = 'page';
+
+    public $perPage = 20;
+
+    public $currentPage = 1;
+
+    public $orderByColumn = 'orderby';
+
+    public $orderByWay = 'DESC';
+
     /**
      * FiltersService constructor.
      *
@@ -74,72 +86,107 @@ class FiltersService
     public function getData()
     {
         $schema = $this->getFiltersSchema();
-        $filtersUrls = $this->getExistingFilters();
-        $filteredGoods = $this->getGoods();
-
+        $filteredGoods = $this->getGoodsByFilter();
 
         $efList = [];
         $filterFE = [];
-        if($this->filter) {
+        if ($this->filter) {
             $filterFE = clone $this->filter->filters;
-            foreach($this->filter->filters as $f){
+            foreach ($this->filter->filters as $f) {
                 $efList[$f->num][$f->code] = $f;
             }
         }
 
-        $goodsInCurrent = [];
-        if($this->filter){
-            $lists = [];
-            $makeIntersect = true;
-            foreach($filterFE as $f){
-                if(!isset($filteredGoods[$f->num][$f->code])){
-                    $makeIntersect = false;
-                    break;
-                }else{
-                    $lists[] = $filteredGoods[$f->num][$f->code];
-                }
+        $this->fillQueryParams($efList, $filterFE);
+
+        $goodsInCurrent = $this->getGoodsForCurrent($filterFE, $filteredGoods);
+        $schema = $this->fillFiltersSchema($schema, $filterFE, $efList, $filteredGoods, $goodsInCurrent);
+
+        $q = Goods::with('url')->where('hidden', 0);
+        if ($this->filter) {
+            if (count($goodsInCurrent)) {
+                $q->whereIn('id', $goodsInCurrent);
+            } else {
+                $q->where(\DB::raw('0 = 1'));
             }
-            if($makeIntersect) {
-                if (count($lists) > 1) {
-                    $goodsInCurrent = call_user_func_array('array_intersect_key', $lists);
-                } else {
-                    $goodsInCurrent = $lists[0];
-                }
+        } else {
+            $q->where('section_id', $this->section->id);
+        }
+        $q->orderBy($this->orderByColumn, $this->orderByWay);
+        $goods = $q->paginate($this->perPage, ['*'], $this->pageParamName, $this->currentPage);
+
+        return [
+            'filters_schema' => $schema,
+            'goods'          => $goods,
+        ];
+    }
+
+
+    private function fillQueryParams(&$efList, &$filterFE)
+    {
+        $filters = Input::get('filter');
+        if(!$filters) return;
+        foreach ($filters as $num => $val) {
+            switch ($num) {
+                case 'price':
+
+                default:
+
+                    break;
             }
         }
+    }
 
+    /**
+     * @param $schema
+     * @param $filterFE
+     * @param $filteredGoods
+     * @param $goodsInCurrent
+     *
+     * @return mixed
+     */
+    private function fillFiltersSchema($schema, $filterFE, $efList, $filteredGoods, $goodsInCurrent)
+    {
+        $filtersUrls = $this->getExistingFilters();
         $sectionClassName = Sections::getClassName();
-        foreach($schema as $num => &$byCode){
-            foreach($byCode as $code => &$data){
-                $localEfList = clone $filterFE;
-                $thisFilter = (object)['num'=>$num, 'code' => $code];
+        foreach ($schema as $num => &$byCode) {
+            foreach ($byCode as $code => &$data) {
+                $localEfList = [];
+                if($filterFE) {
+                    $localEfList = clone $filterFE;
+                }
+                $thisFilter = (object)['num' => $num, 'code' => $code];
 
                 $disabled = false;
-                if($this->filter){
-                    if(!isset($efList[$num][$code])){
+                if ($this->filter) {
+                    if (!isset($efList[$num][$code])) {
                         $localEfList[] = $thisFilter;
-                    }else{
-                        foreach($localEfList as $k=>$f){
-                            if($f->num === $num && $f->code === $code){
-                                unset($localEfList[$k]); break;
+                    } else {
+                        foreach ($localEfList as $k => $f) {
+                            if ($f->num === $num && $f->code === $code) {
+                                unset($localEfList[$k]);
+                                break;
                             }
                         }
                     }
-                }else{
+                } else {
                     $localEfList[] = $thisFilter;
                 }
-
                 $data['goods_count'] = 0;
-                if(isset($filteredGoods[$num][$code])) {
-                    $goodsInThisFilter = array_intersect_key($goodsInCurrent, $filteredGoods[$num][$code]);
+                if (isset($filteredGoods[$num][$code])) {
+                    if($this->filter) {
+                        $goodsInThisFilter = array_intersect_key($goodsInCurrent, $filteredGoods[$num][$code]);
+                    }else{
+                        $goodsInThisFilter = $filteredGoods[$num][$code];
+                    }
                     $data['goods_count'] = count($goodsInThisFilter);
                 }
 
-                if(!$data['goods_count']){
+                if (!$data['goods_count']) {
                     $disabled = true;
                 }
                 $data['disabled'] = $disabled;
-                if(!$disabled) {
+                if (!$disabled) {
                     $key = Filters::getFilterKey($localEfList);
                     if (isset($filtersUrls[$key])) {
                         $data['url'] = $filtersUrls[$key]['url'];
@@ -150,69 +197,50 @@ class FiltersService
             }
         }
 
-        $q = Goods::with('url');
-        if(count($goodsInCurrent)){
-            $q->whereIn('id', $goodsInCurrent);
-        }
-        $goods = $q->get();
-
-        return [
-            'filters_schema' => $schema,
-            'goods' => $goods
-        ];
+        return $schema;
     }
 
     /**
-     * @return array|null
+     * @param $filterFE
+     * @param $filteredGoods
+     *
+     * @return array|mixed
      */
-    private function getFromRedis()
+    private function getGoodsForCurrent($filterFE, $filteredGoods)
     {
-        $allFilters = $this->getSectionFiltersFromRedis('all_data');
-        if (!$allFilters) return null;
-
-        $goods = [];
+        $goodsInCurrent = [];
         if ($this->filter) {
-            $key = $this->filter->getKey();
-            $filterData = $this->getSectionFiltersFromRedis($key);
-            $goods = $this->getFilterGoodsFromRedis($key);
-
-            foreach ($allFilters as $num => &$data) {
-                foreach ($data['list'] as $code => &$filter) {
-                    if (!isset($filterData[$num][$code])) {
-                        $filter['disabled'] = 1;
-                    } else {
-                        $filter['url'] = $filterData[$num][$code]['url'];
-                    }
+            $lists = [];
+            $makeIntersect = true;
+            foreach ($filterFE as $f) {
+                if (!isset($filteredGoods[$f->num][$f->code])) {
+                    $makeIntersect = false;
+                    break;
+                } else {
+                    $lists[] = $filteredGoods[$f->num][$f->code];
+                }
+            }
+            if ($makeIntersect) {
+                if (count($lists) > 1) {
+                    $goodsInCurrent = call_user_func_array('array_intersect_key', $lists);
+                } else {
+                    $goodsInCurrent = $lists[0];
                 }
             }
         }
 
-        return [
-            'filters' => $allFilters,
-            'goods'   => $goods,
-        ];
+        return $goodsInCurrent;
     }
 
-    private function getFromDB()
-    {
-        $schema = $this->getFiltersSchema();
-        $existingFilters = $this->getExistingFilters();
-        $goodsByFilter = $this->getGoods();
-
-        dump($existingFilters, $goodsByFilter);
-        die;
-
-
-        return [
-
-        ];
-    }
-
+    /**
+     * @return mixed
+     */
     private function getFiltersSchema()
     {
         $key = self::KEY_FILTERS_SCHEMA . ':' . $this->section->id;
 
-        \Cache::forget($key);
+        //\Cache::forget($key);
+
         return \Cache::remember($key, 24 * 60, function () {
             $filters = EntityFilters::select('shop.entity_filters.num', 'shop.entity_filters.code', 'shop.entity_filters.value')
                 ->join('shop.goods', function ($join) {
@@ -239,25 +267,27 @@ class FiltersService
 
     /**
      * Загружает существующие фильтры
-     *
-     * @param $section_id
+     * @return mixed
      */
     private function getExistingFilters()
     {
         $key = self::KEY_SECTION_FILTERS . ':' . $this->section->id;
+
         \Cache::forget($key);
+
         return \Cache::remember($key, 24 * 60, function () {
+            $filterClassName = Filters::getClassName();
             $existingFilters = EntityFilters::select(['shop.entity_filters.*', 'shop.urls.url'])
                 ->join('shop.filters', function ($join) {
                     $join->on('shop.filters.id', '=', 'shop.entity_filters.entity_id');
                 })
-                ->join('shop.urls', function ($join) {
+                ->join('shop.urls', function ($join) use ($filterClassName) {
                     $join->on('shop.filters.id', '=', 'shop.urls.entity_id');
-                    $join->where('shop.urls.entity', '=', Filters::getClassName());
+                    $join->where('shop.urls.entity', '=', $filterClassName);
                 })
                 ->where('shop.filters.section_id', '=', $this->section->id)
                 ->where('shop.filters.hidden', '=', 0)
-                ->where('shop.entity_filters.entity', '=', Filters::getClassName())
+                ->where('shop.entity_filters.entity', '=', $filterClassName)
                 ->get();
 
             $byFilter = [];
@@ -272,25 +302,28 @@ class FiltersService
 
                 if (!isset($Data[$key])) {
                     $Data[$key] = [
-                        'key'            => $key,
-                        'id'     => $id,
-                        'url'    => array_first($filters)->url,
+                        'key' => $key,
+                        'id'  => $id,
+                        'url' => ShopBaseModel::getUrl($filterClassName, $id, array_first($filters)->url),
                     ];
                 }
             }
 
             return $Data;
         });
-
     }
 
-    private function getGoods()
+    /**
+     * @return mixed
+     */
+    private function getGoodsByFilter()
     {
         $key = self::KEY_GOODS_FILTER . ':' . $this->section->id;
 
         \Cache::forget($key);
+
         return \Cache::remember($key, 60, function () {
-            $goodsFLS = EntityFilters::select('shop.entity_filters.*')
+            $goodsFLS = EntityFilters::select('shop.entity_filters.num', 'shop.entity_filters.code', 'shop.entity_filters.entity_id')
                 ->join('shop.goods', function ($join) {
                     $join->on('shop.goods.id', '=', 'shop.entity_filters.entity_id');
                 })
@@ -303,7 +336,6 @@ class FiltersService
             foreach ($goodsFLS as $fl) {
                 $byFilter[$fl->num][$fl->code][$fl->entity_id] = $fl->entity_id;
             }
-
             return $byFilter;
         });
     }
@@ -352,6 +384,4 @@ class FiltersService
             return $list;
         }
     }
-
-
 }

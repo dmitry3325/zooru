@@ -4,9 +4,6 @@ namespace App\Http\Controllers\Shop\Goods;
 
 use App\Http\Controllers\Controller;
 use App\Models\Shop\Goods;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\View;
 
 /**a
@@ -19,6 +16,14 @@ class PageController extends Controller
 {
     public function index(Goods $good)
     {
+        $filters = $good->filters();
+        $f = [];
+        foreach ($filters as $filter){
+            $f[$filter->value] = $filter;
+
+        }
+        dump($f);
+
         return View::make('goods.page', ['good' => $good]);
     }
 }
