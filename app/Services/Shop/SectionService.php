@@ -100,7 +100,7 @@ class SectionService
         $this->fillQueryParams($efList, $filterFE);
 
         $goodsInCurrent = $this->getGoodsForCurrent($filterFE, $filteredGoods);
-        $schema = $this->fillFiltersSchema($schema, $filterFE, $filteredGoods, $goodsInCurrent);
+        $schema = $this->fillFiltersSchema($schema, $filterFE, $efList, $filteredGoods, $goodsInCurrent);
 
         $q = Goods::with('url')->where('hidden', 0);
         if ($this->filter) {
@@ -145,7 +145,7 @@ class SectionService
      *
      * @return mixed
      */
-    private function fillFiltersSchema($schema, $filterFE, $filteredGoods, $goodsInCurrent)
+    private function fillFiltersSchema($schema, $filterFE, $efList, $filteredGoods, $goodsInCurrent)
     {
         $filtersUrls = $this->getExistingFilters();
         $sectionClassName = Sections::getClassName();
@@ -313,6 +313,9 @@ class SectionService
         });
     }
 
+    /**
+     * @return mixed
+     */
     private function getGoodsByFilter()
     {
         $key = self::KEY_GOODS_FILTER . ':' . $this->section->id;
