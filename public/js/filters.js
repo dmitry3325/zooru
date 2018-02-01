@@ -95,7 +95,8 @@ module.exports = __webpack_require__(60);
         indexOf = [].indexOf || function (item) {
         for (var i = 0, l = this.length; i < l; i++) {
             if (i in this && this[i] === item) return i;
-        }return -1;
+        }
+        return -1;
     };
 
     slideToggler = function () {
@@ -121,6 +122,12 @@ module.exports = __webpack_require__(60);
         slideToggler.prototype.toggle = function (time) {
             var currHeight, disp, el, end, init, ref, _repeat, start;
             this.getHeight();
+
+            //иконки меняем
+            var icons = this.el.parentNode.getElementsByClassName('material-icons');
+            toggleClass(icons[0], 'hidden');
+            toggleClass(icons[1], 'hidden');
+
             time || (time = this.height / 3 + 150);
             currHeight = this.el.clientHeight * (getComputedStyle(this.el).display !== 'none');
             ref = currHeight > this.height / 2 ? [this.height, 0] : [0, this.height], start = ref[0], end = ref[1];
@@ -168,6 +175,17 @@ module.exports = __webpack_require__(60);
             var ref2;
             return (ref2 = this.parentNode.querySelector('.filter-body').toggler) != null ? ref2.toggle() : void 0;
         });
+    }
+
+    function toggleClass(el, _class) {
+        if (el && el.className && el.className.indexOf(_class) >= 0) {
+            var pattern = new RegExp('\\s*' + _class + '\\s*');
+            el.className = el.className.replace(pattern, ' ');
+        } else if (el) {
+            el.className = el.className + ' ' + _class;
+        } else {
+            console.log("Element not found");
+        }
     }
 })();
 
