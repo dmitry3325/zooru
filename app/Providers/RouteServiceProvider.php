@@ -13,6 +13,11 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 class RouteServiceProvider extends ServiceProvider
 {
     /**
+     * @var \Request
+     */
+    protected $currentRequest;
+
+    /**
      * This namespace is applied to your controller routes.
      *
      * In addition, it is set as the URL generator's root namespace.
@@ -40,9 +45,63 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
-        $this->mapCustomRoutes();
+        $this->currentRequest = \request();
 
+        $this->mapAjaxRoutes();
+        $this->mapCustomRoutes();
         $this->mapSiteRoutes();
+    }
+
+    protected function mapAjaxRoutes(){
+
+        $originalUrl = $this->currentRequest->path();
+        if(substr($originalUrl, 0, 5) === 'ajax/')
+        {
+            $namespace = 'App\Http\Controllers\Ajax\\';
+
+            $method    = 'index';
+            if ($this->currentRequest->get('method')) {
+                $method = $this->currentRequest->get('method');
+            }
+
+            $url     = str_replace('ajax/', '', $originalUrl);
+            $parts   = explode('/', $url);
+            $appName = [];
+            foreach ($parts as $p) {
+                if (!$p) {
+                    continue;
+                }
+                $appName[] = ucfirst($p);
+            }
+
+            if (count($appName)) {
+                if (count($appName) > 1) {
+                    $namespace .= $appName[0] . '\\';
+                    unset($appName[0]);
+                }
+            }
+            $appName = implode('', $appName);
+            if (class_exists($namespace . $appName . 'Controller') && method_exists($namespace . $appName . 'Controller',
+                    $method)
+            ) {
+                $class = $appName . 'Controller';
+
+                $app = $namespace . $class;
+
+                if (isset($app::$appSetts)) {
+                    \View::share('app_settings', $app::$appSetts);
+                }
+
+                $params = $this->currentRequest->get('params');
+                Route::middleware(['web'])->any($originalUrl, function () use ($app, $method, $params) {
+                    $controller = app($app);
+                    return call_user_func_array([$controller, $method], $params ? $params : []);
+                });
+            }else{
+                $this->show404();
+            }
+
+        }
     }
 
     /**
@@ -54,7 +113,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapSiteRoutes()
     {
         //TODO роуты с числами не работают
-        $url = \request()->path();
+        $url = $this->currentRequest->path();
 
         if (preg_match('#([a-z]+)\/([0-9]+)#', $url, $matches)) {
             $entity    = ucfirst($matches[1]);
