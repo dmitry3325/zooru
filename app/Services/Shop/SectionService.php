@@ -97,7 +97,7 @@ class SectionService
             }
         }
 
-        $this->fillQueryParams();
+        $this->fillQueryParams($efList, $filterFE);
 
         $goodsInCurrent = $this->getGoodsForCurrent($filterFE, $filteredGoods);
         $schema = $this->fillFiltersSchema($schema, $filterFE, $filteredGoods, $goodsInCurrent);
@@ -122,9 +122,19 @@ class SectionService
     }
 
 
-    private function fillQueryParams(){
-        $request = Input::all();
-        dump($request);
+    private function fillQueryParams(&$efList, &$filterFE)
+    {
+        $filters = Input::get('filter');
+        if(!$filters) return;
+        foreach ($filters as $num => $val) {
+            switch ($num) {
+                case 'price':
+
+                default:
+
+                    break;
+            }
+        }
     }
 
     /**
@@ -141,7 +151,10 @@ class SectionService
         $sectionClassName = Sections::getClassName();
         foreach ($schema as $num => &$byCode) {
             foreach ($byCode as $code => &$data) {
-                $localEfList = clone $filterFE;
+                $localEfList = [];
+                if($filterFE) {
+                    $localEfList = clone $filterFE;
+                }
                 $thisFilter = (object)['num' => $num, 'code' => $code];
 
                 $disabled = false;
@@ -159,10 +172,13 @@ class SectionService
                 } else {
                     $localEfList[] = $thisFilter;
                 }
-
                 $data['goods_count'] = 0;
                 if (isset($filteredGoods[$num][$code])) {
-                    $goodsInThisFilter = array_intersect_key($goodsInCurrent, $filteredGoods[$num][$code]);
+                    if($this->filter) {
+                        $goodsInThisFilter = array_intersect_key($goodsInCurrent, $filteredGoods[$num][$code]);
+                    }else{
+                        $goodsInThisFilter = $filteredGoods[$num][$code];
+                    }
                     $data['goods_count'] = count($goodsInThisFilter);
                 }
 
@@ -317,7 +333,6 @@ class SectionService
             foreach ($goodsFLS as $fl) {
                 $byFilter[$fl->num][$fl->code][$fl->entity_id] = $fl->entity_id;
             }
-
             return $byFilter;
         });
     }
