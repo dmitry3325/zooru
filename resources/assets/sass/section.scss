@@ -1,0 +1,41 @@
+.section {
+  background: $lGrey;
+  padding: 2em 0;
+
+  #filter-menu {
+    background: #fff;
+    padding: 1em;
+
+    i {
+      cursor: pointer;
+    }
+    .filter-block {
+      margin: 0.6em 0;
+      font-size: 0.9em;
+
+      .filter-title {
+        background: $lGrey2;
+        cursor: pointer;
+        padding: 0.6em 1.2em;
+      }
+
+      .filter-body {
+        max-height: 300px;
+        opacity: 1;
+        height: auto;
+        overflow: hidden;
+        margin: 0.8em 0;
+
+      }
+
+      a {
+        color: $grey !important;
+        display: block;
+        margin: 0.2em;
+      }
+      .count {
+        color: $mGrey2;
+      }
+    }
+  }
+}

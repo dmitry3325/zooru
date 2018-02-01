@@ -18,7 +18,6 @@
                             @endif
                         </li>
                     @endforeach
-                    <li class="active"><a href="#">Драконы</a></li>
                 </ul>
             </div>
             <div class="col-3 right">

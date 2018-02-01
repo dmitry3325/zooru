@@ -22,7 +22,7 @@
     @include('partials.menu')
     <div id="content">
         @yield('content')
-{{--        @include('partials.subscription')--}}
+        {{--@include('partials.subscription')--}}
     </div>
 
     <footer>

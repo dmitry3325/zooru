@@ -7,6 +7,7 @@ use App\Models\Shop\Filters;
 use App\Models\Shop\Goods;
 use App\Models\Shop\Sections;
 use App\Services\Shop\SectionService;
+use Illuminate\Support\Facades\View;
 
 /**
  * Created by PhpStorm.
@@ -23,6 +24,7 @@ class SectionController extends Controller
         $res = $SectionService->getData();
         dump($res);
 
+        return View::make('section.index', ['goods' => array_get($res, 'goods'), 'filters_schema' => array_get($res, 'filters_schema')]);
     }
 
     private function getBaseData($entity)

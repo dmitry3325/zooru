@@ -3598,6 +3598,7 @@ a.header_up_item:hover:not(.seporator) * {
   transition: -webkit-box-shadow 0.3s ease-in-out;
   transition: box-shadow 0.3s ease-in-out;
   transition: box-shadow 0.3s ease-in-out, -webkit-box-shadow 0.3s ease-in-out;
+  background: #fff;
 }
 
 .product-window .sale-cover {
@@ -3830,20 +3831,22 @@ input:focus {
   left: 0;
   height: 20px;
   width: 20px;
-  background-color: #EBEBEB;
-  border-radius: 2px;
+  background-color: #fff;
+  border: 2px solid #CBCBD0;
 }
 
 /* On mouse-over, add a grey background color */
 
 .cbox:hover input ~ .checkmark {
-  background-color: #CBCBD0;
+  border: 2px solid #3AB0F2;
+  text-decoration: underline;
 }
 
 /* When the checkbox is checked, add a blue background */
 
 .cbox input:checked ~ .checkmark {
   background-color: #3AB0F2;
+  border: 2px solid #3AB0F2;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
@@ -3863,14 +3866,57 @@ input:focus {
 /* Style the checkmark/indicator */
 
 .cbox .checkmark:after {
-  left: 7px;
-  top: 5px;
-  width: 5px;
-  height: 10px;
-  border: solid white;
+  left: 5px;
+  top: 1px;
+  width: 7px;
+  height: 12px;
+  border: solid #fff;
   border-width: 0 3px 3px 0;
   -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
+}
+
+.section {
+  background: #F4F4F4;
+  padding: 2em 0;
+}
+
+.section #filter-menu {
+  background: #fff;
+  padding: 1em;
+}
+
+.section #filter-menu i {
+  cursor: pointer;
+}
+
+.section #filter-menu .filter-block {
+  margin: 0.6em 0;
+  font-size: 0.9em;
+}
+
+.section #filter-menu .filter-block .filter-title {
+  background: #EBEBEB;
+  cursor: pointer;
+  padding: 0.6em 1.2em;
+}
+
+.section #filter-menu .filter-block .filter-body {
+  max-height: 300px;
+  opacity: 1;
+  height: auto;
+  overflow: hidden;
+  margin: 0.8em 0;
+}
+
+.section #filter-menu .filter-block a {
+  color: #4A4A4A !important;
+  display: block;
+  margin: 0.2em;
+}
+
+.section #filter-menu .filter-block .count {
+  color: #898989;
 }
 
 html,
@@ -4068,5 +4114,9 @@ span.loading {
   display: block;
   margin: 0 auto;
   background-size: contain;
+}
+
+.hidden {
+  display: none !important;
 }
 
