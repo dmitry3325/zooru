@@ -23,28 +23,29 @@ class SectionController extends Controller
         $filterService = new FiltersService($Section, $Filter);
 
         $res = $filterService->getData();
-        dd($res);
-        return;
-        $filters = $Section->getAllFiltersValues();
-        if ($Filter) {
-            $goods = $Filter->getGoods();
-            $contentData = $this->getBaseData($Filter);
-            $activeFilters = $Filter->getFiltersAttribute();
-            foreach($activeFilters as $f){
-                if(isset($filters[$f->num]['list'][$f->code])){
-                    $filters[$f->num]['list'][$f->code]['active'] = true;
-                }
-            }
-        } else {
-            $goods = $Section->getGoods();
-            $contentData = $this->getBaseData($Section);
-        }
+//        dd($res);
+//        return;
+//        $filters = $Section->getAllFiltersValues();
+//        if ($Filter) {
+//            $goods = $Filter->getGoods();
+//            $contentData = $this->getBaseData($Filter);
+//            $activeFilters = $Filter->getFiltersAttribute();
+//            foreach($activeFilters as $f){
+//                if(isset($filters[$f->num]['list'][$f->code])){
+//                    $filters[$f->num]['list'][$f->code]['active'] = true;
+//                }
+//            }
+//        } else {
+//            $goods = $Section->getGoods();
+//            $contentData = $this->getBaseData($Section);
+//        }
+////
+//        dump($filters);
+//        dump($goods);
+//        dump($contentData);
 
-        dump($filters);
-        dump($goods);
-        dump($contentData);
-
-        // return View::make('section.index', ['good' => null]);
+        $goods = Goods::take(10)->get();
+         return View::make('section.index', ['goods' => array_get($res, 'goods'), 'filters_schema' => array_get($res, 'filters_schema')]);
     }
 
     private function getBaseData($entity)

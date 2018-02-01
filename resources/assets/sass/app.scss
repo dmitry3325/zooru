@@ -21,6 +21,7 @@
 @import "layouts/product-prew";
 @import "layouts/login";
 @import "layouts/forms";
+@import "section";
 
 
 // fonts
@@ -217,4 +218,8 @@ span.loading{
   display: block;
   margin: 0 auto;
   background-size: contain;
+}
+
+.hidden {
+  display: none!important;
 }

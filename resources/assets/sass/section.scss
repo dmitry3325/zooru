@@ -1,0 +1,30 @@
+.section {
+  background: $lGrey;
+  padding: 2em 0;
+
+  #filter-menu {
+    background: #fff;
+    padding: 1em;
+
+    i {
+      cursor: pointer;
+    }
+    .filter-block {
+
+      .filter-title {
+        background: $lGrey2;
+        cursor: pointer;
+        padding: 0.6em 1em;
+      }
+
+      .filter-body {
+        margin-top: 0.6em;
+      }
+
+      a {
+        color: $grey !important;
+        display: block;
+      }
+    }
+  }
+}
