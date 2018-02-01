@@ -34,6 +34,7 @@
     <notification></notification>
 </div>
 <script type="text/javascript" src="/js/app.js"></script>
+<script src="/js/default.js"></script>
 @stack('scripts')
 </body>
 </html>

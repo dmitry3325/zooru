@@ -5,9 +5,15 @@
 .product-window {
   border: 1px solid $mGrey;
   text-align: center;
+  position: relative;
   padding: 0.5em;
   transition: box-shadow 0.3s ease-in-out;
   background: #fff;
+  overflow: hidden;
+
+  .photo-block {
+    margin-bottom: 0.8em;
+  }
 
   .sale-cover{
     top: -60px;
@@ -18,8 +24,9 @@
     display: none!important;
   }
 
-  h4 {
-    min-height: 3em;
+  .product-title {
+    font-size: 0.9em;
+    display: block;
   }
 
   .price-block {
@@ -29,14 +36,17 @@
 }
 
 .product-window:hover {
-  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  //2
+  //box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  //3
+  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
 }
 
 .product-link {
   position: absolute;
   left: 0;
   right: 0;
-  top: 25%;
+  top: 15%;
   background: #fff;
   opacity: 0.8;
   box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);

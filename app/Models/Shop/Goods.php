@@ -115,7 +115,7 @@ class Goods extends ShopBaseModel
             'id' => $this->id,
             'title' => $this->getH1Title(),
             'price' => $this->getPrice(),
-            'maxItems' => 5,
+            'maxItems' => 11,
             'photo' =>  $this->getFirstPhoto('thumb'),
         ]);
     }

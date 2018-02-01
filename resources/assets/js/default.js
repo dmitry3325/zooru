@@ -1,10 +1,9 @@
+import * as range from './uiElements/rangeSlider';
+
 //листалка фоток
 (function () {
 
     function init() {
-        W = window.innerWidth;
-        H = window.innerHeight;
-
         let img = document.getElementsByClassName('photo-thumbnail');
         let mainImg = document.getElementById('photo-main');
 
@@ -61,8 +60,9 @@
 //подгонялка высоты для окошек товаров
 window.onload = function() {
     let maxHeight = 0;
-    let prices = document.querySelectorAll('.product-window .prices');
 
+    //цены
+    let prices = document.querySelectorAll('.product-window .prices');
     for (let i = 0, len = prices.length; i < len; i++) {
         let elHeight = parseFloat(window.getComputedStyle(prices[i]).height.slice(0, -2));
         maxHeight = elHeight > maxHeight ? elHeight : maxHeight;
@@ -71,17 +71,29 @@ window.onload = function() {
     for (let i = 0, len = prices.length; i < len; i++) {
         prices[i].style.height = maxHeight + 'px';
     }
-};
 
+    //названия
+    maxHeight = 0;
+    let titles = document.querySelectorAll('.product-window .product-title');
+    for (let i = 0, len = titles.length; i < len; i++) {
+        let elHeight = parseFloat(window.getComputedStyle(titles[i]).height.slice(0, -2));
+        maxHeight = elHeight > maxHeight ? elHeight : maxHeight;
+    }
+
+    for (let i = 0, len = titles.length; i < len; i++) {
+        titles[i].style.height = maxHeight + 'px';
+    }
+
+};
 
 //tabs
 (function(){
     function onTabClick(event){
         event.preventDefault();
-        var actives = document.querySelectorAll('.order-description .active');
+        let actives = document.querySelectorAll('.order-description .active');
 
         // deactivate existing active tab and panel
-        for (var i = 0; i < actives.length; i++){
+        for (let i = 0; i < actives.length; i++){
             actives[i].className = actives[i].className.replace('active', '');
         }
 
@@ -90,7 +102,9 @@ window.onload = function() {
         document.getElementById(event.target.getAttribute('data-href').split('#')[1]).className += ' active';
     }
 
-    var el = document.getElementById('nav-tab');
+    let el = document.getElementById('nav-tab');
 
-    el.addEventListener('click', onTabClick, false);
+    if(el){
+        el.addEventListener('click', onTabClick, false);
+    }
 })();

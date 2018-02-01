@@ -3320,6 +3320,17 @@ a.header_up_item:hover:not(.seporator) * {
   -webkit-user-select: none;
       -ms-user-select: none;
           user-select: none;
+  -webkit-transition: -webkit-transform 0.5s ease;
+  transition: -webkit-transform 0.5s ease;
+  transition: transform 0.5s ease;
+  transition: transform 0.5s ease, -webkit-transform 0.5s ease;
+}
+
+.photo-main:hover {
+  -webkit-transform: rotate(-3deg) scale(1.1);
+  /* Chrome, Opera 15+, Safari 3.1+ */
+  /* IE 9 */
+  transform: rotate(-3deg) scale(1.1);
 }
 
 .sale-cover {
@@ -3593,12 +3604,18 @@ a.header_up_item:hover:not(.seporator) * {
 .product-window {
   border: 1px solid #CBCBD0;
   text-align: center;
+  position: relative;
   padding: 0.5em;
   -webkit-transition: -webkit-box-shadow 0.3s ease-in-out;
   transition: -webkit-box-shadow 0.3s ease-in-out;
   transition: box-shadow 0.3s ease-in-out;
   transition: box-shadow 0.3s ease-in-out, -webkit-box-shadow 0.3s ease-in-out;
   background: #fff;
+  overflow: hidden;
+}
+
+.product-window .photo-block {
+  margin-bottom: 0.8em;
 }
 
 .product-window .sale-cover {
@@ -3610,8 +3627,9 @@ a.header_up_item:hover:not(.seporator) * {
   display: none !important;
 }
 
-.product-window h4 {
-  min-height: 3em;
+.product-window .product-title {
+  font-size: 0.9em;
+  display: block;
 }
 
 .product-window .price-block {
@@ -3619,15 +3637,15 @@ a.header_up_item:hover:not(.seporator) * {
 }
 
 .product-window:hover {
-  -webkit-box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
-          box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
 }
 
 .product-link {
   position: absolute;
   left: 0;
   right: 0;
-  top: 25%;
+  top: 15%;
   background: #fff;
   opacity: 0.8;
   -webkit-box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);

@@ -1,6 +1,3 @@
-//импортируем ренж инпуты
-import * as range from './uiElements/rangeSlider';
-
 //filter slideUp slideDown
 (function () {
     let block, i, j, len, len1, ref, ref1, slideToggler, trigger,
