@@ -7,6 +7,7 @@ use App\Models\Shop\Filters;
 use App\Models\Shop\Goods;
 use App\Models\Shop\Sections;
 use App\Services\Shop\SectionService;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\View;
 
 /**

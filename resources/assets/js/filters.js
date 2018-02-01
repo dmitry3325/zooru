@@ -1,13 +1,16 @@
+//импортируем ренж инпуты
+import * as range from './uiElements/rangeSlider';
+
 //filter slideUp slideDown
 (function () {
-    var block, i, j, len, len1, ref, ref1, slideToggler, trigger,
+    let block, i, j, len, len1, ref, ref1, slideToggler, trigger,
         bind = function (fn, me) {
             return function () {
                 return fn.apply(me, arguments);
             };
         },
         indexOf = [].indexOf || function (item) {
-            for (var i = 0, l = this.length; i < l; i++) {
+            for (let i = 0, l = this.length; i < l; i++) {
                 if (i in this && this[i] === item) return i;
             }
             return -1;
@@ -25,7 +28,7 @@
         }
 
         slideToggler.prototype.getHeight = function () {
-            var clone;
+            let clone;
             clone = this.el.cloneNode(true);
             clone.style.cssText = 'visibility: hidden; display: block; margin: -999px 0';
             this.height = (this.el.parentNode.appendChild(clone)).clientHeight;
@@ -34,7 +37,7 @@
         };
 
         slideToggler.prototype.toggle = function (time) {
-            var currHeight, disp, el, end, init, ref, repeat, start;
+            let currHeight, disp, el, end, init, ref, repeat, start;
             this.getHeight();
 
             //иконки меняем
@@ -51,7 +54,7 @@
             this.el.style.cssText = "overflow: hidden; display: block;";
             init = (new Date).getTime();
             repeat = function () {
-                var i, instance, ref1, repeatLoop, results, step;
+                let i, instance, ref1, repeatLoop, results, step;
                 instance = (new Date).getTime() - init;
                 step = start + disp * instance / time;
                 if (instance <= time) {
@@ -62,7 +65,7 @@
                 repeatLoop = requestAnimationFrame(repeat);
                 if (ref1 = Math.floor(step), indexOf.call((function () {
                         results = [];
-                        for (var i = start; start <= end ? i <= end : i >= end; start <= end ? i++ : i--) {
+                        for (let i = start; start <= end ? i <= end : i >= end; start <= end ? i++ : i--) {
                             results.push(i);
                         }
                         return results;
@@ -87,14 +90,14 @@
     for (j = 0, len1 = ref1.length; j < len1; j++) {
         trigger = ref1[j];
         trigger.addEventListener('click', function () {
-            var ref2;
+            let ref2;
             return (ref2 = this.parentNode.querySelector('.filter-body').toggler) != null ? ref2.toggle() : void 0;
         });
     }
 
     function toggleClass(el, _class) {
         if (el && el.className && el.className.indexOf(_class) >= 0) {
-            var pattern = new RegExp('\\s*' + _class + '\\s*');
+            let pattern = new RegExp('\\s*' + _class + '\\s*');
             el.className = el.className.replace(pattern, ' ');
         }
         else if (el) {
