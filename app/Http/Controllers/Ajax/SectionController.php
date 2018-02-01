@@ -13,7 +13,7 @@ use App\Http\Controllers\Controller;
 class SectionController extends Controller
 {
 
-    public function loadData(){
-        dump('aaa');
+    public function loadData($a){
+        dump('aaa', $a);
     }
 }
