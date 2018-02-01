@@ -3895,6 +3895,10 @@ input:focus {
 }
 
 .section #filter-menu .filter-block .filter-body {
+  max-height: 300px;
+  opacity: 1;
+  height: auto;
+  overflow: hidden;
   margin-top: 0.6em;
 }
 

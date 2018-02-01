@@ -7,30 +7,29 @@
                 <div class="col-3" id="filter-menu">
                     <h5>Фильтры</h5>
 
-                    <div class="filter-block">
-                        <div class="filter-title">
-                            Производитель
-                            {{--<i class="material-icons fl_r">&#xE15D;</i>--}}
-                            <i class="material-icons fl_r">&#xE313;</i>
-                            <i class="material-icons fl_r hidden">&#xE315;</i>
+                    @foreach($filters_schema as $filter)
+                        <div class="filter-block">
+                            <div class="filter-title">
+                                {{ array_get($filter, 'title') }}
+                                {{--<i class="material-icons fl_r">&#xE15D;</i>--}}
+                                <i class="material-icons fl_r">&#xE313;</i>
+                                <i class="material-icons fl_r hidden">&#xE315;</i>
+                            </div>
+                            <div class="filter-body">
+                                @foreach($filter['list'] as $f)
+                                    <a href="{{ array_get($f, 'url') }}">
+                                        <label class="cbox">
+                                            {{ array_get($f, 'value') }} ({{ array_get($f, 'goods_count') }}шт.)
+                                            <input type="checkbox">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </a>
+                                @endforeach
+                            </div>
                         </div>
-                        <div class="filter-body">
-                            <label class="cbox">
-                                DukesFarm
-                                <input type="checkbox">
-                                <span class="checkmark"></span>
-                            </label>
-                            <a href="#">
-                                <label class="cbox">
-                                    Royal Canin
-                                    <input type="checkbox">
-                                    <span class="checkmark"></span>
-                                </label>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+                    @endforeach
 
+                </div>
 
                 <div class="col-9 goods-list row">
                     @foreach($goods as $good)

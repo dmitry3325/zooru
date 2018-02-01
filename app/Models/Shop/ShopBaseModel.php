@@ -208,6 +208,6 @@ class ShopBaseModel extends Model
     }
 
     public function filters(){
-        return $this->hasMany(EntityFilters::class, 'entity_id')->where('entity', '=', self::getClassName())->get();
+        return $this->hasMany(EntityFilters::class, 'entity_id')->where('entity', '=', self::getClassName());
     }
 }

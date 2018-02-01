@@ -16,14 +16,6 @@ class PageController extends Controller
 {
     public function index(Goods $good)
     {
-        $filters = $good->filters();
-        $f = [];
-        foreach ($filters as $filter){
-            $f[$filter->value] = $filter;
-
-        }
-        dump($f);
-
         return View::make('goods.page', ['good' => $good]);
     }
 }
