@@ -18,25 +18,26 @@
   color: #000;
   transition: box-shadow 0.3s ease-in-out;
 
-  .count{
-    line-height: 2.2em;
-    font-size: 0.7em;
-    padding: 0;
-    text-align: center;
-    color: $lGrey2;
-    hr {
-      border: 0;
-      border-bottom: 1px dotted $grey;
-    }
-  }
-  .price {
-    text-align: right;
-    font-size: 1.2em;
-    padding: 0 1em 0 0;
-    white-space: nowrap;
-  }
   a {
     color: #000;
+    .count {
+      line-height: 2.2em;
+      font-size: 0.7em;
+      padding: 0;
+      text-align: center;
+      color: $lGrey2;
+      hr {
+        border: 0;
+        border-bottom: 1px dotted $grey;
+      }
+    }
+    .price {
+      text-align: right;
+      font-size: 1.3em;
+      padding: 0 1em 0 0;
+      white-space: nowrap;
+    }
+
   }
 }
 
@@ -46,10 +47,11 @@
   cursor: default;
 }
 
-.price-block:hover:not(.disabled), .price-block.active{
+.price-block:hover:not(.disabled), .price-block.active {
   background: $yellow;
   box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 7px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2);
 }
+
 .price-block.disabled {
   cursor: default;
   color: $mGrey;
@@ -83,15 +85,15 @@
   box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
 }
 
-.quantity-minus{
+.quantity-minus {
   padding: 0 10px;
 }
 
-.quantity-plus{
+.quantity-plus {
   padding: 0 8px;
 }
 
-.quantityInput{
+.quantityInput {
   border: 0;
   margin: 0;
   background: none;

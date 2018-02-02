@@ -3198,7 +3198,11 @@ a.header_up_item:hover:not(.seporator) * {
   transition: box-shadow 0.3s ease-in-out, -webkit-box-shadow 0.3s ease-in-out;
 }
 
-.price-block .count {
+.price-block a {
+  color: #000;
+}
+
+.price-block a .count {
   line-height: 2.2em;
   font-size: 0.7em;
   padding: 0;
@@ -3206,20 +3210,16 @@ a.header_up_item:hover:not(.seporator) * {
   color: #EBEBEB;
 }
 
-.price-block .count hr {
+.price-block a .count hr {
   border: 0;
   border-bottom: 1px dotted #4A4A4A;
 }
 
-.price-block .price {
+.price-block a .price {
   text-align: right;
-  font-size: 1.2em;
+  font-size: 1.3em;
   padding: 0 1em 0 0;
   white-space: nowrap;
-}
-
-.price-block a {
-  color: #000;
 }
 
 .prices .active.price-block:only-child {
