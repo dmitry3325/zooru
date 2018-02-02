@@ -3222,6 +3222,13 @@ a.header_up_item:hover:not(.seporator) * {
   color: #000;
 }
 
+.prices .active.price-block:only-child {
+  background: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  cursor: default;
+}
+
 .price-block:hover:not(.disabled),
 .price-block.active {
   background: #FFDE46;

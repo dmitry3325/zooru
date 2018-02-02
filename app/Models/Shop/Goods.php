@@ -106,8 +106,6 @@ class Goods extends ShopBaseModel
         return Goods::where('parent_id', $this->parent_id)
             ->orWhere('id', $this->parent_id)
             ->get();
-
-        //TODO выбрать ток нужные столбцы селектом
     }
 
     public function getCartArray(){
