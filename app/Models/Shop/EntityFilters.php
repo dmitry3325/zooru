@@ -10,6 +10,9 @@ use App\Models\BaseModel;
  */
 class EntityFilters extends BaseModel
 {
+    const FILTER_PRICE = 801197857;
+    const FILTER_WEIGHT= 782640242;
+
     protected $table   = 'shop.entity_filters';
     protected $guarded = ['id'];
 

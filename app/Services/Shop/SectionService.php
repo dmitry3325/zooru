@@ -52,7 +52,6 @@ class SectionService
      */
     protected $filter;
 
-
     public $paginate = true;
 
     public $pageParamName = 'page';
@@ -76,6 +75,7 @@ class SectionService
         $this->section = $section;
         $this->filter = $filter;
 
+
         /*$this->sectionFiltersStorage = Redis::connection(self::SECTION_FILTERS);
         $this->filterGoodsStorage = Redis::connection(self::FILTERED_GOODS);*/
     }
@@ -85,8 +85,7 @@ class SectionService
      */
     public function getData()
     {
-        $schema = $this->getFiltersSchema();
-        $filteredGoods = $this->getGoodsByFilter();
+        list($schema, $filteredGoods) = $this->getFiltersSchema();
 
         $efList = [];
         $filterFE = [];
@@ -97,8 +96,7 @@ class SectionService
             }
         }
 
-        $this->fillQueryParams($efList, $filterFE);
-
+        $addParams = $this->fillQueryParams($schema);
         $goodsInCurrent = $this->getGoodsForCurrent($filterFE, $filteredGoods);
         $schema = $this->fillFiltersSchema($schema, $filterFE, $efList, $filteredGoods, $goodsInCurrent);
 
@@ -112,6 +110,26 @@ class SectionService
         } else {
             $q->where('section_id', $this->section->id);
         }
+        foreach($addParams as $code => $data){
+            $filed = null;
+            switch ($code){
+                case EntityFilters::FILTER_PRICE:
+                    $field = 'price';
+                    break;
+                case EntityFilters::FILTER_WEIGHT:
+                    $field = 'weight';
+                    break;
+            }
+            if($field) {
+                if (isset($data['min'])) {
+                    $q->where($field, '>=', $data['min']);
+                }
+                if (isset($data['max'])) {
+                    $q->where($field, '<=', $data['max']);
+                }
+            }
+        }
+
         $q->orderBy($this->orderByColumn, $this->orderByWay);
         $goods = $q->paginate($this->perPage, ['*'], $this->pageParamName, $this->currentPage);
 
@@ -121,20 +139,32 @@ class SectionService
         ];
     }
 
-
-    private function fillQueryParams(&$efList, &$filterFE)
+    /**
+     * @param $schema
+     * @return array|void
+     */
+    private function fillQueryParams(&$schema)
     {
-        $filters = Input::get('filter');
-        if(!$filters) return;
-        foreach ($filters as $num => $val) {
-            switch ($num) {
-                case 'price':
+        $filterData = Input::get('filter');
+        if(!$filterData) return [];
 
-                default:
-
-                    break;
-            }
+        $addParams = [];
+        foreach($schema as $num=>$filter){
+           if(isset($filterData[$filter['code']])){
+               $data = $filterData[$filter['code']];
+               switch($filter['code']){
+                   case EntityFilters::FILTER_PRICE:
+                   case EntityFilters::FILTER_WEIGHT:
+                   $addParams[$filter['code']] = $schema[$num]['value'] = [
+                            'min' => floatval(array_get($data, 'min', $filter['range']['min'])),
+                            'max' => floatval(array_get($data, 'max', $filter['range']['max']))
+                       ];
+                   default :
+                       break;
+               }
+           }
         }
+        return $addParams;
     }
 
     /**
@@ -151,6 +181,7 @@ class SectionService
         $sectionClassName = Sections::getClassName();
 
         foreach ($schema as $num => &$byCode) {
+            if($byCode['view_type'] !== 'items_list') continue;
             foreach ($byCode['list'] as $code => &$data) {
                 $localEfList = [];
                 if($filterFE) {
@@ -243,7 +274,14 @@ class SectionService
         \Cache::forget($key);
 
         return \Cache::remember($key, 24 * 60, function () {
-            $filters = EntityFilters::select('shop.entity_filters.num', 'shop.entity_filters.code', 'shop.entity_filters.value')
+
+            $filters = EntityFilters::select(
+                'shop.entity_filters.num',
+                'shop.entity_filters.code',
+                'shop.entity_filters.value',
+                'shop.entity_filters.entity_id',
+                'shop.goods.price',
+                'shop.goods.weight')
                 ->join('shop.goods', function ($join) {
                     $join->on('shop.goods.id', '=', 'shop.entity_filters.entity_id');
                 })
@@ -254,25 +292,77 @@ class SectionService
                 ->orderBy(\DB::raw('null'))
                 ->get();
 
-            $data = [];
-
-            $sectionFilters = [];
+            $schema = [];
+            $goodsByFilter = [];
+            $priceRange = $weightRange = [
+                'min' => 10000000000000,
+                'max' => 0
+            ];
             foreach($this->section->filters as $filter){
-                $sectionFilters[$filter->num] = $filter->value;
+                if($filter->hidden) continue;
+
+                $schema[$filter->num] = [
+                    'code' => $filter->code,
+                    'title' => $filter->value,
+                    'order_by' => $filter->order_by,
+                ];
+                if($filter->code === EntityFilters::FILTER_PRICE){
+                    $schema[$filter->num]['view_type'] = 'data_range';
+                    $schema[$filter->num]['range'] = [];
+                }else if($filter->code === EntityFilters::FILTER_WEIGHT){
+                    $schema[$filter->num]['view_type'] = 'data_range';
+                    $schema[$filter->num]['range'] = [];
+                }else{
+                    $schema[$filter->num]['view_type'] = 'items_list';
+                    $schema[$filter->num]['list'] = [];
+                }
             }
 
             foreach ($filters as $fil) {
-                if(!isset($data[$fil->num])){
-                    if(!isset($sectionFilters[$fil->num])) continue;
-                    $data[$fil->num]['title'] = $sectionFilters[$fil->num];
+                if(!isset($schema[$fil->num])) continue;
+                if($schema[$fil->num]['view_type'] === 'items_list') {
+                    $schema[$fil->num]['list'][$fil->code] = [
+                        'value' => $fil->value,
+                        'code' => $fil->code,
+                    ];
                 }
-                $data[$fil->num]['list'][$fil->code] = [
-                    'value' => $fil->value,
-                    'code'  => $fil->code,
-                ];
+
+                if($priceRange['min'] > $fil->price){
+                    $priceRange['min'] = $fil->price;
+                }
+                if($priceRange['max'] < $fil->price){
+                    $priceRange['max'] = $fil->price;
+                }
+
+                if($weightRange['min'] > $fil->weigth){
+                    $weightRange['min'] = $fil->weigth;
+                }
+                if($weightRange['max'] < $fil->weigth){
+                    $weightRange['max'] = $fil->weigth;
+                }
+
+                $goodsByFilter[$fil->num][$fil->code][$fil->entity_id] = $fil->entity_id;
             }
 
-            return $data;
+            foreach($schema as $k=>$sh){
+                if($schema[$k]['code'] === EntityFilters::FILTER_PRICE){
+                    $schema[$k]['range'] = $priceRange;
+                }else if($schema[$k]['code'] === EntityFilters::FILTER_WEIGHT){
+                    $schema[$k]['range'] = $weightRange;
+                }else if($schema[$k]['view_type'] === 'items_list'){
+                    if(count($schema[$k]['list']) === 0){
+                        unset($schema[$k]);
+                    }
+                }
+            }
+
+            uasort($schema, function($a, $b){
+                if($a['order_by'] === $b['order_by']) return 0;
+                return (($a['order_by'] < $b['order_by'])? 1: -1);
+            });
+
+
+            return [$schema, $goodsByFilter];
         });
     }
 
@@ -324,34 +414,6 @@ class SectionService
         });
     }
 
-    /**
-     * @return mixed
-     */
-    private function getGoodsByFilter()
-    {
-        $key = self::KEY_GOODS_FILTER . ':' . $this->section->id;
-
-        \Cache::forget($key);
-
-        return \Cache::remember($key, 60, function () {
-            $goodsFLS = EntityFilters::select('shop.entity_filters.num', 'shop.entity_filters.code', 'shop.entity_filters.entity_id')
-                ->join('shop.goods', function ($join) {
-                    $join->on('shop.goods.id', '=', 'shop.entity_filters.entity_id');
-                })
-                ->where('shop.goods.section_id', '=', $this->section->id)
-                ->where('shop.goods.hidden', '=', 0)
-                ->where('shop.entity_filters.entity', '=', Goods::getClassName())
-                ->get();
-
-            $byFilter = [];
-            foreach ($goodsFLS as $fl) {
-                $byFilter[$fl->num][$fl->code][$fl->entity_id] = $fl->entity_id;
-            }
-
-
-            return $byFilter;
-        });
-    }
 
     /**
      * @param string $filterKey

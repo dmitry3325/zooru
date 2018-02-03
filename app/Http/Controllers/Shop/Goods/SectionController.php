@@ -23,7 +23,7 @@ class SectionController extends Controller
         $SectionService = new SectionService($Section, $Filter);
 
         $res = $SectionService->getData();
-        dump($res);
+        dd($res);
 
         return View::make('section.index', ['goods' => array_get($res, 'goods'), 'filters_schema' => array_get($res, 'filters_schema')]);
     }
