@@ -37,7 +37,7 @@
   transition: transform 0.5s ease;
 }
 
-.photo-main:hover {
+.product-window:hover .photo-main {
   -webkit-transform : rotate(-3deg) scale(1.1); /* Chrome, Opera 15+, Safari 3.1+ */
   -ms-transform     : rotate(-3deg) scale(1.1); /* IE 9 */
   transform         : rotate(-3deg) scale(1.1)
