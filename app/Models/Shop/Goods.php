@@ -28,22 +28,6 @@ namespace App\Models\Shop;
  * @property int $price_opt1
  * @property int $price_opt2
  * @property int $discount
- * @property string $filter_1
- * @property int $filter_1_id
- * @property string $filter_2
- * @property int $filter_2_id
- * @property string $filter_3
- * @property int $filter_3_id
- * @property string $filter_4
- * @property int $filter_4_id
- * @property string $filter_5
- * @property int $filter_5_id
- * @property string $filter_6
- * @property int $filter_6_id
- * @property string $filter_7
- * @property int $filter_7_id
- * @property string $filter_8
- * @property int $filter_8_id
  
  * @property int $tarif
  * @property int $tarif_discount

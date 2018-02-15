@@ -1,13 +1,14 @@
 .associated-products {
   text-align: center;
+  background: $lGrey;
 }
 
 .product-window {
-  border: 1px solid $mGrey;
+  //border: 1px solid $mGrey;
   text-align: center;
   position: relative;
   padding: 0.7em 0.5em;
-  transition: box-shadow 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
   background: #fff;
   overflow: hidden;
   margin-bottom: 1em;
@@ -18,7 +19,8 @@
 
   .sale-cover{
     top: -60px;
-    left: 8px;
+    left: -10px;
+    z-index: 1;
   }
 
   .thumb-block {
@@ -38,10 +40,8 @@
 }
 
 .product-window:hover {
-  //2
-  //box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
-  //3
   box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
+  transform: scale(1.02, 1.02);
 }
 
 .product-link {

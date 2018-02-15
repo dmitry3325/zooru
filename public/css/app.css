@@ -3382,7 +3382,7 @@ a.header_up_item:hover:not(.seporator) * {
   transform: rotate(-90deg);
   position: absolute;
   color: #fff;
-  font-size: 20px;
+  font-size: 1.25em;
   font-weight: bold;
   top: 62px;
   left: 16px;
@@ -3617,17 +3617,15 @@ a.header_up_item:hover:not(.seporator) * {
 
 .associated-products {
   text-align: center;
+  background: #F4F4F4;
 }
 
 .product-window {
-  border: 1px solid #CBCBD0;
   text-align: center;
   position: relative;
   padding: 0.7em 0.5em;
-  -webkit-transition: -webkit-box-shadow 0.3s ease-in-out;
-  transition: -webkit-box-shadow 0.3s ease-in-out;
-  transition: box-shadow 0.3s ease-in-out;
-  transition: box-shadow 0.3s ease-in-out, -webkit-box-shadow 0.3s ease-in-out;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
   background: #fff;
   overflow: hidden;
   margin-bottom: 1em;
@@ -3639,7 +3637,8 @@ a.header_up_item:hover:not(.seporator) * {
 
 .product-window .sale-cover {
   top: -60px;
-  left: 8px;
+  left: -10px;
+  z-index: 1;
 }
 
 .product-window .thumb-block {
@@ -3659,6 +3658,8 @@ a.header_up_item:hover:not(.seporator) * {
 .product-window:hover {
   -webkit-box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
           box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
+  -webkit-transform: scale(1.02, 1.02);
+          transform: scale(1.02, 1.02);
 }
 
 .product-link {
