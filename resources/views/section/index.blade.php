@@ -3,7 +3,7 @@
 @section('content')
     <div class="section">
         <div class="container">
-            <div class="row">
+            <div class="row align-items-start">
                 <div class="col-3" id="filter-menu">
                     <strong>Фильтры</strong>
 

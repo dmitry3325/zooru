@@ -3859,6 +3859,7 @@ input:focus {
   height: 20px;
   width: 20px;
   background-color: #fff;
+  border-radius: 2px;
   border: 2px solid #CBCBD0;
 }
 
@@ -3973,7 +3974,7 @@ input:focus {
 }
 
 .section #filter-menu .filter-block .filter-title {
-  background: #EBEBEB;
+  background: #F4F4F4;
   cursor: pointer;
   padding: 0.6em 1.2em;
 }
