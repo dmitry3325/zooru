@@ -82,9 +82,15 @@ class Goods extends ShopBaseModel
         return $this->price;
     }
 
-    public function getFormatedPrice()
+    public function getFinalPrice()
     {
-        return number_format($this->getPrice(), 0, ',', ' ') . '&#8381;';
+        return $this->final_price;
+    }
+
+    public function getFormatedPrice($final = false)
+    {
+        $price = $final ? $this->getPrice() : $this->getFinalPrice();
+        return number_format($price, 0, ',', ' ') . '&#8381;';
     }
 
     //TODO поправить на sectiion_id
@@ -120,6 +126,10 @@ class Goods extends ShopBaseModel
 
     public function getAssociatedList(){
         return Goods::all()->take(4);
+    }
+
+    public function withDiscount(){
+        return $this->getPrice() !== $this->getFinalPrice();
     }
 
 }

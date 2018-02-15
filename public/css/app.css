@@ -3203,12 +3203,15 @@ a.header_up_item:hover:not(.seporator) * {
   font-size: 0.7em;
   padding: 0;
   text-align: center;
-  color: #EBEBEB;
 }
 
 .price-block .count hr {
   border: 0;
   border-bottom: 1px dotted #4A4A4A;
+}
+
+.price-block .disabled .count {
+  color: #EBEBEB;
 }
 
 .price-block .price {
@@ -3219,6 +3222,14 @@ a.header_up_item:hover:not(.seporator) * {
 
 .price-block a {
   color: #000;
+}
+
+.price-block .price-line-through {
+  float: right;
+  text-decoration: line-through;
+  font-size: 1.1em;
+  position: relative;
+  bottom: -6px;
 }
 
 .prices .active.price-block:only-child {
@@ -4184,6 +4195,10 @@ h6 {
 
 .blue {
   color: #3AB0F2;
+}
+
+.red {
+  color: #FF7158;
 }
 
 span.loading {
