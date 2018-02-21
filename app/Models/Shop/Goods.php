@@ -28,22 +28,6 @@ namespace App\Models\Shop;
  * @property int $price_opt1
  * @property int $price_opt2
  * @property int $discount
- * @property string $filter_1
- * @property int $filter_1_id
- * @property string $filter_2
- * @property int $filter_2_id
- * @property string $filter_3
- * @property int $filter_3_id
- * @property string $filter_4
- * @property int $filter_4_id
- * @property string $filter_5
- * @property int $filter_5_id
- * @property string $filter_6
- * @property int $filter_6_id
- * @property string $filter_7
- * @property int $filter_7_id
- * @property string $filter_8
- * @property int $filter_8_id
  
  * @property int $tarif
  * @property int $tarif_discount
@@ -82,9 +66,15 @@ class Goods extends ShopBaseModel
         return $this->price;
     }
 
-    public function getFormatedPrice()
+    public function getFinalPrice()
     {
-        return number_format($this->getPrice(), 0, ',', ' ') . '&#8381;';
+        return $this->final_price;
+    }
+
+    public function getFormatedPrice($final = false)
+    {
+        $price = $final ? $this->getPrice() : $this->getFinalPrice();
+        return number_format($price, 0, ',', ' ') . '&#8381;';
     }
 
     //TODO поправить на sectiion_id
@@ -120,6 +110,10 @@ class Goods extends ShopBaseModel
 
     public function getAssociatedList(){
         return Goods::all()->take(4);
+    }
+
+    public function withDiscount(){
+        return $this->getPrice() !== $this->getFinalPrice();
     }
 
 }

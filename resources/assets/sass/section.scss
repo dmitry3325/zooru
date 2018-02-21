@@ -14,13 +14,13 @@
       font-size: 0.9em;
 
       .filter-title {
-        background: $lGrey2;
+        background: $lGrey;
         cursor: pointer;
         padding: 0.6em 1.2em;
       }
 
       .filter-body {
-        max-height: 300px;
+        height: 300px;
         opacity: 1;
         height: auto;
         overflow: hidden;
@@ -31,7 +31,8 @@
       a {
         color: $grey !important;
         display: block;
-        margin: 0.2em;
+        margin: 0.3em;
+        padding: 0.3em;
       }
       .count {
         color: $mGrey2;
