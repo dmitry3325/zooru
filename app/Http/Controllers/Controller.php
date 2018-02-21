@@ -21,7 +21,7 @@ class Controller extends BaseController
 
     public static function getMenu(){
         $result = [];
-        $sections = Sections::all()->sortBy('parent_id')->toArray();
+        /*$sections = Sections::all()->sortBy('parent_id')->toArray();
         foreach ($sections as $section) {
             if($section['parent_id'] === 0){
                 $result[$section['id']] = [];
@@ -29,7 +29,7 @@ class Controller extends BaseController
             } else {
                 $result[$section['parent_id']][] = $section;
             }
-        }
+        }*/
         return $result;
     }
 }
