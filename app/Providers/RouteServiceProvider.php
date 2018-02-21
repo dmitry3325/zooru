@@ -112,7 +112,6 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapSiteRoutes()
     {
-        //TODO роуты с числами не работают
         $url = $this->currentRequest->path();
 
         if (preg_match('#([a-z]+)\/([0-9]+)#', $url, $matches)) {
@@ -120,6 +119,7 @@ class RouteServiceProvider extends ServiceProvider
             $entity_id = intval($matches[2]);
 
             if (ShopBaseModel::checkEntity($entity)) {
+
                 $U = Urls::where('entity', $entity)
                     ->where('entity_id', $entity_id)
                     ->first();

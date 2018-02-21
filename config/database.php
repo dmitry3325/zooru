@@ -113,13 +113,31 @@ return [
             'password' => env('REDIS_PASSWORD', null),
             'port'     => env('REDIS_PORT', 6379),
             'database' => 0,
+            'read_write_timeout' => 0,
         ],
 
-        'filtered_goods' => [
+        'goods_by_filter' => [
             'host'     => env('REDIS_HOST', 'localhost'),
             'password' => env('REDIS_PASSWORD', null),
             'port'     => env('REDIS_PORT', 6379),
             'database' => 1,
+            'read_write_timeout' => 0,
+        ],
+
+        'section_filter_schema' => [
+            'host'     => env('REDIS_HOST', 'localhost'),
+            'password' => env('REDIS_PASSWORD', null),
+            'port'     => env('REDIS_PORT', 6379),
+            'database' => 2,
+            'read_write_timeout' => 0,
+        ],
+
+        'goods_important_data' => [
+            'host'     => env('REDIS_HOST', 'localhost'),
+            'password' => env('REDIS_PASSWORD', null),
+            'port'     => env('REDIS_PORT', 6379),
+            'database' => 3,
+            'read_write_timeout' => 0,
         ],
 
     ],
