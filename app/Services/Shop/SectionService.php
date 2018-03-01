@@ -7,6 +7,7 @@ use App\Models\Shop\Filters;
 use App\Models\Shop\Sections;
 use App\Models\Shop\Goods;
 use App\Models\Shop\ShopBaseModel;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Input;
 
@@ -69,7 +70,7 @@ class SectionService
 
         try {
             $this->goodsDataStorage = new GoodsStorage();
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
 
         }
     }
@@ -79,50 +80,31 @@ class SectionService
      */
     public function getData()
     {
-        list($schema, $filteredGoods) = $this->getFiltersSchema();
+        list($schema, $filteredGoods, $goodsDataById) = $this->getFiltersSchema();
 
         $efList = [];
-        $filterFE = [];
+        $filterFE = new Collection();
         if ($this->filter) {
             $filterFE = clone $this->filter->filters;
-            foreach ($this->filter->filters as $f) {
+        }
+
+        $addParams = $this->fillQueryParams($schema, $filterFE);
+        if (count($filterFE)) {
+            foreach ($filterFE as $f) {
                 $efList[$f->num][$f->code] = $f;
             }
         }
-
-        $addParams = $this->fillQueryParams($schema);
-        $goodsInCurrent = $this->getGoodsForCurrent($filterFE, $filteredGoods);
-        $schema = $this->fillFiltersSchema($schema, $filterFE, $efList, $filteredGoods, $goodsInCurrent);
+        $goodsInCurrent = $this->getGoodsForCurrent($filterFE, $filteredGoods, $addParams, $goodsDataById);
+        $schema = $this->fillFiltersSchema($schema, $filteredGoods, $goodsDataById, $goodsInCurrent, $filterFE, $efList, $addParams);
 
         $q = Goods::with('url')->where('hidden', 0);
-        if ($this->filter) {
-            if (count($goodsInCurrent)) {
-                $q->whereIn('id', $goodsInCurrent);
-            } else {
-                $q->where(\DB::raw('0 = 1'));
-            }
+
+        if (count($goodsInCurrent)) {
+            $q->whereIn('id', $goodsInCurrent);
         } else {
-            $q->where('section_id', $this->section->id);
+            $q->where(\DB::raw('0 = 1'));
         }
-        foreach ($addParams as $code => $data) {
-            $filed = null;
-            switch ($code) {
-                case EntityFilters::FILTER_PRICE:
-                    $field = 'price';
-                    break;
-                case EntityFilters::FILTER_WEIGHT:
-                    $field = 'weight';
-                    break;
-            }
-            if ($field) {
-                if (isset($data['min'])) {
-                    $q->where($field, '>=', $data['min']);
-                }
-                if (isset($data['max'])) {
-                    $q->where($field, '<=', $data['max']);
-                }
-            }
-        }
+
 
         $q->orderBy($this->orderByColumn, $this->orderByWay);
         $goods = $q->paginate($this->perPage, ['*'], $this->pageParamName, $this->currentPage);
@@ -134,28 +116,43 @@ class SectionService
     }
 
     /**
-     * @param $schema
+     * @param            $schema
+     * @param Collection $filterFE
      *
-     * @return array|void
+     * @return array
      */
-    private function fillQueryParams(&$schema)
+    private function fillQueryParams(&$schema, Collection &$filterFE)
     {
         $filterData = Input::get('filter');
         if (!$filterData) return [];
 
         $addParams = [];
-        foreach ($schema as $num => $filter) {
+        foreach ($schema as $num => &$filter) {
             if (isset($filterData[$filter['code']])) {
+                $viewType = $filter['view_type'] ?? 'items_list';
                 $data = $filterData[$filter['code']];
-                switch ($filter['code']) {
-                    case EntityFilters::FILTER_PRICE:
-                    case EntityFilters::FILTER_WEIGHT:
-                        $addParams[$filter['code']] = $schema[$num]['value'] = [
-                            'min' => floatval(array_get($data, 'min', $filter['range']['min'])),
-                            'max' => floatval(array_get($data, 'max', $filter['range']['max'])),
-                        ];
-                    default :
-                        break;
+                if ($viewType === 'items_list') {
+                    if (!is_array($data)) $data = [$data];
+                    foreach ($data as $code) {
+                        if (isset($filter['list'][$code])) {
+                            $ef = new EntityFilters();
+                            $ef->num = $num;
+                            $ef->code = $filter['list'][$code]['code'];
+                            $ef->value = $filter['list'][$code]['value'];
+                            $filterFE->add($ef);
+                        }
+                    }
+                } else if ($viewType === 'data_range') {
+                    switch ($filter['code']) {
+                        case EntityFilters::FILTER_PRICE:
+                        case EntityFilters::FILTER_WEIGHT:
+                            $addParams[$filter['code']] = $schema[$num]['value'] = [
+                                'min' => floatval(array_get($data, 'min', $filter['range']['min'])),
+                                'max' => floatval(array_get($data, 'max', $filter['range']['max'])),
+                            ];
+                        default :
+                            break;
+                    }
                 }
             }
         }
@@ -165,16 +162,21 @@ class SectionService
 
     /**
      * @param $schema
-     * @param $filterFE
      * @param $filteredGoods
+     * @param $goodsDataById
      * @param $goodsInCurrent
+     * @param $filterFE
+     * @param $efList
+     * @param $addParams
      *
-     * @return mixed
+     * @return array
      */
-    private function fillFiltersSchema($schema, $filterFE, $efList, $filteredGoods, $goodsInCurrent)
+    private function fillFiltersSchema($schema, $filteredGoods, $goodsDataById, $goodsInCurrent, $filterFE, $efList, $addParams)
     {
         $filtersUrls = $this->getExistingFilters();
         $sectionClassName = Sections::getClassName();
+
+        $filterByAddParams = count($addParams);
 
         foreach ($schema as $num => &$byCode) {
             if ($byCode['view_type'] !== 'items_list') continue;
@@ -201,12 +203,20 @@ class SectionService
                     $localEfList[] = $thisFilter;
                 }
                 $data['goods_count'] = 0;
+                /** Фильтруем по фильрам */
                 if (isset($filteredGoods[$num][$code])) {
                     if ($this->filter) {
                         $goodsInThisFilter = array_intersect_key($goodsInCurrent, $filteredGoods[$num][$code]);
                     } else {
                         $goodsInThisFilter = $filteredGoods[$num][$code];
                     }
+
+                    /** Оставшиеся по параметрам если есть*/
+                    if (count($goodsInThisFilter) && $filterByAddParams) {
+                        $goodsInThisFilter = $this->filterByAddParams($goodsInThisFilter, $addParams, $goodsDataById);
+                    }
+
+
                     $data['goods_count'] = count($goodsInThisFilter);
                 }
 
@@ -229,12 +239,49 @@ class SectionService
     }
 
     /**
+     * @param $goods
+     * @param $addParams
+     * @param $goodsDataById
+     *
+     * @return mixed
+     */
+    private function filterByAddParams($goods, $addParams, $goodsDataById)
+    {
+        foreach ($addParams as $param => $paramData) {
+            foreach ($goods as $goodId) {
+                if (isset($goodsDataById[$goodId])) {
+                    $key = null;
+                    if ($param === EntityFilters::FILTER_PRICE) {
+                        $key = 'price';
+                    } else if ($param === EntityFilters::FILTER_WEIGHT) {
+                        $key = 'weight';
+                    }
+                    if (!$key) continue;
+                    $val = $goodsDataById[$goodId][$key];
+                    if (isset($paramData['min']) && $val <= $paramData['min']) {
+                        unset($goods[$goodId]);
+                    }
+                    if (isset($paramData['max']) && $val >= $paramData['max']) {
+                        unset($goods[$goodId]);
+                    }
+                } else {
+                    unset($goods[$goodId]);
+                }
+            }
+        }
+
+        return $goods;
+    }
+
+    /**
      * @param $filterFE
      * @param $filteredGoods
+     * @param $addParams
+     * @param $goodsDataById
      *
      * @return array|mixed
      */
-    private function getGoodsForCurrent($filterFE, $filteredGoods)
+    private function getGoodsForCurrent($filterFE, $filteredGoods, $addParams, $goodsDataById)
     {
         $goodsInCurrent = [];
         if ($this->filter) {
@@ -256,6 +303,14 @@ class SectionService
                 }
             }
         }
+        if (!count($goodsInCurrent)) {
+            foreach ($goodsDataById as $id => $data) {
+                $goodsInCurrent[$id] = $id;
+            }
+        }
+        if (count($addParams)) {
+            $goodsInCurrent = $this->filterByAddParams($goodsInCurrent, $addParams, $goodsDataById);
+        }
 
         return $goodsInCurrent;
     }
@@ -265,16 +320,15 @@ class SectionService
      */
     private function getFiltersSchema()
     {
-        if($this->goodsDataStorage){
+        if ($this->goodsDataStorage) {
             try {
                 $schema = $this->goodsDataStorage->getFilterSchema($this->section->id);
                 $goodsByFilter = $this->goodsDataStorage->getGoodsByFilter($this->section->id);
                 $goodsDataById = $this->goodsDataStorage->getGoodsData($this->section->id);
-
-                if(!is_null($schema) && !is_null($goodsByFilter) && !is_null($goodsDataById)) {
+                if (!is_null($schema) && !is_null($goodsByFilter) && !is_null($goodsDataById)) {
                     return [$schema, $goodsByFilter, $goodsDataById];
                 }
-            }catch (\Exception $e){
+            } catch (\Exception $e) {
 
             }
         }
@@ -388,14 +442,14 @@ class SectionService
     private function getExistingFilters()
     {
 
-        if($this->goodsDataStorage){
+        if ($this->goodsDataStorage) {
             try {
                 $data = $this->goodsDataStorage->getSectionFilters($this->section->id);
 
-                if(!is_null($data)) {
+                if (!is_null($data)) {
                     return $data;
                 }
-            }catch (\Exception $e){
+            } catch (\Exception $e) {
 
             }
         }
