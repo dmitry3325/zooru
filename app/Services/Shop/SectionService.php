@@ -177,7 +177,6 @@ class SectionService
         $sectionClassName = Sections::getClassName();
 
         $filterByAddParams = count($addParams);
-
         foreach ($schema as $num => &$byCode) {
             if ($byCode['view_type'] !== 'items_list') continue;
             foreach ($byCode['list'] as $code => &$data) {
@@ -231,6 +230,9 @@ class SectionService
                     } else {
                         $data['url'] = ShopBaseModel::getUrl($sectionClassName, $this->section->id, $this->section->url);
                     }
+                }
+                if(isset($efList[$num][$code])){
+                    $data['checked'] = 1;
                 }
             }
         }
