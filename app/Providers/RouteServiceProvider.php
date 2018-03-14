@@ -52,20 +52,20 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapSiteRoutes();
     }
 
-    protected function mapAjaxRoutes(){
+    protected function mapAjaxRoutes()
+    {
 
         $originalUrl = $this->currentRequest->path();
-        if(substr($originalUrl, 0, 5) === 'ajax/')
-        {
-            $namespace = 'App\Http\Controllers\Ajax\\';
+        if (substr($originalUrl, 0, 5) === 'ajax/') {
+            $namespace = $this->namespace . '\Ajax\\';
 
-            $method    = 'index';
+            $method = 'index';
             if ($this->currentRequest->get('method')) {
                 $method = $this->currentRequest->get('method');
             }
 
-            $url     = str_replace('ajax/', '', $originalUrl);
-            $parts   = explode('/', $url);
+            $url = str_replace('ajax/', '', $originalUrl);
+            $parts = explode('/', $url);
             $appName = [];
             foreach ($parts as $p) {
                 if (!$p) {
@@ -95,9 +95,10 @@ class RouteServiceProvider extends ServiceProvider
                 $params = $this->currentRequest->get('params');
                 Route::middleware(['web'])->any($originalUrl, function () use ($app, $method, $params) {
                     $controller = app($app);
+
                     return call_user_func_array([$controller, $method], $params ? $params : []);
                 });
-            }else{
+            } else {
                 $this->show404();
             }
 
@@ -114,36 +115,13 @@ class RouteServiceProvider extends ServiceProvider
     {
         $url = $this->currentRequest->path();
 
-        if (preg_match('#([a-z]+)\/([0-9]+)#', $url, $matches)) {
-            $entity    = ucfirst($matches[1]);
-            $entity_id = intval($matches[2]);
+        $U = Urls::getEntityByUrl($url);
 
-            if (ShopBaseModel::checkEntity($entity)) {
-
-                $U = Urls::where('entity', $entity)
-                    ->where('entity_id', $entity_id)
-                    ->first();
-
-                if ($U) {
-                    redirect('/' . $U->url . '.html', 301)->send();
-                }
-                else {
-                    return $this->showEntity($entity, $entity_id);
-                }
-            }
-
-        }
-        elseif (preg_match('#([a-z0-9\-_]+)\.html#', $url, $matches)) {
-            $url = $matches[1];
-            $U   = Urls::where('url', $url)->first();
-
-            if ($U) {
-                return $this->showEntity($U->entity, $U->entity_id);
-            }
+        if($U){
+            return $this->showEntity($U->entity, $U->entity_id);
         }
 
         $this->show404();
-
     }
 
     /**
@@ -153,7 +131,8 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function mapCustomRoutes(){
+    protected function mapCustomRoutes()
+    {
         Route::group([
             'middleware' => ['web'],
             'namespace'  => $this->namespace,
@@ -173,18 +152,21 @@ class RouteServiceProvider extends ServiceProvider
 
         if ($entity === 'Goods') {
             $app = PageController::class;
-        }
-        else if ($entity === 'Filters') {
-            $app = SectionController::class;
-            array_unshift($params, $e->section);
-        }
-        else if ($entity === 'Sections') {
-            $app = SectionController::class;
+        } else {
+            if ($entity === 'Filters') {
+                $app = SectionController::class;
+                array_unshift($params, $e->section);
+            } else {
+                if ($entity === 'Sections') {
+                    $app = SectionController::class;
+                }
+            }
         }
         $url = \request()->path();
 
         return Route::middleware(['web'])->any($url, function () use ($app, $params) {
             $controller = app($app);
+
             return call_user_func_array([$controller, 'index'], $params);
         });
 
@@ -193,7 +175,8 @@ class RouteServiceProvider extends ServiceProvider
     protected function show404()
     {
         $menu = Controller::getMenu();
-        \View::share ( 'menu', $menu );
+        \View::share('menu', $menu);
+
         return response()->view('errors.404', [], 404);
     }
 }

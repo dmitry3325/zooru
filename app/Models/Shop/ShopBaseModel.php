@@ -44,6 +44,7 @@ class ShopBaseModel extends Model
         return ($full) ? self::$class_full_name : self::$class_name;
     }
 
+
     /**
      * @param $entity
      * @param $id
