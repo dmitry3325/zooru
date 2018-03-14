@@ -19,7 +19,7 @@
                                 <div class="col-2"><img :src="product.photo" class="cart-window__item-img"></div>
 
                                 <div class="col-6">
-                                    <span class="cart-window__item-text">{{ product.title }}</span>
+                                    <a class="cart-window__item-text" :href="'/goods/' + product.id">{{ product.title }}</a>
                                 </div>
                                 <div class="col-3">
                                     <span class="cart-window__item-text">{{ product.quantity

@@ -29,7 +29,7 @@
                     <a href="{{ array_get($f, 'url') }}" class="@if(array_get($f, 'disabled')) disabled @endif">
                         <label class="cbox">
                             {{ array_get($f, 'value') }} <span class="count">({{ array_get($f, 'goods_count') }})</span>
-                            <input type="checkbox" name="{{ array_get($f, 'code') }}">
+                            <input type="checkbox" name="{{ array_get($f, 'code') }}" @if(array_get($f, 'checked') == 1) checked @endif>
                             <span class="checkmark"></span>
                         </label>
                     </a>
