@@ -12,6 +12,7 @@ class Photos extends Basemodel
 
     const PIC_PATH    = '/p';
     const STORAGE_DIR = '/photos';
+    const DEFAULT_PHOTO = '/images/zoo-box.svg';
 
     public static $sizes = [
         'thumb'  => [
