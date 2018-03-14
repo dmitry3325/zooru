@@ -41,9 +41,10 @@ body {
   line-height: $font-height;
 }
 
-a {
+a, a:visited {
   text-decoration: none;
   cursor: pointer;
+  color: $grey;
 }
 
 hr {

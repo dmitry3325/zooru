@@ -3556,7 +3556,7 @@ a.header_up_item:hover:not(.seporator) * {
   display: block;
   z-index: 100;
   top: 35px;
-  right: 130px;
+  left: 0;
   padding: 5px;
   min-width: 520px;
 }
@@ -4020,9 +4020,11 @@ body {
   line-height: 1.5;
 }
 
-a {
+a,
+a:visited {
   text-decoration: none;
   cursor: pointer;
+  color: #4A4A4A;
 }
 
 hr {
