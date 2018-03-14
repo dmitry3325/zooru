@@ -128,15 +128,21 @@ class ShopBaseModel extends Model
         return $this->getPhotos('jpeg');
     }
 
-    public function getPhotos($ext = 'jpeg')
+    public function getPhotos($ext = 'jpeg') : array
     {
-        $ph     = ($this->attributes['photos']) ? json_decode($this->attributes['photos'], true) : [];
+        $ph = ($this->attributes['photos']) ? json_decode($this->attributes['photos'], true) : [];
+
         $photos = [];
         foreach (Photos::$sizes as $size => $photo) {
-            foreach ($ph as $num) {
-                $photos[$size][] = env('PHOTO_SERVER') . $this->getPhotoUrl($size, $num, $ext);
+            if ($ph && is_array($ph)) {
+                foreach ($ph as $num) {
+                    $photos[$size][] = env('PHOTO_SERVER') . $this->getPhotoUrl($size, $num, $ext);
+                }
+            } else {
+                $photos[$size][] = Photos::DEFAULT_PHOTO;
             }
         }
+
         return $photos;
     }
 
