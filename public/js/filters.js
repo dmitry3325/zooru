@@ -104,6 +104,10 @@ var Filter = function () {
     }, {
         key: 'loadData',
         value: function loadData() {
+            if (typeof this.cancelRequest === 'function') {
+                this.cancelRequest('Hello my dear friend');
+            }
+
             var goodsEl = document.getElementsByClassName('goods-list')[0];
 
             var url = 'korma_suhie_dlya_sobak';
@@ -111,9 +115,14 @@ var Filter = function () {
             var self = this;
 
             Axios.post('/ajax/section', {
+                requestId: 'filters',
                 filter: this.filterList,
                 method: 'loadData',
                 url: url
+            }, {
+                cancelToken: new Axios.CancelToken(function executor(c) {
+                    self.cancelRequest = c;
+                })
             }).then(function (response) {
                 if (response.data.goods && response.data.filters_schema) {
                     self.updateFilterMenu(response.data.filters_schema);

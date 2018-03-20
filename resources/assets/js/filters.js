@@ -16,6 +16,10 @@ class Filter {
     }
 
     loadData() {
+        if(typeof this.cancelRequest === 'function') {
+            this.cancelRequest('Hello my dear friend');
+        }
+
         let goodsEl = document.getElementsByClassName('goods-list')[0];
 
         let url = 'korma_suhie_dlya_sobak';
@@ -23,9 +27,14 @@ class Filter {
         let self = this;
 
         Axios.post('/ajax/section', {
+            requestId: 'filters',
             filter: this.filterList,
             method: 'loadData',
             url: url
+        }, {
+            cancelToken: new Axios.CancelToken(function executor(c) {
+                self.cancelRequest = c;
+            })
         })
             .then(function (response) {
                 if (response.data.goods && response.data.filters_schema) {
