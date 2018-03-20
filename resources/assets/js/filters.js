@@ -1,3 +1,98 @@
+'use strict';
+
+class Filter {
+    constructor() {
+        this.filterList = {};
+    }
+
+    addParam(key, val) {
+        if(!this.filterList[key]){
+            this.filterList[key] = [];
+        }
+
+        if(this.filterList[key].indexOf(val) === -1) {
+            this.filterList[key].push(val);
+        }
+    }
+
+    loadData() {
+        let goodsEl = document.getElementsByClassName('goods-list')[0];
+
+        let url = 'korma_suhie_dlya_sobak';
+
+        let self = this;
+
+        Axios.post('/ajax/section', {
+            filter: this.filterList,
+            method: 'loadData',
+            url: url
+        })
+            .then(function (response) {
+                if (response.data.goods && response.data.filters_schema) {
+                    self.updateFilterMenu(response.data.filters_schema);
+
+                    goodsEl.innerHTML = response.data.goods;
+                    window.updateCartButtons();
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+
+    }
+
+    updateFilterMenu(filters_schema) {
+        // document.getElementById('filter-menu')
+        for (let filterNum in filters_schema) {
+            // let mainCode = filters_schema[filterNum].code;
+
+            for (let filterCode in filters_schema[filterNum].list){
+                let filter = filters_schema[filterNum].list[filterCode];
+                let el = document.querySelector('[data-filter-value="' + filter.code + '"]');
+
+                if(filter.checked){
+                    el.querySelector('input').checked = true;
+                }
+
+                if(filter.disabled === 'true'){
+                    el.parentNode.classList += ' disabled';
+                }
+
+                el.parentNode.href = filter.url;
+
+                    // console.log(el.getElementsByClassName('count')[0].innerText, filter.goods_count);
+                el.getElementsByClassName('count')[0].innerText = '(' + filter.goods_count + ')';
+            }
+
+        }
+    }
+
+}
+
+//filter ajax
+(function () {
+
+    let filter = new Filter('df');
+
+    document.getElementById('filter-menu').onclick = function (elem) {
+        elem.preventDefault();
+
+        let filterLink = elem.target.classList.contains('filter-link') ? elem.target : elem.target.parentNode.classList.contains('filter-link') ? elem.target.parentNode : null;
+
+        if (!filterLink) {
+            return;
+        }
+
+        let dataFilterKey = filterLink.getAttribute('data-filter-key');
+        let dataFilterVal = filterLink.getAttribute('data-filter-value');
+
+        filter.addParam(dataFilterKey, dataFilterVal);
+        filter.loadData();
+    }
+})();
+
+
 //filter slideUp slideDown
 (function () {
     let block, i, j, len, len1, ref, ref1, slideToggler, trigger,

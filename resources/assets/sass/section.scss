@@ -33,7 +33,11 @@
         display: block;
         margin: 0.3em;
         padding: 0.3em;
+        .filter-link {
+          width: 100%;
+        }
       }
+
       .count {
         color: $mGrey2;
       }

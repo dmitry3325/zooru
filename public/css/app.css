@@ -4006,6 +4006,10 @@ input:focus {
   padding: 0.3em;
 }
 
+.section #filter-menu .filter-block a .filter-link {
+  width: 100%;
+}
+
 .section #filter-menu .filter-block .count {
   color: #898989;
 }
@@ -4122,7 +4126,7 @@ img {
 
 .btn-green {
   background: #8AD636;
-  color: #fff;
+  color: #fff !important;
 }
 
 .btn-trans {
@@ -4133,7 +4137,7 @@ img {
 
 .btn-dark {
   background: #1E1F23;
-  color: #fff;
+  color: #fff !important;
 }
 
 .back-wrap {

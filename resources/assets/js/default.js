@@ -1,4 +1,5 @@
 import * as range from './uiElements/rangeSlider';
+import CartButton from './components/CartButton.vue'
 
 //листалка фоток
 (function () {
@@ -30,32 +31,46 @@ import * as range from './uiElements/rangeSlider';
 })();
 
 //кликалка по ценам
-(function(){
-    function onTabClick(event){
-        event.preventDefault();
+window.updateCartButtons = function () {
 
-        if(this.classList.contains('disabled')) {
-            return;
-        }
-
-        let old = this.parentElement.getElementsByClassName('price-block');
-
-        for (let i = 0; i < old.length; i++) {
-            old[i].classList.remove("active");
-        }
-
-        let buyBtn = this.parentElement.parentElement.getElementsByClassName('quantity-block__hiddent_product')[0];
-        buyBtn.value = this.getAttribute('data-product');
-
-        this.className += " active";
+    let cartButtons = document.querySelectorAll('cartbutton');
+    for(let i = 0; i < cartButtons.length; i++){
+        let cartBtn = Vue.extend(CartButton);
+        // new cartBtn({store: store, parent: }).$mount(cartButtons[0], store);
+        new cartBtn({store: Store}).$mount(cartButtons[i]);
     }
 
-    let prices = document.getElementsByClassName('price-block');
-    for (let i = 0; i < prices.length; i++) {
-        prices[i].addEventListener('click', onTabClick, false);
+    function priceClicks(){
+        function onTabClick(event){
+            event.preventDefault();
+
+            if(this.classList.contains('disabled')) {
+                return;
+            }
+
+            let old = this.parentElement.getElementsByClassName('price-block');
+
+            for (let i = 0; i < old.length; i++) {
+                old[i].classList.remove("active");
+            }
+
+            let buyBtn = this.parentElement.parentElement.getElementsByClassName('quantity-block__hiddent_product')[0];
+            buyBtn.value = this.getAttribute('data-product');
+
+            this.className += " active";
+        }
+
+        let prices = document.getElementsByClassName('price-block');
+        for (let i = 0; i < prices.length; i++) {
+            prices[i].addEventListener('click', onTabClick, false);
+        }
     }
 
-})();
+    priceClicks();
+};
+
+window.updateCartButtons();
+
 
 //подгонялка высоты для окошек товаров
 window.onload = function() {
@@ -83,7 +98,6 @@ window.onload = function() {
     for (let i = 0, len = titles.length; i < len; i++) {
         titles[i].style.height = maxHeight + 'px';
     }
-
 };
 
 //tabs

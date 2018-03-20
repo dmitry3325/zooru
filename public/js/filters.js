@@ -74,7 +74,111 @@ module.exports = __webpack_require__(61);
 /***/ }),
 
 /***/ 61:
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Filter = function () {
+    function Filter() {
+        _classCallCheck(this, Filter);
+
+        this.filterList = {};
+    }
+
+    _createClass(Filter, [{
+        key: 'addParam',
+        value: function addParam(key, val) {
+            if (!this.filterList[key]) {
+                this.filterList[key] = [];
+            }
+
+            if (this.filterList[key].indexOf(val) === -1) {
+                this.filterList[key].push(val);
+            }
+        }
+    }, {
+        key: 'loadData',
+        value: function loadData() {
+            var goodsEl = document.getElementsByClassName('goods-list')[0];
+
+            var url = 'korma_suhie_dlya_sobak';
+
+            var self = this;
+
+            Axios.post('/ajax/section', {
+                filter: this.filterList,
+                method: 'loadData',
+                url: url
+            }).then(function (response) {
+                if (response.data.goods && response.data.filters_schema) {
+                    self.updateFilterMenu(response.data.filters_schema);
+
+                    goodsEl.innerHTML = response.data.goods;
+                    window.updateCartButtons();
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
+    }, {
+        key: 'updateFilterMenu',
+        value: function updateFilterMenu(filters_schema) {
+            // document.getElementById('filter-menu')
+            for (var filterNum in filters_schema) {
+                // let mainCode = filters_schema[filterNum].code;
+
+                for (var filterCode in filters_schema[filterNum].list) {
+                    var filter = filters_schema[filterNum].list[filterCode];
+                    var el = document.querySelector('[data-filter-value="' + filter.code + '"]');
+
+                    if (filter.checked) {
+                        el.querySelector('input').checked = true;
+                    }
+
+                    if (filter.disabled === 'true') {
+                        el.parentNode.classList += ' disabled';
+                    }
+
+                    el.parentNode.href = filter.url;
+
+                    // console.log(el.getElementsByClassName('count')[0].innerText, filter.goods_count);
+                    el.getElementsByClassName('count')[0].innerText = '(' + filter.goods_count + ')';
+                }
+            }
+        }
+    }]);
+
+    return Filter;
+}();
+
+//filter ajax
+
+
+(function () {
+
+    var filter = new Filter('df');
+
+    document.getElementById('filter-menu').onclick = function (elem) {
+        elem.preventDefault();
+
+        var filterLink = elem.target.classList.contains('filter-link') ? elem.target : elem.target.parentNode.classList.contains('filter-link') ? elem.target.parentNode : null;
+
+        if (!filterLink) {
+            return;
+        }
+
+        var dataFilterKey = filterLink.getAttribute('data-filter-key');
+        var dataFilterVal = filterLink.getAttribute('data-filter-value');
+
+        filter.addParam(dataFilterKey, dataFilterVal);
+        filter.loadData();
+    };
+})();
 
 //filter slideUp slideDown
 (function () {

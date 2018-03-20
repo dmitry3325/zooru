@@ -5,7 +5,6 @@ namespace App\Providers;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Shop\Goods\PageController;
 use App\Http\Controllers\Shop\Goods\SectionController;
-use App\Models\Shop\ShopBaseModel;
 use App\Models\Shop\Urls;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -164,7 +163,7 @@ class RouteServiceProvider extends ServiceProvider
         }
         $url = \request()->path();
 
-        return Route::middleware(['web'])->any($url, function () use ($app, $params) {
+        return Route::middleware(['web', 'guest'])->any($url, function () use ($app, $params) {
             $controller = app($app);
 
             return call_user_func_array([$controller, 'index'], $params);

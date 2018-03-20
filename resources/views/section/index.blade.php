@@ -5,7 +5,9 @@
         <div class="container">
             <div class="row align-items-start">
                 @include('section.filter')
-                @include('section.goods')
+                <div class="col-9 goods-list row">
+                    @include('section.goods')
+                </div>
             </div>
 
         </div>
