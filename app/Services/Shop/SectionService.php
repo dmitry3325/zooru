@@ -187,7 +187,7 @@ class SectionService
                 $thisFilter = (object)['num' => $num, 'code' => $code];
 
                 $disabled = false;
-                if ($this->filter) {
+                if (count($filterFE)) {
                     if (!isset($efList[$num][$code])) {
                         $localEfList[] = $thisFilter;
                     } else {
@@ -204,7 +204,7 @@ class SectionService
                 $data['goods_count'] = 0;
                 /** Фильтруем по фильрам */
                 if (isset($filteredGoods[$num][$code])) {
-                    if ($this->filter) {
+                    if (count($filterFE)) {
                         $goodsInThisFilter = array_intersect_key($goodsInCurrent, $filteredGoods[$num][$code]);
                     } else {
                         $goodsInThisFilter = $filteredGoods[$num][$code];
@@ -286,7 +286,7 @@ class SectionService
     private function getGoodsForCurrent($filterFE, $filteredGoods, $addParams, $goodsDataById)
     {
         $goodsInCurrent = [];
-        if ($this->filter) {
+        if (count($filterFE)) {
             $lists = [];
             $makeIntersect = true;
             foreach ($filterFE as $f) {
