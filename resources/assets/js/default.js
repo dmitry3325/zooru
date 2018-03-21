@@ -128,6 +128,7 @@ window.onload = function() {
 class Filter {
     constructor() {
         this.filterList = {};
+        this.sectionId = document.getElementById('filter-menu').getAttribute('data-section-id');
     }
 
     toggleParam(key, val) {
@@ -153,15 +154,13 @@ class Filter {
 
         let goodsEl = document.getElementsByClassName('goods-list')[0];
 
-        let url = 'korma_suhie_dlya_sobak';
-
         let self = this;
 
         Axios.post('/ajax/section', {
             requestId: 'filters',
-            filter: this.filterList,
             method: 'loadData',
-            url: url
+            filter: self.filterList,
+            sectionId: self.sectionId
         }, {
             cancelToken: new Axios.CancelToken(function executor(c) {
                 self.cancelRequest = c;

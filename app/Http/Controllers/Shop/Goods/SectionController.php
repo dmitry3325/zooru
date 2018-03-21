@@ -21,16 +21,20 @@ class SectionController extends Controller
         $SectionService = new SectionService($Section, $Filter);
 
         $res = $SectionService->getData();
-//        dd($res);
+        //        dd($res);
 
-        return View::make('section.index', ['goods' => array_get($res, 'goods'), 'filters_schema' => array_get($res, 'filters_schema')]);
+        return View::make('section.index', [
+            'goods'          => array_get($res, 'goods'),
+            'filters_schema' => array_get($res, 'filters_schema'),
+            'section_id'     => $Section->id,
+        ]);
     }
 
     private function getBaseData($entity)
     {
         return [
-            'html_title' => 'bla',
-            'title' => 'bla',
+            'html_title'       => 'bla',
+            'title'            => 'bla',
             'shot_description' => 'bla',
         ];
     }

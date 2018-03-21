@@ -1,4 +1,4 @@
-<div class="col-3" id="filter-menu">
+<div class="col-3" id="filter-menu" data-section-id="{{ $section_id }}">
     <strong>Фильтры</strong>
 
     {{--фильтры цены--}}

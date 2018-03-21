@@ -73,7 +73,7 @@ class Goods extends ShopBaseModel
 
     public function getFormatedPrice($final = false)
     {
-        $price = $final ? $this->getPrice() : $this->getFinalPrice();
+        $price = $final ? $this->getFinalPrice() : $this->getPrice();
         return number_format($price, 0, ',', ' ') . '&#8381;';
     }
 
