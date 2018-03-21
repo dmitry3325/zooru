@@ -27,7 +27,7 @@
             <div class="filter-body">
                 @foreach($filter['list'] as $f)
                     <a href="{{ array_get($f, 'url') }}" class="@if(array_get($f, 'disabled')) disabled @endif">
-                        <label class="cbox filter-link" data-url="{{ array_get($f, 'url') }}" data-filter-key="{{ array_get($filter, 'code') }}" data-filter-value="{{ array_get($f, 'code') }}">
+                        <label class="cbox filter-link" data-filter-key="{{ array_get($filter, 'code') }}" data-filter-value="{{ array_get($f, 'code') }}">
                             {{ array_get($f, 'value') }} <span class="count">({{ array_get($f, 'goods_count') }})</span>
                             <input type="checkbox" name="{{ array_get($f, 'code') }}" @if(array_get($f, 'checked') == 1) checked @endif>
                             <span class="checkmark"></span>
