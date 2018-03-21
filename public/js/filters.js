@@ -97,15 +97,21 @@ var Filter = function () {
                 this.filterList[key] = [];
             }
 
-            if (this.filterList[key].indexOf(val) === -1) {
+            var index = this.filterList[key].indexOf(val);
+
+            if (index === -1) {
                 this.filterList[key].push(val);
+            } else {
+                this.filterList[key].splice(index, 1);
             }
+
+            console.log(this.filterList);
         }
     }, {
         key: 'loadData',
         value: function loadData() {
             if (typeof this.cancelRequest === 'function') {
-                this.cancelRequest('Hello my dear friend');
+                this.cancelRequest('Hello (:');
             }
 
             var goodsEl = document.getElementsByClassName('goods-list')[0];
@@ -147,10 +153,15 @@ var Filter = function () {
 
                     if (filter.checked) {
                         el.querySelector('input').checked = true;
+                    } else {
+                        el.querySelector('input').checked = false;
                     }
 
-                    if (filter.disabled === 'true') {
-                        el.parentNode.classList += ' disabled';
+                    if (filter.disabled === true) {
+                        // el.parentNode.classList += ' disabled';
+                        el.parentNode.classList.add('disabled');
+                    } else {
+                        // el.parentNode.className.remove('disabled');
                     }
 
                     el.parentNode.href = filter.url;
@@ -177,7 +188,7 @@ var Filter = function () {
 
         var filterLink = elem.target.classList.contains('filter-link') ? elem.target : elem.target.parentNode.classList.contains('filter-link') ? elem.target.parentNode : null;
 
-        if (!filterLink) {
+        if (!filterLink || filterLink.parentNode.classList.contains('disabled')) {
             return;
         }
 

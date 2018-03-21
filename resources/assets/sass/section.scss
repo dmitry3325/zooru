@@ -29,13 +29,17 @@
       }
 
       a {
-        color: $grey !important;
+        color: $grey;
         display: block;
         margin: 0.3em;
         padding: 0.3em;
         .filter-link {
           width: 100%;
         }
+      }
+
+      a.disabled {
+        color: $mGrey2!important;
       }
 
       .count {

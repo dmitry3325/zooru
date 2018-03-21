@@ -4000,7 +4000,7 @@ input:focus {
 }
 
 .section #filter-menu .filter-block a {
-  color: #4A4A4A !important;
+  color: #4A4A4A;
   display: block;
   margin: 0.3em;
   padding: 0.3em;
@@ -4008,6 +4008,10 @@ input:focus {
 
 .section #filter-menu .filter-block a .filter-link {
   width: 100%;
+}
+
+.section #filter-menu .filter-block a.disabled {
+  color: #898989 !important;
 }
 
 .section #filter-menu .filter-block .count {
