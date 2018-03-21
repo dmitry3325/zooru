@@ -32,7 +32,7 @@ import CartButton from './components/CartButton.vue'
 
 })();
 
-//кликалка по ценам
+//кликалка по ценам делает их активными
 window.updateCartButtons = function () {
 
     let cartButtons = document.querySelectorAll('cartbutton');
@@ -131,9 +131,14 @@ class Filter {
         this.sectionId = document.getElementById('filter-menu').getAttribute('data-section-id');
     }
 
-    toggleParam(key, val) {
+    toggleParam(key, val, type = null) {
         if(!this.filterList[key]){
-            this.filterList[key] = [];
+            this.filterList[key] = type ? {} : [];
+        }
+
+        if(type){
+            this.filterList[key][type] = val;
+            return;
         }
 
         let index = this.filterList[key].indexOf(val);
@@ -143,11 +148,10 @@ class Filter {
         } else {
             this.filterList[key].splice(index, 1);
         }
-
-        // console.log(this.filterList);
     }
 
     loadData() {
+        console.log(this.filterList);
         if(typeof this.cancelRequest === 'function') {
             this.cancelRequest('Hello (:');
         }
@@ -231,7 +235,21 @@ class Filter {
 
         filter.toggleParam(dataFilterKey, dataFilterVal);
         filter.loadData();
+    };
+
+    let sliders = document.getElementsByClassName('range-input');
+    for(let i = 0; i < sliders.length; i++){
+        sliders[i].addEventListener('change', function (event) {
+            let elem = event.target;
+
+            let dataFilterKey = elem.getAttribute('data-filter-key');
+            let type = elem.classList.contains('slider-min') ? 'min' : 'max';
+
+            filter.toggleParam(dataFilterKey, elem.value, type);
+            filter.loadData();
+        })
     }
+
 })();
 
 

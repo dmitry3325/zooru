@@ -181,10 +181,10 @@ for (let i = 0; i < sliders.length; i++) {
 
     el.innerHTML = html;
 
-    let nameParam = el.getAttribute('se-name');
+    let nameParam = el.getAttribute('data-filter-key');
     let parentContainer = el.parentNode;
-    let htmlResult = '<input type="text" name="' + nameParam + '-slider-min" class="half-width slider-min" placeholder="От"/>' +
-        '<input type="text" name="' + nameParam + '-slider-max" class="half-width fl_r slider-max" placeholder="До"/>';
+    let htmlResult = '<input type="text" data-filter-key="' + nameParam + '" class="half-width slider-min range-input" placeholder="От"/>' +
+        '<input type="text" data-filter-key="' + nameParam + '" class="half-width fl_r slider-max range-input" placeholder="До"/>';
     parentContainer.innerHTML = htmlResult + parentContainer.innerHTML;
 
     let newRangeSlider = new ZBRangeSlider(sliders[i]);
