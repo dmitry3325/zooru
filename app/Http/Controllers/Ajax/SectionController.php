@@ -21,11 +21,13 @@ class SectionController extends Controller
 
         $entity = Sections::find(Input::get('sectionId'));
 
-        $SectionService = new SectionService($entity);
+        $perPage = Input::get('perPage', 24);
+
+        $SectionService = new SectionService($entity, null, $perPage);
         $res = $SectionService->getData();
 
         $result = [
-            'goods' => View::make('section.goods', ['goods' => array_get($res, 'goods')])->render(),
+            'goods' => View::make('section.goods', ['goods' => array_get($res, 'goods'), 'perPage' => $perPage])->render(),
             'filters_schema' => array_get($res, 'filters_schema'),
         ];
 

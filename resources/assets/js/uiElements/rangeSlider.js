@@ -197,5 +197,12 @@ for (let i = 0; i < sliders.length; i++) {
     newRangeSlider.didChanged = function (min, max) {
         parentContainer.getElementsByClassName('slider-min')[0].value = min;
         parentContainer.getElementsByClassName('slider-max')[0].value = max;
+
+
+        let dataFilterKey = parentContainer.getElementsByClassName('slider-min')[0].getAttribute('data-filter-key');
+
+        filter.toggleParam(dataFilterKey, min, 'min');
+        filter.toggleParam(dataFilterKey, max, 'max');
+        filter.loadData();
     }
 }

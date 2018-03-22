@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Shop\Filters;
 use App\Models\Shop\Sections;
 use App\Services\Shop\SectionService;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Input;
 
@@ -26,7 +27,7 @@ class SectionController extends Controller
         ];
         $SectionService->setParams($params);
         $res = $SectionService->getData();
-        //        dd($res);
+//                dd($res);
 
         return View::make('section.index', [
             'goods'          => array_get($res, 'goods'),

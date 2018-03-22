@@ -1,6 +1,6 @@
 <div class="prices">
     @foreach($good->getPriceBlock() as $g)
-            <a href="{{ URL::to('/goods/' . $g->id) }}" data-product="{{ $g->getCartArray() }}" class="price-block row border-radius-4 @if($g->notForSale())disabled @elseif($good->id === $g->id) active @endif"
+            <a href="{{ URL::to('/goods/' . $g->id) }}" data-product="{{ $g->getCartArray() }}" class="price-block row border-radius-4 with-active @if($g->notForSale())disabled @elseif($good->id === $g->id) active @endif"
                  data-id="{{$g->id}}">
                 <div class="col col-auto weight">{{ $g->weight }}кг</div>
 

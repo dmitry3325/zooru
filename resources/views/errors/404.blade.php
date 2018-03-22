@@ -63,7 +63,7 @@
 
     {{--TODO на проде раскоментить--}}
     @include('partials.header')
-    {{--@include('partials.menu')--}}
+    @include('partials.menu')
 
     <div class="container">
         {{--<div class="row">--}}

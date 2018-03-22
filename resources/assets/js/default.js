@@ -1,7 +1,9 @@
 'use strict';
 
 import * as range from './uiElements/rangeSlider';
-import CartButton from './components/CartButton.vue'
+import Filter from './classes/Filter'
+
+window.filter = new Filter();
 
 //листалка фоток
 (function () {
@@ -32,76 +34,6 @@ import CartButton from './components/CartButton.vue'
 
 })();
 
-//кликалка по ценам делает их активными
-window.updateCartButtons = function () {
-
-    let cartButtons = document.querySelectorAll('cartbutton');
-    for(let i = 0; i < cartButtons.length; i++){
-        let cartBtn = Vue.extend(CartButton);
-        // new cartBtn({store: store, parent: }).$mount(cartButtons[0], store);
-        new cartBtn({store: Store}).$mount(cartButtons[i]);
-    }
-
-    function priceClicks(){
-        function onTabClick(event){
-            event.preventDefault();
-
-            if(this.classList.contains('disabled')) {
-                return;
-            }
-
-            let old = this.parentElement.getElementsByClassName('price-block');
-
-            for (let i = 0; i < old.length; i++) {
-                old[i].classList.remove("active");
-            }
-
-            let buyBtn = this.parentElement.parentElement.getElementsByClassName('quantity-block__hiddent_product')[0];
-            buyBtn.value = this.getAttribute('data-product');
-
-            this.className += " active";
-        }
-
-        let prices = document.getElementsByClassName('price-block');
-        for (let i = 0; i < prices.length; i++) {
-            prices[i].addEventListener('click', onTabClick, false);
-        }
-    }
-
-    priceClicks();
-};
-
-window.updateCartButtons();
-
-
-//подгонялка высоты для окошек товаров
-window.onload = function() {
-    let maxHeight = 0;
-
-    //цены
-    let prices = document.querySelectorAll('.product-window .prices');
-    for (let i = 0, len = prices.length; i < len; i++) {
-        let elHeight = parseFloat(window.getComputedStyle(prices[i]).height.slice(0, -2));
-        maxHeight = elHeight > maxHeight ? elHeight : maxHeight;
-    }
-
-    for (let i = 0, len = prices.length; i < len; i++) {
-        prices[i].style.height = maxHeight + 'px';
-    }
-
-    //названия
-    maxHeight = 0;
-    let titles = document.querySelectorAll('.product-window .product-title');
-    for (let i = 0, len = titles.length; i < len; i++) {
-        let elHeight = parseFloat(window.getComputedStyle(titles[i]).height.slice(0, -2));
-        maxHeight = elHeight > maxHeight ? elHeight : maxHeight;
-    }
-
-    for (let i = 0, len = titles.length; i < len; i++) {
-        titles[i].style.height = maxHeight + 'px';
-    }
-};
-
 //tabs
 (function(){
     function onTabClick(event){
@@ -125,102 +57,9 @@ window.onload = function() {
     }
 })();
 
-class Filter {
-    constructor() {
-        this.filterList = {};
-        this.sectionId = document.getElementById('filter-menu').getAttribute('data-section-id');
-    }
-
-    toggleParam(key, val, type = null) {
-        if(!this.filterList[key]){
-            this.filterList[key] = type ? {} : [];
-        }
-
-        if(type){
-            this.filterList[key][type] = val;
-            return;
-        }
-
-        let index = this.filterList[key].indexOf(val);
-
-        if(index === -1) {
-            this.filterList[key].push(val);
-        } else {
-            this.filterList[key].splice(index, 1);
-        }
-    }
-
-    loadData() {
-        console.log(this.filterList);
-        if(typeof this.cancelRequest === 'function') {
-            this.cancelRequest('Hello (:');
-        }
-
-        let goodsEl = document.getElementsByClassName('goods-list')[0];
-
-        let self = this;
-
-        Axios.post('/ajax/section', {
-            requestId: 'filters',
-            method: 'loadData',
-            filter: self.filterList,
-            sectionId: self.sectionId
-        }, {
-            cancelToken: new Axios.CancelToken(function executor(c) {
-                self.cancelRequest = c;
-            })
-        })
-            .then(function (response) {
-                if (response.data.goods && response.data.filters_schema) {
-                    self.updateFilterMenu(response.data.filters_schema);
-
-                    goodsEl.innerHTML = response.data.goods;
-                    window.updateCartButtons();
-                }
-            })
-            .catch(function (error) {
-                // console.log(error);
-            });
-
-
-    }
-
-    updateFilterMenu(filters_schema) {
-        for (let filterNum in filters_schema) {
-            // let mainCode = filters_schema[filterNum].code;
-
-            for (let filterCode in filters_schema[filterNum].list){
-                let filter = filters_schema[filterNum].list[filterCode];
-                let el = document.querySelector('[data-filter-value="' + filter.code + '"]');
-
-                if(filter.checked){
-                    el.querySelector('input').checked = true;
-                } else {
-                    el.querySelector('input').checked = false;
-                }
-
-                if(filter.disabled === true){
-                    el.parentNode.classList.add('disabled');
-                } else {
-                    el.parentNode.classList.remove('disabled');
-                }
-
-                el.parentNode.href = filter.url ? filter.url : '#';
-
-                //количество
-                el.getElementsByClassName('count')[0].innerText = '(' + filter.goods_count + ')';
-            }
-
-        }
-    }
-
-}
-
 //filter ajax
 (function () {
-
-    let filter = new Filter();
-
+    //клики по фильтрам с выбором
     document.getElementById('filter-menu').onclick = function (elem) {
         elem.preventDefault();
 
@@ -237,9 +76,10 @@ class Filter {
         filter.loadData();
     };
 
-    let sliders = document.getElementsByClassName('range-input');
-    for(let i = 0; i < sliders.length; i++){
-        sliders[i].addEventListener('change', function (event) {
+    //изменения в ренж фильтрах
+    let range = document.getElementsByClassName('range-input');
+    for(let i = 0; i < range.length; i++){
+        range[i].addEventListener('change', function (event) {
             let elem = event.target;
 
             let dataFilterKey = elem.getAttribute('data-filter-key');
@@ -249,7 +89,6 @@ class Filter {
             filter.loadData();
         })
     }
-
 })();
 
 

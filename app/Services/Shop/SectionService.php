@@ -49,7 +49,7 @@ class SectionService
     public $pageParamName = 'page';
     public $filterData = [];
 
-    public $perPage = 20;
+    public $perPage;
 
     public $currentPage = 1;
 
@@ -63,10 +63,11 @@ class SectionService
      * @param Sections     $section
      * @param Filters|null $filter
      */
-    public function __construct(Sections $section, Filters $filter = null)
+    public function __construct(Sections $section, Filters $filter = null, $perPage = 24)
     {
         $this->section = $section;
-        $this->filter = $filter;
+        $this->filter  = $filter;
+        $this->perPage = $perPage;
 
         try {
             $this->goodsDataStorage = new GoodsStorage();
