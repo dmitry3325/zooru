@@ -1,7 +1,13 @@
+import CartButton from '../components/CartButton.vue'
+
 export default class Filter {
     constructor() {
         this.filterList = {};
         this.sectionId = document.getElementById('filter-menu').getAttribute('data-section-id');
+        this.goodsList = document.getElementsByClassName('goods-list')[0];
+
+        this.updateCartButtons();
+        this.goodsHeightEqual();
     }
 
     toggleParam(key, val, type = null) {
@@ -23,12 +29,16 @@ export default class Filter {
         }
     }
 
+    changeGoodsOpacity($percent = 1){
+        this.goodsList.style.opacity = $percent;
+    }
+
     loadData() {
         if(typeof this.cancelRequest === 'function') {
             this.cancelRequest('Hello (:');
         }
 
-        let goodsEl = document.getElementsByClassName('goods-list')[0];
+        this.changeGoodsOpacity('0.5');
 
         let self = this;
 
@@ -46,13 +56,18 @@ export default class Filter {
                 if (response.data.filters_schema) {
                     self.updateFilterMenu(response.data.filters_schema);
 
-                    goodsEl.innerHTML = response.data.goods ? response.data.goods : 'Товары не найдены';
-                    updateCartButtons();
-                    goodsHeightEqual();
+                    self.goodsList.innerHTML = response.data.goods ? response.data.goods : '<div class="col-12 center">Товары не найдены</div>';
+
+                    self.updateCartButtons();
+                    self.goodsHeightEqual();
                 }
+
+                self.changeGoodsOpacity();
             })
             .catch(function (error) {
-                // console.log(error);
+                self.goodsList.innerHTML = '<div class="col-12 center">При загрузке произошла ошибка, пожалуйста перезагрузите страницу</div>';
+                self.changeGoodsOpacity();
+                console.log(error);
             });
     }
 
@@ -85,4 +100,70 @@ export default class Filter {
         }
     }
 
+    //кликалка по ценам делает их активными
+    updateCartButtons() {
+
+        let cartButtons = document.querySelectorAll('cartbutton');
+        for(let i = 0; i < cartButtons.length; i++){
+            let cartBtn = Vue.extend(CartButton);
+            // new cartBtn({store: store, parent: }).$mount(cartButtons[0], store);
+            new cartBtn({store: Store}).$mount(cartButtons[i]);
+        }
+
+        function priceClicks(){
+            function onTabClick(event){
+                event.preventDefault();
+
+                if(this.classList.contains('disabled')) {
+                    return;
+                }
+
+                let old = this.parentElement.getElementsByClassName('price-block');
+
+                for (let i = 0; i < old.length; i++) {
+                    old[i].classList.remove("active");
+                }
+
+                let buyBtn = this.parentElement.parentElement.getElementsByClassName('quantity-block__hiddent_product')[0];
+                buyBtn.value = this.getAttribute('data-product');
+
+                this.className += " active";
+            }
+
+            let prices = document.getElementsByClassName('price-block');
+            for (let i = 0; i < prices.length; i++) {
+                prices[i].addEventListener('click', onTabClick, false);
+            }
+        }
+
+        priceClicks();
+    }
+
+    //подгонялка высоты для окошек товаров
+    goodsHeightEqual() {
+        let maxHeight = 0;
+
+        //цены
+        let prices = document.querySelectorAll('.product-window .prices');
+        for (let i = 0, len = prices.length; i < len; i++) {
+            let elHeight = parseFloat(window.getComputedStyle(prices[i]).height.slice(0, -2));
+            maxHeight = elHeight > maxHeight ? elHeight : maxHeight;
+        }
+
+        for (let i = 0, len = prices.length; i < len; i++) {
+            prices[i].style.height = maxHeight + 'px';
+        }
+
+        //названия
+        maxHeight = 0;
+        let titles = document.querySelectorAll('.product-window .product-title');
+        for (let i = 0, len = titles.length; i < len; i++) {
+            let elHeight = parseFloat(window.getComputedStyle(titles[i]).height.slice(0, -2));
+            maxHeight = elHeight > maxHeight ? elHeight : maxHeight;
+        }
+
+        for (let i = 0, len = titles.length; i < len; i++) {
+            titles[i].style.height = maxHeight + 'px';
+        }
+    }
 }

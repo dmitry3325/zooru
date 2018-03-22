@@ -1,7 +1,6 @@
 'use strict';
 
 import * as range from './uiElements/rangeSlider';
-import CartButton from './components/CartButton.vue'
 import Filter from './classes/Filter'
 
 window.filter = new Filter();
@@ -34,76 +33,6 @@ window.filter = new Filter();
     init();
 
 })();
-
-//кликалка по ценам делает их активными
-function updateCartButtons() {
-
-    let cartButtons = document.querySelectorAll('cartbutton');
-    for(let i = 0; i < cartButtons.length; i++){
-        let cartBtn = Vue.extend(CartButton);
-        // new cartBtn({store: store, parent: }).$mount(cartButtons[0], store);
-        new cartBtn({store: Store}).$mount(cartButtons[i]);
-    }
-
-    function priceClicks(){
-        function onTabClick(event){
-            event.preventDefault();
-
-            if(this.classList.contains('disabled')) {
-                return;
-            }
-
-            let old = this.parentElement.getElementsByClassName('price-block');
-
-            for (let i = 0; i < old.length; i++) {
-                old[i].classList.remove("active");
-            }
-
-            let buyBtn = this.parentElement.parentElement.getElementsByClassName('quantity-block__hiddent_product')[0];
-            buyBtn.value = this.getAttribute('data-product');
-
-            this.className += " active";
-        }
-
-        let prices = document.getElementsByClassName('price-block');
-        for (let i = 0; i < prices.length; i++) {
-            prices[i].addEventListener('click', onTabClick, false);
-        }
-    }
-
-    priceClicks();
-}
-updateCartButtons();
-
-
-//подгонялка высоты для окошек товаров
-function goodsHeightEqual() {
-    let maxHeight = 0;
-
-    //цены
-    let prices = document.querySelectorAll('.product-window .prices');
-    for (let i = 0, len = prices.length; i < len; i++) {
-        let elHeight = parseFloat(window.getComputedStyle(prices[i]).height.slice(0, -2));
-        maxHeight = elHeight > maxHeight ? elHeight : maxHeight;
-    }
-
-    for (let i = 0, len = prices.length; i < len; i++) {
-        prices[i].style.height = maxHeight + 'px';
-    }
-
-    //названия
-    maxHeight = 0;
-    let titles = document.querySelectorAll('.product-window .product-title');
-    for (let i = 0, len = titles.length; i < len; i++) {
-        let elHeight = parseFloat(window.getComputedStyle(titles[i]).height.slice(0, -2));
-        maxHeight = elHeight > maxHeight ? elHeight : maxHeight;
-    }
-
-    for (let i = 0, len = titles.length; i < len; i++) {
-        titles[i].style.height = maxHeight + 'px';
-    }
-}
-goodsHeightEqual();
 
 //tabs
 (function(){
