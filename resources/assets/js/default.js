@@ -3,8 +3,8 @@
 import * as range from './uiElements/rangeSlider';
 import Filter from './classes/Filter'
 
-let filter = new Filter();
-filter.init();
+window.filter = new Filter();
+window.filter.init();
 
 //листалка фоток
 (function () {
