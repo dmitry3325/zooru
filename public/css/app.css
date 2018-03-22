@@ -3971,6 +3971,23 @@ input:focus {
   padding: 2em 0;
 }
 
+.section #goods-info {
+  padding: 0.9em 1.5em;
+  margin-bottom: 1em;
+  background: #fff;
+}
+
+.section #goods-info .itemsPerPage span {
+  cursor: pointer;
+  padding: 0 0.4em;
+  border-radius: 2px;
+}
+
+.section #goods-info .itemsPerPage .active {
+  background: #8AD636;
+  color: #fff;
+}
+
 .section #filter-menu {
   background: #fff;
   padding: 1em;
@@ -4223,5 +4240,15 @@ span.loading {
 
 .hidden {
   display: none !important;
+}
+
+ul.pagination {
+  background: #fff;
+  padding: 0.9em;
+}
+
+ul.pagination li {
+  display: inline-block;
+  padding: 0 0.3em;
 }
 

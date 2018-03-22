@@ -9,7 +9,6 @@
                     @include('section.goods')
                 </div>
             </div>
-
         </div>
     </div>
 @endsection

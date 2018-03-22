@@ -3,11 +3,13 @@ import CartButton from '../components/CartButton.vue'
 export default class Filter {
     constructor() {
         this.filterList = {};
+        this.page = 1;
         this.sectionId = document.getElementById('filter-menu').getAttribute('data-section-id');
         this.goodsList = document.getElementsByClassName('goods-list')[0];
 
         this.updateCartButtons();
         this.goodsHeightEqual();
+        this.updatePerPageButtons();
     }
 
     toggleParam(key, val, type = null) {
@@ -46,7 +48,8 @@ export default class Filter {
             requestId: 'filters',
             method: 'loadData',
             filter: self.filterList,
-            sectionId: self.sectionId
+            sectionId: self.sectionId,
+            perPage: self.getPerPageValue()
         }, {
             cancelToken: new Axios.CancelToken(function executor(c) {
                 self.cancelRequest = c;
@@ -60,6 +63,7 @@ export default class Filter {
 
                     self.updateCartButtons();
                     self.goodsHeightEqual();
+                    self.updatePerPageButtons();
                 }
 
                 self.changeGoodsOpacity();
@@ -118,19 +122,22 @@ export default class Filter {
                     return;
                 }
 
-                let old = this.parentElement.getElementsByClassName('price-block');
+                let old = this.parentElement.getElementsByClassName('with-active');
 
                 for (let i = 0; i < old.length; i++) {
                     old[i].classList.remove("active");
                 }
 
-                let buyBtn = this.parentElement.parentElement.getElementsByClassName('quantity-block__hiddent_product')[0];
-                buyBtn.value = this.getAttribute('data-product');
-
                 this.className += " active";
+
+                let buyBtn = this.parentElement.parentElement.getElementsByClassName('quantity-block__hiddent_product')[0];
+                if(!buyBtn){
+                    return
+                }
+                buyBtn.value = this.getAttribute('data-product');
             }
 
-            let prices = document.getElementsByClassName('price-block');
+            let prices = document.getElementsByClassName('with-active');
             for (let i = 0; i < prices.length; i++) {
                 prices[i].addEventListener('click', onTabClick, false);
             }
@@ -164,6 +171,21 @@ export default class Filter {
 
         for (let i = 0, len = titles.length; i < len; i++) {
             titles[i].style.height = maxHeight + 'px';
+        }
+    }
+
+    getPerPageValue(){
+        return document.querySelector('.itemsPerPage .active').innerText;
+    }
+
+    updatePerPageButtons(){
+        let self = this;
+        //клик по кол-ву отображаемых на странице
+        let perPage = document.querySelectorAll('.itemsPerPage .with-active');
+        for(let i = 0; i < perPage.length; i++){
+            perPage[i].addEventListener('click', function () {
+                self.loadData();
+            });
         }
     }
 }

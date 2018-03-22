@@ -228,3 +228,13 @@ span.loading{
 .hidden {
   display: none!important;
 }
+
+ul.pagination {
+  background: #fff;
+  padding: 0.9em;
+
+  li {
+    display: inline-block;
+    padding: 0 0.3em;
+  }
+}

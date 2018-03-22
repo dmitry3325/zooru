@@ -59,7 +59,7 @@ window.filter = new Filter();
 
 //filter ajax
 (function () {
-
+    //клики по фильтрам с выбором
     document.getElementById('filter-menu').onclick = function (elem) {
         elem.preventDefault();
 
@@ -76,6 +76,7 @@ window.filter = new Filter();
         filter.loadData();
     };
 
+    //изменения в ренж фильтрах
     let range = document.getElementsByClassName('range-input');
     for(let i = 0; i < range.length; i++){
         range[i].addEventListener('change', function (event) {
@@ -88,7 +89,6 @@ window.filter = new Filter();
             filter.loadData();
         })
     }
-
 })();
 
 
