@@ -9,7 +9,6 @@ use App\Models\Shop\Goods;
 use App\Models\Shop\ShopBaseModel;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Redis;
-use Illuminate\Support\Facades\Input;
 
 class SectionService
 {
@@ -48,6 +47,7 @@ class SectionService
     public $paginate = true;
 
     public $pageParamName = 'page';
+    public $filterData = [];
 
     public $perPage = 20;
 
@@ -72,6 +72,22 @@ class SectionService
             $this->goodsDataStorage = new GoodsStorage();
         } catch (\Exception $e) {
 
+        }
+    }
+
+    public function setParams($params){
+        if(isset($params['filter'])){
+            $this->filterData = $params['filter'];
+        }
+        if(isset($params['perPage'])){
+            $this->perPage = $params['perPage'];
+        }
+        if(isset($params['currentPage'])){
+            $this->currentPage = $params['currentPage'];
+        }
+        if(isset($params['orderBy'])){
+            $this->orderByColumn = $params['orderBy']['column'] ?? $this->orderByColumn;
+            $this->orderByWay = $params['orderByWay']['way'] ??  $this->orderByWay;
         }
     }
 
@@ -123,7 +139,7 @@ class SectionService
      */
     private function fillQueryParams(&$schema, Collection &$filterFE)
     {
-        $filterData = Input::get('filter');
+        $filterData = $this->filterData;
         if (!$filterData) return [];
 
         $addParams = [];
