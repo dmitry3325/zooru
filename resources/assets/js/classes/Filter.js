@@ -24,7 +24,6 @@ export default class Filter {
     }
 
     loadData() {
-        console.log(this.filterList);
         if(typeof this.cancelRequest === 'function') {
             this.cancelRequest('Hello (:');
         }
@@ -44,10 +43,10 @@ export default class Filter {
             })
         })
             .then(function (response) {
-                if (response.data.goods && response.data.filters_schema) {
+                if (response.data.filters_schema) {
                     self.updateFilterMenu(response.data.filters_schema);
 
-                    goodsEl.innerHTML = response.data.goods;
+                    goodsEl.innerHTML = response.data.goods ? response.data.goods : 'Товары не найдены';
                     updateCartButtons();
                     goodsHeightEqual();
                 }
@@ -55,8 +54,6 @@ export default class Filter {
             .catch(function (error) {
                 // console.log(error);
             });
-
-
     }
 
     updateFilterMenu(filters_schema) {
