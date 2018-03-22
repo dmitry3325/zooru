@@ -230,6 +230,7 @@ return [
         'Goods' => App\Models\Shop\Goods::class,
         'Filters' => App\Models\Shop\Filters::class,
         'Sections' => App\Models\Shop\Sections::class,
+        'HtmlPages' => App\Models\Shop\HtmlPages::class,
 
     ],
 

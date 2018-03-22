@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Shop\HtmlPageController;
 use App\Http\Controllers\Shop\Goods\PageController;
 use App\Http\Controllers\Shop\Goods\SectionController;
 use App\Models\Shop\Urls;
@@ -46,8 +47,8 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->currentRequest = \request();
 
-        $this->mapAjaxRoutes();
         $this->mapCustomRoutes();
+        $this->mapAjaxRoutes();
         $this->mapSiteRoutes();
     }
 
@@ -143,14 +144,18 @@ class RouteServiceProvider extends ServiceProvider
     protected function showEntity($entity, $id)
     {
         $e = $entity::find($id);
+
         if (!$e) {
             return $this->show404();
         }
 
         $params = [$e];
 
+        $app = null;
         if ($entity === 'Goods') {
             $app = PageController::class;
+        }else if ($entity === 'HtmlPages') {
+            $app = HtmlPageController::class;
         } else {
             if ($entity === 'Filters') {
                 $app = SectionController::class;
