@@ -1609,6 +1609,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             this.$store.dispatch('addToCart', {
                 product: this.getProduct()
             });
+
+            Vue.Events.emit('alertMessage', ['Добавлено в корзину', 2]);
         },
         getProduct: function getProduct() {
             var product = JSON.parse(this.$el.parentElement.querySelector('.price-block.active').getAttribute('data-product'));
@@ -12146,9 +12148,6 @@ window.Axios = __WEBPACK_IMPORTED_MODULE_1_axios___default.a;
 
 Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue_axios___default.a, __WEBPACK_IMPORTED_MODULE_1_axios___default.a);
 
-// import VueMask from 'v-mask'
-// Vue.use(VueMask);
-
 Vue.use(__WEBPACK_IMPORTED_MODULE_0__classes_events_js__["a" /* default */]);
 
 var CartButton = __webpack_require__(4);
@@ -14242,7 +14241,7 @@ exports = module.exports = __webpack_require__(48)(undefined);
 
 
 // module
-exports.push([module.i, "\n.notification-container[data-v-3ffdf2d6] {\n  position: fixed;\n  z-index: 100;\n  bottom: -1px;\n  right: 5%;\n  max-width: 20%;\n}\n.notification-container .notification[data-v-3ffdf2d6] {\n    position: relative;\n    background: #fff;\n    padding: 12px;\n    min-width: 150px;\n    border-radius: 2px;\n    border: 1px solid #CBCBD0;\n    margin-bottom: 15px;\n}\n.notification-container .alert-img[data-v-3ffdf2d6] {\n    max-height: 100px;\n    position: absolute;\n    top: -91px;\n}\n.notification-container .notification-header[data-v-3ffdf2d6] {\n    font-size: 1em;\n}\n.notification-container .close[data-v-3ffdf2d6] {\n    position: absolute;\n    right: 1em;\n    top: 1em;\n    color: #CBCBD0;\n}\n.notification-container .close i.material-icons[data-v-3ffdf2d6] {\n      font-size: 1.3em;\n}\n.notification-container span[data-v-3ffdf2d6] {\n    font-size: 0.9em;\n}\n.notification-container .bounce-enter-active[data-v-3ffdf2d6] {\n    animation: bounce-in-data-v-3ffdf2d6 .5s;\n}\n.notification-container .bounce-leave-active[data-v-3ffdf2d6] {\n    animation: bounce-in-data-v-3ffdf2d6 .5s reverse;\n}\n@keyframes bounce-in-data-v-3ffdf2d6 {\n0% {\n    transform: scale(0);\n}\n50% {\n    transform: scale(1.5);\n}\n100% {\n    transform: scale(1);\n}\n}\n", ""]);
+exports.push([module.i, "\n.notification-container[data-v-3ffdf2d6] {\n  position: fixed;\n  z-index: 100;\n  bottom: -1px;\n  right: 5%;\n  max-width: 20%;\n}\n.notification-container .notification[data-v-3ffdf2d6] {\n    position: relative;\n    background: #fff;\n    padding: 12px;\n    min-width: 150px;\n    border-radius: 2px;\n    border: 1px solid #CBCBD0;\n    margin-bottom: 15px;\n}\n.notification-container .alert-img[data-v-3ffdf2d6] {\n    max-height: 100px;\n    position: absolute;\n    top: -91px;\n}\n.notification-container .notification-header[data-v-3ffdf2d6] {\n    font-size: 1em;\n}\n.notification-container .close[data-v-3ffdf2d6] {\n    /*position: absolute;*/\n    float: right;\n    right: 1em;\n    top: 1em;\n    color: #CBCBD0;\n}\n.notification-container .close i.material-icons[data-v-3ffdf2d6] {\n      font-size: 1.3em;\n}\n.notification-container span[data-v-3ffdf2d6] {\n    font-size: 0.9em;\n}\n.notification-container .bounce-enter-active[data-v-3ffdf2d6] {\n    animation: bounce-in-data-v-3ffdf2d6 .5s;\n}\n.notification-container .bounce-leave-active[data-v-3ffdf2d6] {\n    animation: bounce-in-data-v-3ffdf2d6 .5s reverse;\n}\n@keyframes bounce-in-data-v-3ffdf2d6 {\n0% {\n    transform: scale(0);\n}\n50% {\n    transform: scale(1.5);\n}\n100% {\n    transform: scale(1);\n}\n}\n", ""]);
 
 // exports
 

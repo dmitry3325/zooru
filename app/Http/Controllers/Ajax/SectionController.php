@@ -24,8 +24,8 @@ class SectionController extends Controller
         $SectionService = new SectionService($entity, null);
 
         $params = [
-            'filter' => Input::get('filter') ?? [],
-            'currentPage' => Input::get('page') ?? [],
+            'filter' => Input::get('filter', []),
+            'currentPage' => Input::get('page', []),
             'perPage' => Input::get('perPage', 24),
         ];
         $SectionService->setParams($params);

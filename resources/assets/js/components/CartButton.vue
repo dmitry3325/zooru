@@ -49,6 +49,8 @@
                 this.$store.dispatch('addToCart', {
                     product: this.getProduct(),
                 });
+
+                Vue.Events.emit('alertMessage', ['Добавлено в корзину', 2]);
             },
             getProduct: function () {
                 let product = JSON.parse(this.$el.parentElement.querySelector('.price-block.active').getAttribute('data-product'));
