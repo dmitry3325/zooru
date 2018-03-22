@@ -12,6 +12,41 @@ export default class Filter {
         this.updatePerPageButtons();
     }
 
+    init() {
+        let self = this;
+
+        //клики по фильтрам с выбором
+        document.getElementById('filter-menu').onclick = function (elem) {
+            elem.preventDefault();
+
+            let filterLink = elem.target.classList.contains('filter-link') ? elem.target : elem.target.parentNode.classList.contains('filter-link') ? elem.target.parentNode : null;
+
+            if (!filterLink || filterLink.parentNode.classList.contains('disabled')) {
+                return;
+            }
+
+            let dataFilterKey = filterLink.getAttribute('data-filter-key');
+            let dataFilterVal = filterLink.getAttribute('data-filter-value');
+
+            self.toggleParam(dataFilterKey, dataFilterVal);
+            self.loadData();
+        };
+
+        //изменения в ренж фильтрах
+        let range = document.getElementsByClassName('range-input');
+        for(let i = 0; i < range.length; i++){
+            range[i].addEventListener('change', function (event) {
+                let elem = event.target;
+
+                let dataFilterKey = elem.getAttribute('data-filter-key');
+                let type = elem.classList.contains('slider-min') ? 'min' : 'max';
+
+                self.toggleParam(dataFilterKey, elem.value, type);
+                self.loadData();
+            })
+        }
+    }
+
     toggleParam(key, val, type = null) {
         if(!this.filterList[key]){
             this.filterList[key] = type ? {} : [];
