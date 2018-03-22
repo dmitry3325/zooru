@@ -3,9 +3,9 @@
         Найдено товаров: {{ $goods->total() }}
         <span class="itemsPerPage fl_r prices">
                 Товаров на странице:
-                <span class="with-active @if(isset($perPage) && $perPage == 24 || !isset($perPage)) active @endif">24</span>
-                <span class="with-active @if(isset($perPage) && $perPage == 48) active @endif">48</span>
-                <span class="with-active @if(isset($perPage) && $perPage == 96) active @endif">96</span>
+                <span class="with-active @if($goods->perPage() == 24) active @endif">24</span>
+                <span class="with-active @if($goods->perPage() == 48) active @endif">48</span>
+                <span class="with-active @if($goods->perPage() == 96) active @endif">96</span>
         </span>
     </div>
 </div>

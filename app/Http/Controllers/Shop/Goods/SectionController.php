@@ -8,7 +8,6 @@ use App\Models\Shop\Sections;
 use App\Services\Shop\SectionService;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Input;
 
 /**
  * Created by PhpStorm.
@@ -22,8 +21,8 @@ class SectionController extends Controller
     {
         $SectionService = new SectionService($Section, $Filter);
         $params = [
-            'filter' => Input::get('filter') ?? [],
-            'currentPage' => Input::get('page') ?? [],
+            'filter' => Input::get('filter', []),
+            'currentPage' => Input::get('page', []),
         ];
         $SectionService->setParams($params);
         $res = $SectionService->getData();
