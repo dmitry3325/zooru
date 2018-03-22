@@ -346,7 +346,7 @@ class SectionService
                 'shop.entity_filters.code',
                 'shop.entity_filters.value',
                 'shop.entity_filters.entity_id',
-                'shop.goods.price',
+                'shop.goods.final_price as price',
                 'shop.goods.weight')
                 ->join('shop.goods', function ($join) {
                     $join->on('shop.goods.id', '=', 'shop.entity_filters.entity_id');
