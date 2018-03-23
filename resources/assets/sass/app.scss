@@ -231,10 +231,16 @@ span.loading{
 
 ul.pagination {
   background: #fff;
-  padding: 0.9em;
 
   li {
     display: inline-block;
-    padding: 0 0.3em;
+    cursor: pointer;
+    padding: 0 0.4em;
+    border-radius: 2px;
+  }
+
+  .active {
+    background: $green;
+    color: #fff;
   }
 }

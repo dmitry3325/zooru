@@ -7,9 +7,11 @@ export default class Filter {
         this.sectionId = document.getElementById('filter-menu').getAttribute('data-section-id');
         this.goodsList = document.getElementsByClassName('goods-list')[0];
 
+        this.init();
         this.updateCartButtons();
         this.goodsHeightEqual();
         this.updatePerPageButtons();
+        this.updatePagination();
     }
 
     init() {
@@ -84,7 +86,8 @@ export default class Filter {
             method: 'loadData',
             filter: self.filterList,
             sectionId: self.sectionId,
-            perPage: self.getPerPageValue()
+            perPage: self.getPerPageValue(),
+            page: self.getPaginationValue(),
         }, {
             cancelToken: new Axios.CancelToken(function executor(c) {
                 self.cancelRequest = c;
@@ -219,6 +222,21 @@ export default class Filter {
         let perPage = document.querySelectorAll('.itemsPerPage .with-active');
         for(let i = 0; i < perPage.length; i++){
             perPage[i].addEventListener('click', function () {
+                self.loadData();
+            });
+        }
+    }
+
+    getPaginationValue(){
+        return document.querySelector('#goods-pagination .active').innerText;
+    }
+
+    updatePagination(){
+        let self = this;
+        //клик по кол-ву отображаемых на странице
+        let pagination = document.querySelectorAll('#goods-pagination .with-active');
+        for(let i = 0; i < pagination.length; i++){
+            pagination[i].addEventListener('click', function () {
                 self.loadData();
             });
         }

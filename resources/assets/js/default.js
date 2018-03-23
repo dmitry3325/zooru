@@ -4,7 +4,6 @@ import * as range from './uiElements/rangeSlider';
 import Filter from './classes/Filter'
 
 window.filter = new Filter();
-window.filter.init();
 
 //листалка фоток
 (function () {
