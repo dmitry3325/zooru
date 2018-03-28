@@ -109,9 +109,8 @@ class SectionService
                 $efList[$f->num][$f->code] = $f;
             }
         }
-        $goodsInCurrent = $this->getGoodsForCurrent($filterFE, $filteredGoods, $addParams, $goodsDataById);
+        $goodsInCurrent = $this->getGoodsForCurrent($efList, $filteredGoods, $addParams, $goodsDataById);
         $schema = $this->fillFiltersSchema($schema, $filteredGoods, $goodsDataById, $goodsInCurrent, $filterFE, $efList, $addParams);
-
         $q = Goods::with('url')->where('hidden', 0);
 
         if (count($goodsInCurrent)) {
@@ -195,35 +194,15 @@ class SectionService
         foreach ($schema as $num => &$byCode) {
             if ($byCode['view_type'] !== 'items_list') continue;
             foreach ($byCode['list'] as $code => &$data) {
-                $localEfList = [];
-                if ($filterFE) {
-                    $localEfList = clone $filterFE;
-                }
+                $localEfList = $efList;
                 $thisFilter = (object)['num' => $num, 'code' => $code];
+                $localEfList[$num][$code] = $thisFilter;
 
                 $disabled = false;
-                if (count($filterFE)) {
-                    if (!isset($efList[$num][$code])) {
-                        $localEfList[] = $thisFilter;
-                    } else {
-                        foreach ($localEfList as $k => $f) {
-                            if ($f->num === $num && $f->code === $code) {
-                                unset($localEfList[$k]);
-                                break;
-                            }
-                        }
-                    }
-                } else {
-                    $localEfList[] = $thisFilter;
-                }
                 $data['goods_count'] = 0;
                 /** Фильтруем по фильрам */
                 if (isset($filteredGoods[$num][$code])) {
-                    if (count($filterFE)) {
-                        $goodsInThisFilter = array_intersect_key($goodsInCurrent, $filteredGoods[$num][$code]);
-                    } else {
-                        $goodsInThisFilter = $filteredGoods[$num][$code];
-                    }
+                    $goodsInThisFilter = $this->getGoodsForCurrent($localEfList, $filteredGoods, $addParams, $goodsDataById);
 
                     /** Оставшиеся по параметрам если есть*/
                     if (count($goodsInThisFilter) && $filterByAddParams) {
@@ -239,7 +218,13 @@ class SectionService
                 }
                 $data['disabled'] = $disabled;
                 if (!$disabled) {
-                    $key = Filters::getFilterKey($localEfList);
+                    $localFiltersList = [];
+                    foreach($localEfList as $list){
+                        foreach($list as $fff){
+                            $localFiltersList[] = $fff;
+                        }
+                    }
+                    $key = Filters::getFilterKey($localFiltersList);
                     if (isset($filtersUrls[$key])) {
                         $data['url'] = $filtersUrls[$key]['url'];
                     } else {
@@ -291,26 +276,34 @@ class SectionService
     }
 
     /**
-     * @param $filterFE
+     * @param $efList
      * @param $filteredGoods
      * @param $addParams
      * @param $goodsDataById
      *
      * @return array|mixed
      */
-    private function getGoodsForCurrent($filterFE, $filteredGoods, $addParams, $goodsDataById)
+    private function getGoodsForCurrent($efList, $filteredGoods, $addParams, $goodsDataById)
     {
         $goodsInCurrent = [];
-        if (count($filterFE)) {
+        if (count($efList)) {
             $lists = [];
             $makeIntersect = true;
-            foreach ($filterFE as $f) {
-                if (!isset($filteredGoods[$f->num][$f->code])) {
+            foreach ($efList as $num => $byCode) {
+                if(!count($byCode)){
                     $makeIntersect = false;
-                    break;
-                } else {
-                    $lists[] = $filteredGoods[$f->num][$f->code];
+                    continue;
                 }
+                $merge = [];
+                foreach($byCode as $f) {
+                    if (!isset($filteredGoods[$f->num][$f->code])) {
+                        $makeIntersect = false;
+                        break;
+                    } else {
+                        $merge[] = $filteredGoods[$f->num][$f->code];
+                    }
+                }
+                $lists[] = call_user_func_array('array_merge', $merge);
             }
             if ($makeIntersect) {
                 if (count($lists) > 1) {
@@ -352,25 +345,26 @@ class SectionService
 
         $key = self::KEY_FILTERS_SCHEMA . ':' . $this->section->id;
 
-        //\Cache::forget($key);
+        \Cache::forget($key);
 
         return \Cache::remember($key, 24 * 60, function () {
 
-            $filters = EntityFilters::select(
+            $goodsClassName = Goods::getClassName();
+            $goods = Goods::select(
                 'shop.entity_filters.num',
                 'shop.entity_filters.code',
                 'shop.entity_filters.value',
-                'shop.entity_filters.entity_id',
+                'shop.goods.id',
                 'shop.goods.final_price as price',
                 'shop.goods.weight')
-                ->join('shop.goods', function ($join) {
+                ->leftJoin('shop.entity_filters', function ($join) use ($goodsClassName) {
                     $join->on('shop.goods.id', '=', 'shop.entity_filters.entity_id');
+                    $join->on('shop.entity_filters.entity', '=', \DB::raw('"'.$goodsClassName.'"'));
                 })
                 ->where('shop.goods.section_id', '=', $this->section->id)
                 ->where('shop.goods.hidden', '=', 0)
                 ->where('shop.goods.parent_id', '=', 0)
-                ->where('shop.entity_filters.entity', '=', Goods::getClassName())
-                ->orderBy(\DB::raw('null'))
+                //->orderBy(\DB::raw('null'))
                 ->get();
 
             $schema = [];
@@ -400,34 +394,36 @@ class SectionService
                 }
             }
 
-            foreach ($filters as $fil) {
-                if (!isset($schema[$fil->num])) continue;
-                if ($schema[$fil->num]['view_type'] === 'items_list') {
-                    $schema[$fil->num]['list'][$fil->code] = [
-                        'value' => $fil->value,
-                        'code'  => $fil->code,
+            foreach ($goods as $good) {
+                $goodsDataById[$good->id] = [
+                    'price'  => $good->price,
+                    'weight' => $good->weight,
+                ];
+
+                if (!isset($schema[$good->num])) continue;
+                if ($schema[$good->num]['view_type'] === 'items_list') {
+                    $schema[$good->num]['list'][$good->code] = [
+                        'value' => $good->value,
+                        'code'  => $good->code,
                     ];
                 }
 
-                if ($priceRange['min'] > $fil->price) {
-                    $priceRange['min'] = $fil->price;
+                if ($priceRange['min'] > $good->price) {
+                    $priceRange['min'] = $good->price;
                 }
-                if ($priceRange['max'] < $fil->price) {
-                    $priceRange['max'] = $fil->price;
-                }
-
-                if ($weightRange['min'] > $fil->weigth) {
-                    $weightRange['min'] = $fil->weigth;
-                }
-                if ($weightRange['max'] < $fil->weigth) {
-                    $weightRange['max'] = $fil->weigth;
+                if ($priceRange['max'] < $good->price) {
+                    $priceRange['max'] = $good->price;
                 }
 
-                $goodsByFilter[$fil->num][$fil->code][$fil->entity_id] = $fil->entity_id;
-                $goodsDataById[$fil->entity_id] = [
-                    'price'  => $fil->price,
-                    'weight' => $fil->weight,
-                ];
+                if ($weightRange['min'] > $good->weigth) {
+                    $weightRange['min'] = $good->weigth;
+                }
+                if ($weightRange['max'] < $good->weigth) {
+                    $weightRange['max'] = $good->weigth;
+                }
+
+                $goodsByFilter[$good->num][$good->code][$good->id] = $good->id;
+
             }
 
             foreach ($schema as $k => $sh) {
