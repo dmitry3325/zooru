@@ -1609,6 +1609,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
             this.$store.dispatch('addToCart', {
                 product: this.getProduct()
             });
+
+            Vue.Events.emit('alertMessage', ['Добавлено в корзину', 2]);
         },
         getProduct: function getProduct() {
             var product = JSON.parse(this.$el.parentElement.querySelector('.price-block.active').getAttribute('data-product'));
@@ -12146,9 +12148,6 @@ window.Axios = __WEBPACK_IMPORTED_MODULE_1_axios___default.a;
 
 Vue.use(__WEBPACK_IMPORTED_MODULE_2_vue_axios___default.a, __WEBPACK_IMPORTED_MODULE_1_axios___default.a);
 
-// import VueMask from 'v-mask'
-// Vue.use(VueMask);
-
 Vue.use(__WEBPACK_IMPORTED_MODULE_0__classes_events_js__["a" /* default */]);
 
 var CartButton = __webpack_require__(4);
@@ -14237,18 +14236,99 @@ if(false) {
 /* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(65)(undefined);
+exports = module.exports = __webpack_require__(48)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, "\n.notification-container[data-v-3ffdf2d6] {\n  position: fixed;\n  z-index: 100;\n  bottom: -1px;\n  right: 5%;\n  max-width: 20%;\n}\n.notification-container .notification[data-v-3ffdf2d6] {\n    position: relative;\n    background: #fff;\n    padding: 12px;\n    min-width: 150px;\n    border-radius: 2px;\n    border: 1px solid #CBCBD0;\n    margin-bottom: 15px;\n}\n.notification-container .alert-img[data-v-3ffdf2d6] {\n    max-height: 100px;\n    position: absolute;\n    top: -91px;\n}\n.notification-container .notification-header[data-v-3ffdf2d6] {\n    font-size: 1em;\n}\n.notification-container .close[data-v-3ffdf2d6] {\n    position: absolute;\n    right: 1em;\n    top: 1em;\n    color: #CBCBD0;\n}\n.notification-container .close i.material-icons[data-v-3ffdf2d6] {\n      font-size: 1.3em;\n}\n.notification-container span[data-v-3ffdf2d6] {\n    font-size: 0.9em;\n}\n.notification-container .bounce-enter-active[data-v-3ffdf2d6] {\n    animation: bounce-in-data-v-3ffdf2d6 .5s;\n}\n.notification-container .bounce-leave-active[data-v-3ffdf2d6] {\n    animation: bounce-in-data-v-3ffdf2d6 .5s reverse;\n}\n@keyframes bounce-in-data-v-3ffdf2d6 {\n0% {\n    transform: scale(0);\n}\n50% {\n    transform: scale(1.5);\n}\n100% {\n    transform: scale(1);\n}\n}\n", ""]);
+exports.push([module.i, "\n.notification-container[data-v-3ffdf2d6] {\n  position: fixed;\n  z-index: 100;\n  bottom: -1px;\n  right: 5%;\n  max-width: 20%;\n}\n.notification-container .notification[data-v-3ffdf2d6] {\n    position: relative;\n    background: #fff;\n    padding: 12px;\n    min-width: 150px;\n    border-radius: 2px;\n    border: 1px solid #CBCBD0;\n    margin-bottom: 15px;\n}\n.notification-container .alert-img[data-v-3ffdf2d6] {\n    max-height: 100px;\n    position: absolute;\n    top: -91px;\n}\n.notification-container .notification-header[data-v-3ffdf2d6] {\n    font-size: 1em;\n}\n.notification-container .close[data-v-3ffdf2d6] {\n    /*position: absolute;*/\n    float: right;\n    right: 1em;\n    top: 1em;\n    color: #CBCBD0;\n}\n.notification-container .close i.material-icons[data-v-3ffdf2d6] {\n      font-size: 1.3em;\n}\n.notification-container span[data-v-3ffdf2d6] {\n    font-size: 0.9em;\n}\n.notification-container .bounce-enter-active[data-v-3ffdf2d6] {\n    animation: bounce-in-data-v-3ffdf2d6 .5s;\n}\n.notification-container .bounce-leave-active[data-v-3ffdf2d6] {\n    animation: bounce-in-data-v-3ffdf2d6 .5s reverse;\n}\n@keyframes bounce-in-data-v-3ffdf2d6 {\n0% {\n    transform: scale(0);\n}\n50% {\n    transform: scale(1.5);\n}\n100% {\n    transform: scale(1);\n}\n}\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 48 */,
+/* 48 */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function(useSourceMap) {
+	var list = [];
+
+	// return the list of modules as css string
+	list.toString = function toString() {
+		return this.map(function (item) {
+			var content = cssWithMappingToString(item, useSourceMap);
+			if(item[2]) {
+				return "@media " + item[2] + "{" + content + "}";
+			} else {
+				return content;
+			}
+		}).join("");
+	};
+
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
+
+function cssWithMappingToString(item, useSourceMap) {
+	var content = item[1] || '';
+	var cssMapping = item[3];
+	if (!cssMapping) {
+		return content;
+	}
+
+	if (useSourceMap && typeof btoa === 'function') {
+		var sourceMapping = toComment(cssMapping);
+		var sourceURLs = cssMapping.sources.map(function (source) {
+			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
+		});
+
+		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+	}
+
+	return [content].join('\n');
+}
+
+// Adapted from convert-source-map (MIT)
+function toComment(sourceMap) {
+	// eslint-disable-next-line no-undef
+	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+
+	return '/*# ' + data + ' */';
+}
+
+
+/***/ }),
 /* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14699,96 +14779,6 @@ var getters = {};
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 57 */,
-/* 58 */,
-/* 59 */,
-/* 60 */,
-/* 61 */,
-/* 62 */,
-/* 63 */,
-/* 64 */,
-/* 65 */
-/***/ (function(module, exports) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-// css base code, injected by the css-loader
-module.exports = function(useSourceMap) {
-	var list = [];
-
-	// return the list of modules as css string
-	list.toString = function toString() {
-		return this.map(function (item) {
-			var content = cssWithMappingToString(item, useSourceMap);
-			if(item[2]) {
-				return "@media " + item[2] + "{" + content + "}";
-			} else {
-				return content;
-			}
-		}).join("");
-	};
-
-	// import a list of modules into the list
-	list.i = function(modules, mediaQuery) {
-		if(typeof modules === "string")
-			modules = [[null, modules, ""]];
-		var alreadyImportedModules = {};
-		for(var i = 0; i < this.length; i++) {
-			var id = this[i][0];
-			if(typeof id === "number")
-				alreadyImportedModules[id] = true;
-		}
-		for(i = 0; i < modules.length; i++) {
-			var item = modules[i];
-			// skip already imported module
-			// this implementation is not 100% perfect for weird media query combinations
-			//  when a module is imported multiple times with different media queries.
-			//  I hope this will never occur (Hey this way we have smaller bundles)
-			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-				if(mediaQuery && !item[2]) {
-					item[2] = mediaQuery;
-				} else if(mediaQuery) {
-					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-				}
-				list.push(item);
-			}
-		}
-	};
-	return list;
-};
-
-function cssWithMappingToString(item, useSourceMap) {
-	var content = item[1] || '';
-	var cssMapping = item[3];
-	if (!cssMapping) {
-		return content;
-	}
-
-	if (useSourceMap && typeof btoa === 'function') {
-		var sourceMapping = toComment(cssMapping);
-		var sourceURLs = cssMapping.sources.map(function (source) {
-			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
-		});
-
-		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
-	}
-
-	return [content].join('\n');
-}
-
-// Adapted from convert-source-map (MIT)
-function toComment(sourceMap) {
-	// eslint-disable-next-line no-undef
-	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
-	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
-
-	return '/*# ' + data + ' */';
-}
-
 
 /***/ })
 /******/ ]);

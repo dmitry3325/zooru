@@ -7,9 +7,46 @@ export default class Filter {
         this.sectionId = document.getElementById('filter-menu').getAttribute('data-section-id');
         this.goodsList = document.getElementsByClassName('goods-list')[0];
 
+        this.init();
         this.updateCartButtons();
         this.goodsHeightEqual();
         this.updatePerPageButtons();
+        this.updatePagination();
+    }
+
+    init() {
+        let self = this;
+
+        //клики по фильтрам с выбором
+        document.getElementById('filter-menu').onclick = function (elem) {
+            elem.preventDefault();
+
+            let filterLink = elem.target.classList.contains('filter-link') ? elem.target : elem.target.parentNode.classList.contains('filter-link') ? elem.target.parentNode : null;
+
+            if (!filterLink || filterLink.parentNode.classList.contains('disabled')) {
+                return;
+            }
+
+            let dataFilterKey = filterLink.getAttribute('data-filter-key');
+            let dataFilterVal = filterLink.getAttribute('data-filter-value');
+
+            self.toggleParam(dataFilterKey, dataFilterVal);
+            self.loadData();
+        };
+
+        //изменения в ренж фильтрах
+        let range = document.getElementsByClassName('range-input');
+        for(let i = 0; i < range.length; i++){
+            range[i].addEventListener('change', function (event) {
+                let elem = event.target;
+
+                let dataFilterKey = elem.getAttribute('data-filter-key');
+                let type = elem.classList.contains('slider-min') ? 'min' : 'max';
+
+                self.toggleParam(dataFilterKey, elem.value, type);
+                self.loadData();
+            })
+        }
     }
 
     toggleParam(key, val, type = null) {
@@ -49,7 +86,8 @@ export default class Filter {
             method: 'loadData',
             filter: self.filterList,
             sectionId: self.sectionId,
-            perPage: self.getPerPageValue()
+            perPage: self.getPerPageValue(),
+            page: self.getPaginationValue(),
         }, {
             cancelToken: new Axios.CancelToken(function executor(c) {
                 self.cancelRequest = c;
@@ -184,6 +222,21 @@ export default class Filter {
         let perPage = document.querySelectorAll('.itemsPerPage .with-active');
         for(let i = 0; i < perPage.length; i++){
             perPage[i].addEventListener('click', function () {
+                self.loadData();
+            });
+        }
+    }
+
+    getPaginationValue(){
+        return document.querySelector('#goods-pagination .active').innerText;
+    }
+
+    updatePagination(){
+        let self = this;
+        //клик по кол-ву отображаемых на странице
+        let pagination = document.querySelectorAll('#goods-pagination .with-active');
+        for(let i = 0; i < pagination.length; i++){
+            pagination[i].addEventListener('click', function () {
                 self.loadData();
             });
         }

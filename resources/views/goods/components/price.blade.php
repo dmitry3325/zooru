@@ -6,7 +6,7 @@
 
                 <div class="col count">
                     @if($g->withDiscount())
-                        <span class="price-line-through">{{ $g->getFormatedPrice() }}</span>
+                        <span class="price-line-through">{{ $g->getFormatedPrice() }}&#8381;</span>
                     @endif
                     @if($g->notForSale())
                         нет на складе
@@ -15,7 +15,7 @@
                     <hr/>
                 </div>
                 <div class="col col-auto price @if($g->withDiscount() && !$g->notForSale()) red @endif">
-                    {{ $g->getFormatedPrice($g->withDiscount()) }}
+                    {{ $g->getFormatedPrice($g->withDiscount()) }}&#8381;
                 </div>
 
             </a>

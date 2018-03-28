@@ -95,7 +95,8 @@
         }
 
         .close {
-            position: absolute;
+            /*position: absolute;*/
+            float: right;
             right: 1em;
             top: 1em;
             color: #CBCBD0;

@@ -1,12 +1,12 @@
 <div class="col-12">
     <div id="goods-info">
         Найдено товаров: {{ $goods->total() }}
-        <span class="itemsPerPage fl_r prices">
+        <ul class="itemsPerPage fl_r pagination">
                 Товаров на странице:
-                <span class="with-active @if(isset($perPage) && $perPage == 24 || !isset($perPage)) active @endif">24</span>
-                <span class="with-active @if(isset($perPage) && $perPage == 48) active @endif">48</span>
-                <span class="with-active @if(isset($perPage) && $perPage == 96) active @endif">96</span>
-        </span>
+                <li class="with-active @if($goods->perPage() == 24) active @endif">24</li>
+                <li class="with-active @if($goods->perPage() == 48) active @endif">48</li>
+                <li class="with-active @if($goods->perPage() == 96) active @endif">96</li>
+        </ul>
     </div>
 </div>
 
@@ -17,5 +17,5 @@
 @endforeach
 
 <div class="col-12 center">
-    {{ $goods->links() }}
+    {{ $goods->links('partials.pagination') }}
 </div>

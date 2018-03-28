@@ -57,41 +57,6 @@ window.filter = new Filter();
     }
 })();
 
-//filter ajax
-(function () {
-    //клики по фильтрам с выбором
-    document.getElementById('filter-menu').onclick = function (elem) {
-        elem.preventDefault();
-
-        let filterLink = elem.target.classList.contains('filter-link') ? elem.target : elem.target.parentNode.classList.contains('filter-link') ? elem.target.parentNode : null;
-
-        if (!filterLink || filterLink.parentNode.classList.contains('disabled')) {
-            return;
-        }
-
-        let dataFilterKey = filterLink.getAttribute('data-filter-key');
-        let dataFilterVal = filterLink.getAttribute('data-filter-value');
-
-        filter.toggleParam(dataFilterKey, dataFilterVal);
-        filter.loadData();
-    };
-
-    //изменения в ренж фильтрах
-    let range = document.getElementsByClassName('range-input');
-    for(let i = 0; i < range.length; i++){
-        range[i].addEventListener('change', function (event) {
-            let elem = event.target;
-
-            let dataFilterKey = elem.getAttribute('data-filter-key');
-            let type = elem.classList.contains('slider-min') ? 'min' : 'max';
-
-            filter.toggleParam(dataFilterKey, elem.value, type);
-            filter.loadData();
-        })
-    }
-})();
-
-
 //filter slideUp slideDown
 (function () {
     let block, i, j, len, len1, ref, ref1, slideToggler, trigger,

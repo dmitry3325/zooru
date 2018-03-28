@@ -63,11 +63,10 @@ class SectionService
      * @param Sections     $section
      * @param Filters|null $filter
      */
-    public function __construct(Sections $section, Filters $filter = null, $perPage = 24)
+    public function __construct(Sections $section, Filters $filter = null)
     {
         $this->section = $section;
         $this->filter  = $filter;
-        $this->perPage = $perPage;
 
         try {
             $this->goodsDataStorage = new GoodsStorage();
@@ -80,9 +79,6 @@ class SectionService
         if(isset($params['filter'])){
             $this->filterData = $params['filter'];
         }
-        if(isset($params['perPage'])){
-            $this->perPage = $params['perPage'];
-        }
         if(isset($params['currentPage'])){
             $this->currentPage = $params['currentPage'];
         }
@@ -90,6 +86,8 @@ class SectionService
             $this->orderByColumn = $params['orderBy']['column'] ?? $this->orderByColumn;
             $this->orderByWay = $params['orderByWay']['way'] ??  $this->orderByWay;
         }
+
+        $this->perPage = array_get($params,'perPage', 24);
     }
 
     /**

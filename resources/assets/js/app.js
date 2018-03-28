@@ -8,9 +8,6 @@ window.Axios = axios;
 import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios)
 
-// import VueMask from 'v-mask'
-// Vue.use(VueMask);
-
 Vue.use(Events);
 
 

@@ -22,14 +22,10 @@
     @include('partials.menu')
     <div id="content">
         @yield('content')
-        {{--@include('partials.subscription')--}}
+        @include('partials.subscription')
     </div>
 
-    <footer>
-        <div class="container" style="padding: 5em 0; text-align: center;">
-            <h1>hallo from footer</h1>
-        </div>
-    </footer>
+    @include('partials.footer')
 
     <notification></notification>
 </div>

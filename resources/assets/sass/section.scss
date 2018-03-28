@@ -2,22 +2,10 @@
   background: $lGrey;
   padding: 2em 0;
 
-  #goods-info {
+  #goods-info, #goods-pagination {
     padding: 0.9em 1.5em;
     margin-bottom: 1em;
     background: #fff;
-    .itemsPerPage{
-      span {
-        cursor: pointer;
-        padding: 0 0.4em;
-        border-radius: 2px;
-      }
-
-      .active {
-          background: $green;
-          color: #fff;
-      }
-    }
   }
 
   #filter-menu {
