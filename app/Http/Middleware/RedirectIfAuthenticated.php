@@ -18,9 +18,9 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        /*if(!Auth::check() || !Auth::user()->hasRole(UserRole::ROLE_GOD)){
+        if(!Auth::check() || !Auth::user()->hasRole(UserRole::ROLE_GOD)){
             return redirect('/error');
-        }*/
+        }
 
         return $next($request);
     }
