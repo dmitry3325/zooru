@@ -110,7 +110,8 @@ class SectionService
             }
         }
         $goodsInCurrent = $this->getGoodsForCurrent($efList, $filteredGoods, $addParams, $goodsDataById);
-        $schema = $this->fillFiltersSchema($schema, $filteredGoods, $goodsDataById, $goodsInCurrent, $filterFE, $efList, $addParams);
+
+        $schema = $this->fillFiltersSchema($schema, $filteredGoods, $goodsDataById, $efList, $addParams);
         $q = Goods::with('url')->where('hidden', 0);
 
         if (count($goodsInCurrent)) {
@@ -178,14 +179,12 @@ class SectionService
      * @param $schema
      * @param $filteredGoods
      * @param $goodsDataById
-     * @param $goodsInCurrent
-     * @param $filterFE
      * @param $efList
      * @param $addParams
      *
      * @return array
      */
-    private function fillFiltersSchema($schema, $filteredGoods, $goodsDataById, $goodsInCurrent, $filterFE, $efList, $addParams)
+    private function fillFiltersSchema($schema, $filteredGoods, $goodsDataById, $efList, $addParams)
     {
         $filtersUrls = $this->getExistingFilters();
         $sectionClassName = Sections::getClassName();
@@ -208,8 +207,7 @@ class SectionService
                     if (count($goodsInThisFilter) && $filterByAddParams) {
                         $goodsInThisFilter = $this->filterByAddParams($goodsInThisFilter, $addParams, $goodsDataById);
                     }
-
-
+                    
                     $data['goods_count'] = count($goodsInThisFilter);
                 }
 
@@ -307,12 +305,13 @@ class SectionService
             }
             if ($makeIntersect) {
                 if (count($lists) > 1) {
-                    $goodsInCurrent = call_user_func_array('array_intersect_key', $lists);
+                    $goodsInCurrent = call_user_func_array('array_intersect', $lists);
                 } else {
                     $goodsInCurrent = $lists[0];
                 }
             }
         }
+
         if (!count($goodsInCurrent)) {
             foreach ($goodsDataById as $id => $data) {
                 $goodsInCurrent[$id] = $id;
